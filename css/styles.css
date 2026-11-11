@@ -207,6 +207,33 @@ body {
   color: var(--color-texto);
 }
 
+/* ---------- Galería de imágenes de cada categoría ---------- */
+.galeria {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espacio-m);
+  align-items: start;
+}
+
+.galeria img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;       /* todas las imágenes con la misma proporción */
+  object-fit: cover;         /* recorta los bordes sobrantes sin deformar */
+  border: 3px solid var(--color-texto);
+}
+
+/* Cartel completo (sin recortar), debajo de la lista */
+.cartel {
+  display: block;
+  width: 100%;
+  max-width: 32rem;
+  height: auto;
+  margin: 0 auto;
+  border: 3px solid var(--color-texto);
+}
+
 /* ---------- Lista de excursiones ---------- */
 .lista-excursiones {
   padding: var(--espacio-l) var(--espacio-m);
@@ -238,12 +265,25 @@ body {
     padding: var(--espacio-xl);
   }
 
-  .rutas {
+  .rutas,
+  .galeria {
     grid-template-columns: 1fr 1fr;
   }
 
   .acceso-completadas {
     width: min(100%, 24rem);
     margin: 0 auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .galeria {
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+
+  /* Imagen sola: mismo ancho que una imagen de una galería de tres */
+  .galeria--sola {
+    grid-template-columns: calc((100% - 2 * var(--espacio-m)) / 3);
+    justify-content: center;
   }
 }
