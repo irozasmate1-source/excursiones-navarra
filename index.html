@@ -12,9 +12,79 @@
   </header>
 
   <main class="contenido">
-    <section id="lista-excursiones" class="lista-excursiones" aria-label="Lista de excursiones">
-      <p class="aviso-vacio">Todavía no hay excursiones cargadas.</p>
+
+    <!-- ========== Pantalla principal ========== -->
+    <section id="inicio" class="pantalla" aria-label="Pantalla principal">
+      <figure class="mapa">
+        <img class="mapa__navarra" src="img/mapa-navarra.png" alt="Mapa de Navarra">
+        <img class="mapa__rosa" src="img/rosa-vientos.svg" alt="Rosa de los vientos">
+      </figure>
+
+      <nav class="rutas" aria-label="Categorías de rutas">
+        <a class="ruta" href="#lugares">Lugares y pueblos</a>
+        <a class="ruta" href="#montes">Montes/paseos</a>
+        <a class="ruta" href="#bicicleta">Bicicleta</a>
+        <a class="ruta" href="#monumentos">Monumentos Naturales de Navarra</a>
+      </nav>
+
+      <a class="acceso-completadas" href="#completadas">Excursiones completadas</a>
     </section>
+
+    <!-- ========== Categoría: Lugares y pueblos ========== -->
+    <section id="lugares" class="pantalla" aria-labelledby="titulo-lugares" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#inicio" aria-label="Volver a la pantalla principal">&larr;</a>
+        <h2 id="titulo-lugares" class="pantalla__titulo">Lugares y pueblos</h2>
+      </div>
+      <div class="lista-excursiones" data-categoria="lugares">
+        <p class="aviso-vacio">Todavía no hay excursiones en esta categoría.</p>
+      </div>
+    </section>
+
+    <!-- ========== Categoría: Montes/paseos ========== -->
+    <section id="montes" class="pantalla" aria-labelledby="titulo-montes" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#inicio" aria-label="Volver a la pantalla principal">&larr;</a>
+        <h2 id="titulo-montes" class="pantalla__titulo">Montes/paseos</h2>
+      </div>
+      <div class="lista-excursiones" data-categoria="montes">
+        <p class="aviso-vacio">Todavía no hay excursiones en esta categoría.</p>
+      </div>
+    </section>
+
+    <!-- ========== Categoría: Bicicleta ========== -->
+    <section id="bicicleta" class="pantalla" aria-labelledby="titulo-bicicleta" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#inicio" aria-label="Volver a la pantalla principal">&larr;</a>
+        <h2 id="titulo-bicicleta" class="pantalla__titulo">Bicicleta</h2>
+      </div>
+      <div class="lista-excursiones" data-categoria="bicicleta">
+        <p class="aviso-vacio">Todavía no hay excursiones en esta categoría.</p>
+      </div>
+    </section>
+
+    <!-- ========== Categoría: Monumentos Naturales de Navarra ========== -->
+    <section id="monumentos" class="pantalla" aria-labelledby="titulo-monumentos" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#inicio" aria-label="Volver a la pantalla principal">&larr;</a>
+        <h2 id="titulo-monumentos" class="pantalla__titulo">Monumentos Naturales de Navarra</h2>
+      </div>
+      <div class="lista-excursiones" data-categoria="monumentos">
+        <p class="aviso-vacio">Todavía no hay excursiones en esta categoría.</p>
+      </div>
+    </section>
+
+    <!-- ========== Excursiones completadas ========== -->
+    <section id="completadas" class="pantalla" aria-labelledby="titulo-completadas" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#inicio" aria-label="Volver a la pantalla principal">&larr;</a>
+        <h2 id="titulo-completadas" class="pantalla__titulo">Excursiones completadas</h2>
+      </div>
+      <div class="lista-excursiones" data-categoria="completadas">
+        <p class="aviso-vacio">Todavía no has completado ninguna excursión.</p>
+      </div>
+    </section>
+
   </main>
 
   <footer class="pie"></footer>

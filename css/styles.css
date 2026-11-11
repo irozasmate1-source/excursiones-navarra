@@ -38,8 +38,14 @@
 
 body,
 h1,
-p {
+h2,
+p,
+figure {
   margin: 0;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 /* ---------- Base ---------- */
@@ -83,6 +89,125 @@ body {
   padding: var(--espacio-l) var(--espacio-m);
 }
 
+/* ---------- Pantallas ---------- */
+.pantalla {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-l);
+}
+
+/* ---------- Mapa con rosa de los vientos ---------- */
+.mapa {
+  position: relative;
+  width: min(100%, 20rem);
+  margin: 0 auto;
+}
+
+.mapa__navarra {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0.25rem 0.375rem 0 rgba(74, 52, 36, 0.25));
+}
+
+.mapa__rosa {
+  position: absolute;
+  top: -0.5rem;
+  right: -1rem;
+  width: 38%;
+  height: auto;
+}
+
+/* ---------- Botones de rutas ---------- */
+.rutas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espacio-m);
+}
+
+.ruta,
+.acceso-completadas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.5rem;
+  padding: var(--espacio-m);
+  border-radius: var(--radio);
+  font-family: var(--fuente-titulo);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  color: var(--color-texto);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.ruta {
+  background-color: var(--color-pergamino);
+  border: 2px solid var(--color-bosque);
+  border-left: 0.5rem solid var(--color-musgo);
+  box-shadow: 0 0.25rem 0 var(--color-bosque);
+}
+
+.acceso-completadas {
+  background-color: #d9c6a3;
+  border: 2px solid var(--color-corteza);
+  box-shadow: 0 0.25rem 0 var(--color-corteza);
+}
+
+.ruta:hover,
+.acceso-completadas:hover {
+  transform: translateY(-2px);
+}
+
+.ruta:active,
+.acceso-completadas:active {
+  transform: translateY(0.25rem);
+  box-shadow: none;
+}
+
+.ruta:focus-visible,
+.acceso-completadas:focus-visible,
+.boton-volver:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: 3px;
+}
+
+/* ---------- Barra de categoría con flecha de volver ---------- */
+.pantalla__barra {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-m);
+}
+
+.boton-volver {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--color-bosque);
+  color: var(--color-pergamino);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.boton-volver:hover {
+  background-color: var(--color-musgo);
+}
+
+.pantalla__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.25rem, 5vw, 1.75rem);
+  line-height: 1.2;
+  color: var(--color-texto);
+}
+
+/* ---------- Lista de excursiones ---------- */
 .lista-excursiones {
   padding: var(--espacio-l) var(--espacio-m);
   background-color: var(--color-pergamino);
@@ -111,5 +236,14 @@ body {
 
   .lista-excursiones {
     padding: var(--espacio-xl);
+  }
+
+  .rutas {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .acceso-completadas {
+    width: min(100%, 24rem);
+    margin: 0 auto;
   }
 }
