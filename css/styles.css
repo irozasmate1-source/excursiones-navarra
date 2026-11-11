@@ -1,0 +1,115 @@
+/* =========================================================
+   Excursiones por Navarra y Compañía - Estilos globales
+   Diseño mobile-first con colores naturales.
+   ========================================================= */
+
+/* ---------- Variables ---------- */
+:root {
+  /* Colores naturales */
+  --color-bosque: #2f4a2c;        /* verde bosque oscuro */
+  --color-musgo: #6b7f3a;         /* verde musgo */
+  --color-tierra: #7a5534;        /* marrón tierra */
+  --color-corteza: #4a3424;       /* marrón corteza */
+  --color-arena: #f3ecdc;         /* fondo papel / arena */
+  --color-pergamino: #fbf7ee;     /* fondo de tarjetas */
+  --color-texto: #000000;         /* texto negro */
+  --color-texto-suave: #3d3d3d;
+
+  /* Tipografía (fuentes del sistema, sin internet) */
+  --fuente-titulo: Rockwell, "Rockwell Nova", "Roboto Slab", "Bahnschrift", Georgia, serif;
+  --fuente-texto: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Noto Serif", serif;
+
+  /* Espaciados y formas */
+  --espacio-xs: 0.25rem;
+  --espacio-s: 0.5rem;
+  --espacio-m: 1rem;
+  --espacio-l: 1.5rem;
+  --espacio-xl: 2.5rem;
+  --radio: 0.75rem;
+  --ancho-maximo: 60rem;
+}
+
+/* ---------- Reseteo mínimo ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+p {
+  margin: 0;
+}
+
+/* ---------- Base ---------- */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-arena);
+  color: var(--color-texto);
+  font-family: var(--fuente-texto);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ---------- Cabecera ---------- */
+.cabecera {
+  padding: var(--espacio-xl) var(--espacio-m) var(--espacio-l);
+  background-color: var(--color-pergamino);
+  border-bottom: 0.375rem solid var(--color-bosque);
+  box-shadow: 0 0.25rem 0 var(--color-tierra);
+  text-align: center;
+}
+
+.cabecera__titulo {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.5rem, 6vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  color: var(--color-texto);
+}
+
+/* ---------- Contenido principal ---------- */
+.contenido {
+  flex: 1;
+  width: 100%;
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: var(--espacio-l) var(--espacio-m);
+}
+
+.lista-excursiones {
+  padding: var(--espacio-l) var(--espacio-m);
+  background-color: var(--color-pergamino);
+  border: 2px dashed var(--color-musgo);
+  border-radius: var(--radio);
+}
+
+.aviso-vacio {
+  text-align: center;
+  font-style: italic;
+  color: var(--color-texto-suave);
+}
+
+/* ---------- Pie ---------- */
+.pie {
+  min-height: var(--espacio-l);
+  background-color: var(--color-bosque);
+  border-top: 0.25rem solid var(--color-tierra);
+}
+
+/* ---------- Pantallas grandes ---------- */
+@media (min-width: 768px) {
+  .contenido {
+    padding: var(--espacio-xl) var(--espacio-l);
+  }
+
+  .lista-excursiones {
+    padding: var(--espacio-xl);
+  }
+}
