@@ -242,6 +242,80 @@ body {
   border-radius: var(--radio);
 }
 
+.excursiones {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.excursiones__elemento {
+  padding: var(--espacio-s) 0;
+  border-bottom: 1px solid rgba(74, 52, 36, 0.2);
+}
+
+.excursiones__elemento:last-child {
+  border-bottom: none;
+}
+
+/* ---------- Desplegables por nivel (Montes/paseos) ---------- */
+.desplegable {
+  border: 2px solid var(--color-bosque);
+  border-radius: var(--radio);
+  background-color: var(--color-arena);
+  overflow: hidden;
+}
+
+.desplegable + .desplegable {
+  margin-top: var(--espacio-m);
+}
+
+.desplegable__titulo {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-s);
+  min-height: 3rem;
+  padding: var(--espacio-s) var(--espacio-m);
+  font-family: var(--fuente-titulo);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-texto);
+  cursor: pointer;
+  list-style: none;
+}
+
+.desplegable__titulo::-webkit-details-marker {
+  display: none;
+}
+
+/* Flecha que gira al abrir */
+.desplegable__titulo::before {
+  content: "▸";
+  color: var(--color-tierra);
+  transition: transform 0.15s ease;
+}
+
+.desplegable[open] > .desplegable__titulo::before {
+  transform: rotate(90deg);
+}
+
+.desplegable__titulo:hover {
+  background-color: #e8dfc9;
+}
+
+.desplegable__titulo:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: -3px;
+}
+
+.desplegable[open] > .desplegable__titulo {
+  border-bottom: 2px solid var(--color-bosque);
+}
+
+.desplegable > .excursiones {
+  padding: 0 var(--espacio-m);
+  background-color: var(--color-pergamino);
+}
+
 .aviso-vacio {
   text-align: center;
   font-style: italic;
