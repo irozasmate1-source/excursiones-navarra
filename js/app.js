@@ -106,28 +106,122 @@ function crearEtiquetaDificultad(excursion) {
 }
 
 /**
- * Ficha desplegable de una ruta de Montes/paseos con todos sus datos.
+ * Etiqueta de popularidad: "5 · Muy conocido", con el color del Excel.
  */
-function crearFichaRuta(excursion) {
+function crearEtiquetaPopularidad(excursion) {
+  const nombreNivel = (excursion.nivelPopularidad || '').replace(/^\d+\s*-\s*/, '');
+  const etiqueta = crearElemento(
+    'span',
+    'popularidad',
+    nombreNivel ? `★ ${excursion.popularidad} · ${nombreNivel}` : `★ ${excursion.popularidad}`
+  );
+  etiqueta.title = `Popularidad: ${excursion.nivelPopularidad}`;
+
+  const color = (EXCURSIONES.popularidades || []).find((p) => p.nivel === excursion.popularidad);
+  if (color) {
+    etiqueta.style.setProperty('--color-etiqueta', color.fondo);
+    etiqueta.style.setProperty('--color-etiqueta-letra', color.letra);
+  }
+  return etiqueta;
+}
+
+/**
+ * Emoticonos de cada grupo (desplegable) según la categoría de la web.
+ */
+const ICONOS_TIPO = {
+  'Cascada': '💧',
+  'Dolmen y megalitos': '🗿',
+  'Cueva': '🦇',
+  'Pirineo navarro': '🏔️',
+  'Pirineo aragonés y francés': '⛰️🇫🇷',
+  'Cuenca de Pamplona': '🏞️',
+  'Norte de Navarra': '🌲',
+  'Urbasa, Andía y Aralar': '🐑',
+  'Tierra Estella y Codés': '🌄',
+  'Zona Media y Prepirineo': '🦅',
+  'Ribera': '🌾',
+  'País Vasco y costa': '🌊',
+  'Gran travesía': '🎒',
+};
+
+const ICONOS_CATEGORIA_LUGAR = {
+  'Ciudad': '🏙️',
+  'Pueblo': '🏘️',
+  'Iglesia y ermita': '⛪',
+  'Monasterio': '⛪📿',
+  'Castillo y palacio': '🏰👑',
+  'Ruinas y yacimientos': '🏛️',
+  'Dolmen y megalitos': '🗿',
+  'Parque y bosque': '🌳',
+  'Naturaleza y paisaje': '🏞️',
+  'Mirador': '🔭',
+  'Cascada': '💧',
+  'Cueva': '🦇',
+  'Lugar curioso': '🧐',
+  'Gastronomía': '🍽️',
+  'Ocio': '🎡',
+  'Fiesta y tradición': '🎭🔔',
+};
+
+/**
+ * Configuración de las categorías que se muestran con desplegables y fichas:
+ * por qué campo se agrupan, colores y emoticonos de los grupos, etiqueta junto
+ * al nombre y qué datos aparecen en la ficha.
+ */
+const CONFIG_FICHAS = {
+  montes: {
+    campoGrupo: 'tipo',
+    grupos: () => EXCURSIONES.tiposMontes,
+    iconos: ICONOS_TIPO,
+    etiqueta: crearEtiquetaDificultad,
+    datos: (e) => [
+      ['🚗', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
+      ['🥾', 'Distancia de la ruta', formatearNumero(e.km, 'km')],
+      ['⛰️', 'Desnivel positivo', formatearNumero(e.desnivel, 'm')],
+      ['🔁', 'Tipo de ruta', e.tipoRuta],
+      ['📍', 'Zona', e.zona],
+    ],
+    bloques: (e) => [
+      ['Ruta habitual', e.rutaHabitual],
+      ['Notas', e.notas],
+    ],
+  },
+  lugares: {
+    campoGrupo: 'categoria',
+    grupos: () => EXCURSIONES.categoriasLugares,
+    iconos: ICONOS_CATEGORIA_LUGAR,
+    etiqueta: crearEtiquetaPopularidad,
+    datos: (e) => [
+      ['🚗', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
+      ['📍', 'Zona', e.zona],
+      ['🥾', 'Distancia de la ruta', formatearNumero(e.km, 'km')],
+      ['⛰️', 'Desnivel positivo', formatearNumero(e.desnivel, 'm')],
+      ['🔁', 'Tipo de ruta', e.tipoRuta],
+    ],
+    bloques: (e) => [
+      ['Qué es', e.queEs],
+      ['Notas', e.notas],
+    ],
+  },
+};
+
+/**
+ * Ficha desplegable de una excursión con todos sus datos.
+ */
+function crearFicha(config, excursion) {
   const ficha = crearElemento('details', 'ficha');
 
   const resumen = crearElemento('summary', 'ficha__resumen');
   resumen.append(
     crearElemento('span', 'ficha__nombre', excursion.nombre),
-    crearEtiquetaDificultad(excursion)
+    config.etiqueta(excursion)
   );
 
   const contenido = crearElemento('div', 'ficha__contenido');
 
-  // Datos principales en recuadros
+  // Datos principales en recuadros (solo los que tienen valor)
   const datos = crearElemento('dl', 'ficha__datos');
-  [
-    ['🚗', 'Coche desde Pamplona', formatearMinutos(excursion.minutosCoche)],
-    ['🥾', 'Distancia de la ruta', formatearNumero(excursion.km, 'km')],
-    ['⛰️', 'Desnivel positivo', formatearNumero(excursion.desnivel, 'm')],
-    ['🔁', 'Tipo de ruta', excursion.tipoRuta],
-    ['📍', 'Zona', excursion.zona],
-  ].forEach(([icono, etiqueta, valor]) => {
+  config.datos(excursion).forEach(([icono, etiqueta, valor]) => {
     if (!valor) return;
     const dato = crearElemento('div', 'ficha__dato');
     const titulo = crearElemento('dt', 'ficha__etiqueta');
@@ -138,10 +232,7 @@ function crearFichaRuta(excursion) {
   contenido.appendChild(datos);
 
   // Bloques de texto
-  [
-    ['Ruta habitual', excursion.rutaHabitual],
-    ['Notas', excursion.notas],
-  ].forEach(([titulo, texto]) => {
+  config.bloques(excursion).forEach(([titulo, texto]) => {
     if (!texto) return;
     const bloque = crearElemento('section', 'ficha__bloque');
     bloque.append(crearElemento('h3', 'ficha__subtitulo', titulo), crearElemento('p', 'ficha__texto', texto));
@@ -167,16 +258,18 @@ function crearFichaRuta(excursion) {
 
 /**
  * Crea una lista <ul> con las excursiones.
- * En Montes/paseos cada excursión es una ficha desplegable con sus datos.
+ * En las categorías con configuración de ficha, cada excursión es una ficha
+ * desplegable con sus datos; en el resto, solo el nombre.
  */
 function crearLista(categoria, excursiones) {
   const lista = crearElemento('ul', 'excursiones');
+  const config = CONFIG_FICHAS[categoria];
 
   excursiones.forEach((excursion) => {
     const elemento = crearElemento('li', 'excursiones__elemento');
-    if (categoria === 'montes') {
+    if (config) {
       elemento.classList.add('excursiones__elemento--ficha');
-      elemento.appendChild(crearFichaRuta(excursion));
+      elemento.appendChild(crearFicha(config, excursion));
     } else {
       elemento.textContent = textoExcursion(categoria, excursion);
     }
@@ -187,46 +280,30 @@ function crearLista(categoria, excursiones) {
 }
 
 /**
- * Emoticono de cada tipo de ruta de Montes/paseos.
+ * Crea un desplegable por cada grupo (tipo en Montes, categoría en Lugares),
+ * en el orden y con el color que les da el Excel. Dentro se mantiene el orden
+ * de la categoría (dificultad 1 → 5 o popularidad 5 → 1).
  */
-const ICONOS_TIPO = {
-  'Cascada': '💧',
-  'Dolmen y megalitos': '🗿',
-  'Cueva': '🦇',
-  'Pirineo navarro': '🏔️',
-  'Pirineo aragonés y francés': '⛰️🇫🇷',
-  'Cuenca de Pamplona': '🏞️',
-  'Norte de Navarra': '🌲',
-  'Urbasa, Andía y Aralar': '🐑',
-  'Tierra Estella y Codés': '🌄',
-  'Zona Media y Prepirineo': '🦅',
-  'Ribera': '🌾',
-  'País Vasco y costa': '🌊',
-  'Gran travesía': '🎒',
-};
+function crearDesplegablesPorGrupo(categoria, excursiones) {
+  const config = CONFIG_FICHAS[categoria];
+  const grupos = new Map(); // nombre del grupo -> { fondo, letra, excursiones }
 
-/**
- * Crea un desplegable por cada tipo de ruta (Montes/paseos), en el orden
- * y con el color que les da el Excel. Dentro, por dificultad 1 → 5.
- */
-function crearDesplegablesPorTipo(categoria, excursiones) {
-  const tipos = new Map(); // nombre del tipo -> { fondo, letra, excursiones }
-
-  (EXCURSIONES.tiposMontes || []).forEach(({ nombre, fondo, letra }) => {
-    tipos.set(nombre, { fondo, letra, excursiones: [] });
+  (config.grupos() || []).forEach(({ nombre, fondo, letra }) => {
+    grupos.set(nombre, { fondo, letra, excursiones: [] });
   });
 
   excursiones.forEach((excursion) => {
-    if (!tipos.has(excursion.tipo)) {
-      tipos.set(excursion.tipo, { fondo: null, letra: null, excursiones: [] }); // tipo sin color
+    const grupo = excursion[config.campoGrupo];
+    if (!grupos.has(grupo)) {
+      grupos.set(grupo, { fondo: null, letra: null, excursiones: [] }); // grupo sin color
     }
-    tipos.get(excursion.tipo).excursiones.push(excursion);
+    grupos.get(grupo).excursiones.push(excursion);
   });
 
   const fragmento = document.createDocumentFragment();
 
-  tipos.forEach(({ fondo, letra, excursiones: delTipo }, nombre) => {
-    if (delTipo.length === 0) {
+  grupos.forEach(({ fondo, letra, excursiones: delGrupo }, nombre) => {
+    if (delGrupo.length === 0) {
       return;
     }
 
@@ -239,14 +316,14 @@ function crearDesplegablesPorTipo(categoria, excursiones) {
 
     const titulo = document.createElement('summary');
     titulo.className = 'desplegable__titulo';
-    if (ICONOS_TIPO[nombre]) {
-      const icono = crearElemento('span', 'desplegable__icono', ICONOS_TIPO[nombre]);
+    if (config.iconos[nombre]) {
+      const icono = crearElemento('span', 'desplegable__icono', config.iconos[nombre]);
       icono.setAttribute('aria-hidden', 'true');
       titulo.appendChild(icono);
     }
     titulo.append(nombre);
 
-    desplegable.append(titulo, crearLista(categoria, delTipo));
+    desplegable.append(titulo, crearLista(categoria, delGrupo));
     fragmento.appendChild(desplegable);
   });
 
@@ -261,8 +338,8 @@ function pintarLista(contenedor, categoria, excursiones) {
     return; // se mantiene el aviso de lista vacía
   }
 
-  const contenido = categoria === 'montes'
-    ? crearDesplegablesPorTipo(categoria, excursiones)
+  const contenido = CONFIG_FICHAS[categoria]
+    ? crearDesplegablesPorGrupo(categoria, excursiones)
     : crearLista(categoria, excursiones);
 
   contenedor.replaceChildren(contenido);

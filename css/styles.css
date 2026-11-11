@@ -322,8 +322,9 @@ body {
   background-color: var(--color-pergamino);
 }
 
-/* ---------- Etiqueta de dificultad (1 fácil → 5 muy exigente) ---------- */
-.dificultad {
+/* ---------- Etiquetas de dificultad (Montes) y popularidad (Lugares) ---------- */
+.dificultad,
+.popularidad {
   flex-shrink: 0;
   display: inline-block;
   padding: 0.125rem 0.625rem;
@@ -341,6 +342,13 @@ body {
 .dificultad--3 { background-color: #f2d48a; }
 .dificultad--4 { background-color: #c8763d; color: #ffffff; }
 .dificultad--5 { background-color: #8b2e1f; color: #ffffff; }
+
+/* Popularidad: color del Excel (lo pone app.js) */
+.popularidad {
+  background-color: var(--color-etiqueta, var(--color-arena));
+  color: var(--color-etiqueta-letra, var(--color-texto));
+  border: 1px solid rgba(31, 110, 58, 0.35);
+}
 
 /* ---------- Ficha desplegable de cada ruta ---------- */
 .excursiones__elemento--ficha {
@@ -364,7 +372,8 @@ body {
 }
 
 .ficha__nombre {
-  flex: 1 1 10rem;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 /* Signo + / − a la izquierda del nombre */
