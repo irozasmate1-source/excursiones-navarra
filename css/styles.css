@@ -278,7 +278,9 @@ body {
   font-family: var(--fuente-titulo);
   font-size: 1.125rem;
   font-weight: 700;
-  color: var(--color-texto);
+  /* Color del tipo según el Excel (lo pone app.js); si no hay, tono arena */
+  background-color: var(--color-tipo, var(--color-arena));
+  color: var(--color-tipo-letra, var(--color-texto));
   cursor: pointer;
   list-style: none;
 }
@@ -290,7 +292,6 @@ body {
 /* Flecha que gira al abrir */
 .desplegable__titulo::before {
   content: "▸";
-  color: var(--color-tierra);
   transition: transform 0.15s ease;
 }
 
@@ -299,7 +300,7 @@ body {
 }
 
 .desplegable__titulo:hover {
-  background-color: #e8dfc9;
+  filter: brightness(0.94);
 }
 
 .desplegable__titulo:focus-visible {

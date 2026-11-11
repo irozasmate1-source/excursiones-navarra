@@ -84,30 +84,42 @@ function crearLista(categoria, excursiones) {
 }
 
 /**
- * Crea un desplegable por cada nivel de dificultad (Montes/paseos).
- * El título de cada desplegable es el nivel tal como aparece en el Excel.
+ * Crea un desplegable por cada tipo de ruta (Montes/paseos), en el orden
+ * y con el color que les da el Excel. Dentro, por dificultad 1 → 5.
  */
-function crearDesplegablesPorNivel(categoria, excursiones) {
-  const niveles = new Map(); // dificultad -> { nivel, excursiones }
+function crearDesplegablesPorTipo(categoria, excursiones) {
+  const tipos = new Map(); // nombre del tipo -> { fondo, letra, excursiones }
+
+  (EXCURSIONES.tiposMontes || []).forEach(({ nombre, fondo, letra }) => {
+    tipos.set(nombre, { fondo, letra, excursiones: [] });
+  });
 
   excursiones.forEach((excursion) => {
-    if (!niveles.has(excursion.dificultad)) {
-      niveles.set(excursion.dificultad, { nivel: excursion.nivel, excursiones: [] });
+    if (!tipos.has(excursion.tipo)) {
+      tipos.set(excursion.tipo, { fondo: null, letra: null, excursiones: [] }); // tipo sin color
     }
-    niveles.get(excursion.dificultad).excursiones.push(excursion);
+    tipos.get(excursion.tipo).excursiones.push(excursion);
   });
 
   const fragmento = document.createDocumentFragment();
 
-  niveles.forEach(({ nivel, excursiones: delNivel }) => {
+  tipos.forEach(({ fondo, letra, excursiones: delTipo }, nombre) => {
+    if (delTipo.length === 0) {
+      return;
+    }
+
     const desplegable = document.createElement('details');
     desplegable.className = 'desplegable';
+    if (fondo) {
+      desplegable.style.setProperty('--color-tipo', fondo);
+      desplegable.style.setProperty('--color-tipo-letra', letra);
+    }
 
     const titulo = document.createElement('summary');
     titulo.className = 'desplegable__titulo';
-    titulo.textContent = nivel;
+    titulo.textContent = nombre;
 
-    desplegable.append(titulo, crearLista(categoria, delNivel));
+    desplegable.append(titulo, crearLista(categoria, delTipo));
     fragmento.appendChild(desplegable);
   });
 
@@ -123,7 +135,7 @@ function pintarLista(contenedor, categoria, excursiones) {
   }
 
   const contenido = categoria === 'montes'
-    ? crearDesplegablesPorNivel(categoria, excursiones)
+    ? crearDesplegablesPorTipo(categoria, excursiones)
     : crearLista(categoria, excursiones);
 
   contenedor.replaceChildren(contenido);
