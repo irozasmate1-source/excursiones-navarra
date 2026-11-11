@@ -164,6 +164,87 @@ const ICONOS_CATEGORIA_LUGAR = {
 };
 
 /**
+ * Emoticono de cada tipo de árbol (Monumentos Naturales). Se busca por el
+ * comienzo del tipo, así "Roble (grupo)" usa el de "Roble". Los árboles muy
+ * parecidos llevan un segundo emoticono para distinguirlos.
+ */
+const ICONOS_ARBOL = [
+  ['Roble', '🌳'],
+  ['Quejigo', '🌳🍂'],
+  ['Encina', '🌳🌰'],
+  ['Haya', '🌳🍃'],
+  ['Álamo', '🌳🤍'],
+  ['Sauce', '🌿'],
+  ['Arce', '🍁'],
+  ['Avellano', '🌰'],
+  ['Nogal', '🌰🍃'],
+  ['Morera', '🫐'],
+  ['Peral', '🍐'],
+  ['Espino', '🌸'],
+  ['Acebo', '🌿🔴'],
+  ['Abeto', '🌲'],
+  ['Pino', '🌲🪵'],
+  ['Cedro', '🌲🌿'],
+  ['Secuoya', '🌲🌲'],
+  ['Tejo', '🌲🔴'],
+  ['Enebro', '🌲🫐'],
+];
+
+function iconoArbol(tipoArbol) {
+  const encontrado = ICONOS_ARBOL.find(([tipo]) => (tipoArbol || '').startsWith(tipo));
+  return encontrado ? encontrado[1] : '🌳';
+}
+
+/**
+ * Emoticono de cada excursión en bici, según su categoría en el Excel.
+ */
+const ICONOS_BICI = {
+  'Vía verde': '🚲🛤️',
+  'Naturaleza': '🦆',
+  'Ermita e iglesia': '⛪',
+  'Lugar curioso': '🧐',
+  'Dolmen y megalitos': '🗿',
+  'Fortificación': '🏰',
+};
+
+/* ---------- Casillas de "visitado" (se guardan en el navegador) ---------- */
+
+const CLAVE_VISITADOS = 'monumentosVisitados';
+
+function idExcursion(excursion) {
+  return excursion.numero ? `MN-${excursion.numero}` : excursion.nombre;
+}
+
+function leerVisitados() {
+  return new Set(leerDato(CLAVE_VISITADOS, []));
+}
+
+function marcarVisitado(id, visitado) {
+  const visitados = leerVisitados();
+  if (visitado) {
+    visitados.add(id);
+  } else {
+    visitados.delete(id);
+  }
+  guardarDato(CLAVE_VISITADOS, [...visitados]);
+}
+
+/**
+ * Casilla para marcar una excursión como visitada. No mueve ni cambia nada:
+ * solo guarda la marca para llevar la cuenta.
+ */
+function crearCasillaVisitado(excursion, nombreVisible, visitados) {
+  const id = idExcursion(excursion);
+  const casilla = crearElemento('input', 'casilla-visitado');
+  casilla.type = 'checkbox';
+  casilla.checked = visitados.has(id);
+  casilla.setAttribute('aria-label', `Visitado: ${nombreVisible}`);
+  casilla.title = 'Marcar como visitado';
+  casilla.addEventListener('change', () => marcarVisitado(id, casilla.checked));
+  return casilla;
+}
+
+/**
  * Configuración de las categorías que se muestran con desplegables y fichas:
  * por qué campo se agrupan, colores y emoticonos de los grupos, etiqueta junto
  * al nombre y qué datos aparecen en la ficha.
@@ -203,6 +284,37 @@ const CONFIG_FICHAS = {
       ['Notas', e.notas],
     ],
   },
+  // Sin desplegables generales: lista de árboles con ficha y casilla de visitado
+  monumentos: {
+    titulo: (e) => textoExcursion('monumentos', e),
+    icono: (e) => iconoArbol(e.tipoArbol),
+    marcable: true,
+    datos: (e) => [
+      ['🌳', 'Tipo de árbol', e.tipoArbol],
+      ['🔬', 'Especie', e.especie],
+      ['📍', 'Municipio', e.municipio],
+      ['🚗', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
+      ['🗺️', 'Nombre en tu mapa', e.nombreMapa !== e.nombre ? e.nombreMapa : null],
+    ],
+    bloques: (e) => [
+      ['Notas', e.notas],
+    ],
+  },
+  // Sin desplegables generales: lista de excursiones en bici con ficha
+  bicicleta: {
+    icono: (e) => ICONOS_BICI[e.categoria] || '🚲',
+    datos: (e) => [
+      ['🚗', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
+      ['🚲', 'Km en bici', formatearNumero(e.km, 'km')],
+      ['🔁', 'Tipo de recorrido', e.tipoRecorrido],
+      ['🏷️', 'Categoría', e.categoria],
+      ['📍', 'Zona', e.zona],
+    ],
+    bloques: (e) => [
+      ['Qué es', e.queEs],
+      ['Notas', e.notas],
+    ],
+  },
 };
 
 /**
@@ -212,10 +324,17 @@ function crearFicha(config, excursion) {
   const ficha = crearElemento('details', 'ficha');
 
   const resumen = crearElemento('summary', 'ficha__resumen');
-  resumen.append(
-    crearElemento('span', 'ficha__nombre', excursion.nombre),
-    config.etiqueta(excursion)
-  );
+  const nombre = crearElemento('span', 'ficha__nombre');
+  if (config.icono) {
+    const icono = crearElemento('span', 'ficha__icono-nombre', config.icono(excursion));
+    icono.setAttribute('aria-hidden', 'true');
+    nombre.appendChild(icono);
+  }
+  nombre.append(config.titulo ? config.titulo(excursion) : excursion.nombre);
+  resumen.appendChild(nombre);
+  if (config.etiqueta) {
+    resumen.appendChild(config.etiqueta(excursion));
+  }
 
   const contenido = crearElemento('div', 'ficha__contenido');
 
@@ -264,11 +383,18 @@ function crearFicha(config, excursion) {
 function crearLista(categoria, excursiones) {
   const lista = crearElemento('ul', 'excursiones');
   const config = CONFIG_FICHAS[categoria];
+  const visitados = config?.marcable ? leerVisitados() : null;
 
   excursiones.forEach((excursion) => {
     const elemento = crearElemento('li', 'excursiones__elemento');
     if (config) {
       elemento.classList.add('excursiones__elemento--ficha');
+      if (config.marcable) {
+        // La casilla queda fuera de la ficha: se ve sin desplegar y no la abre
+        elemento.classList.add('excursiones__elemento--marcable');
+        const nombreVisible = config.titulo ? config.titulo(excursion) : excursion.nombre;
+        elemento.appendChild(crearCasillaVisitado(excursion, nombreVisible, visitados));
+      }
       elemento.appendChild(crearFicha(config, excursion));
     } else {
       elemento.textContent = textoExcursion(categoria, excursion);
@@ -338,7 +464,7 @@ function pintarLista(contenedor, categoria, excursiones) {
     return; // se mantiene el aviso de lista vacía
   }
 
-  const contenido = CONFIG_FICHAS[categoria]
+  const contenido = CONFIG_FICHAS[categoria]?.campoGrupo
     ? crearDesplegablesPorGrupo(categoria, excursiones)
     : crearLista(categoria, excursiones);
 

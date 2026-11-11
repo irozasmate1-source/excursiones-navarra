@@ -386,6 +386,37 @@ body {
   color: var(--color-tierra);
 }
 
+/* Emoticono delante del nombre (tipo de árbol en Monumentos) */
+.ficha__icono-nombre {
+  margin-right: var(--espacio-xs);
+}
+
+/* Elemento con casilla de visitado: casilla a la izquierda, ficha al lado */
+.excursiones__elemento--marcable {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espacio-s);
+}
+
+.excursiones__elemento--marcable > .ficha {
+  flex: 1;
+  min-width: 0;
+}
+
+.casilla-visitado {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.625rem 0 0;
+  accent-color: var(--color-bosque);
+  cursor: pointer;
+}
+
+.casilla-visitado:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: 2px;
+}
+
 .ficha[open] .ficha__nombre::before {
   content: "−";
 }
