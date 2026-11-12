@@ -36,6 +36,13 @@
 
   /* Recuadro "VER EN EL MAPA" */
   --color-mapa-fondo: #e4ecd2;
+
+  /* Foto antigua (ficha de Menorca) */
+  --color-papel-viejo: #efe6d2;
+  --color-papel-borde: #d6c9ab;
+  --color-tinta-vieja: #3b3226;
+  --fuente-manuscrita: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+  --foto-antigua-ancho: 22rem;
 }
 
 /* ---------- Reseteo mínimo ---------- */
@@ -537,6 +544,49 @@ body {
 .ficha__enlace:focus-visible {
   outline: 3px solid var(--color-tierra);
   outline-offset: 2px;
+}
+
+/* Ficha con solo una foto antigua (p. ej. Menorca) */
+.ficha__contenido--foto {
+  align-items: center;
+}
+
+.foto-antigua {
+  width: min(100%, var(--foto-antigua-ancho));
+  margin: var(--espacio-s) auto;
+  padding: var(--espacio-s) var(--espacio-s) var(--espacio-m);
+  background-color: var(--color-papel-viejo);
+  border: 1px solid var(--color-papel-borde);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  transform: rotate(-1.5deg);
+}
+
+.foto-antigua__imagen {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: grayscale(1) sepia(0.25) contrast(1.15) brightness(0.92) blur(0.3px);
+}
+
+/* Bordes oscurecidos, como una foto vieja */
+.foto-antigua__marco {
+  position: relative;
+}
+
+.foto-antigua__marco::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(40, 30, 20, 0.45) 100%);
+  pointer-events: none;
+}
+
+.foto-antigua__pie {
+  margin-top: var(--espacio-s);
+  font-family: var(--fuente-manuscrita);
+  font-size: 1.25rem;
+  text-align: center;
+  color: var(--color-tinta-vieja);
 }
 
 /* Recuadro "VER EN EL MAPA" (Google Maps) */

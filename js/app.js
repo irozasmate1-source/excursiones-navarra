@@ -174,6 +174,18 @@ const ICONOS_CATEGORIA_LUGAR = {
   'Gastronomía': 'gastronomia',
   'Ocio': 'noria',
   'Fiesta y tradición': 'campana',
+  'Viaje veraniego': 'isla',
+};
+
+/**
+ * Grupos que no están en las tablas de la hoja Resumen del Excel (y por eso no
+ * tienen color allí). Se añaden al final de los desplegables de su categoría.
+ * "Viaje veraniego" aparece en la hoja "Completadas por categoría" (Menorca).
+ */
+const GRUPOS_NUEVOS = {
+  lugares: [
+    { nombre: 'Viaje veraniego', fondo: '#7FD1C7', letra: '#000000' },
+  ],
 };
 
 /**
@@ -220,40 +232,55 @@ const ICONOS_BICI = {
   'Fortificación': 'castillo',
 };
 
-/* ---------- Casillas de "visitado" (se guardan en el navegador) ---------- */
+/* ---------- Casillas de "completada" (se guardan en el navegador) ---------- */
 
-const CLAVE_VISITADOS = 'monumentosVisitados';
+// Clave de localStorage de cada categoría (Monumentos conserva la que ya tenía)
+const CLAVES_COMPLETADAS = {
+  montes: 'montesCompletadas',
+  lugares: 'lugaresCompletadas',
+  monumentos: 'monumentosVisitados',
+  bicicleta: 'bicicletaCompletadas',
+};
 
 function idExcursion(excursion) {
   return excursion.numero ? `MN-${excursion.numero}` : excursion.nombre;
 }
 
-function leerVisitados() {
-  return new Set(leerDato(CLAVE_VISITADOS, []));
+/**
+ * Identificadores de las excursiones marcadas de una categoría. Si todavía no
+ * se ha marcado nada en esa categoría, salen marcadas las que el Excel da como
+ * completadas (hoja "Completadas por categoría").
+ */
+function leerCompletadas(categoria) {
+  const guardadas = leerDato(CLAVES_COMPLETADAS[categoria], null);
+  if (guardadas) {
+    return new Set(guardadas);
+  }
+  return new Set(EXCURSIONES[categoria].filter((e) => e.completada).map(idExcursion));
 }
 
-function marcarVisitado(id, visitado) {
-  const visitados = leerVisitados();
-  if (visitado) {
-    visitados.add(id);
+function marcarCompletada(categoria, id, marcada) {
+  const completadas = leerCompletadas(categoria);
+  if (marcada) {
+    completadas.add(id);
   } else {
-    visitados.delete(id);
+    completadas.delete(id);
   }
-  guardarDato(CLAVE_VISITADOS, [...visitados]);
+  guardarDato(CLAVES_COMPLETADAS[categoria], [...completadas]);
 }
 
 /**
- * Casilla para marcar una excursión como visitada. No mueve ni cambia nada:
+ * Casilla para marcar una excursión como completada. No mueve ni cambia nada:
  * solo guarda la marca para llevar la cuenta.
  */
-function crearCasillaVisitado(excursion, nombreVisible, visitados) {
+function crearCasillaCompletada(categoria, excursion, nombreVisible, completadas) {
   const id = idExcursion(excursion);
   const casilla = crearElemento('input', 'casilla-visitado');
   casilla.type = 'checkbox';
-  casilla.checked = visitados.has(id);
-  casilla.setAttribute('aria-label', `Visitado: ${nombreVisible}`);
-  casilla.title = 'Marcar como visitado';
-  casilla.addEventListener('change', () => marcarVisitado(id, casilla.checked));
+  casilla.checked = completadas.has(id);
+  casilla.setAttribute('aria-label', `Completada: ${nombreVisible}`);
+  casilla.title = 'Marcar como completada';
+  casilla.addEventListener('change', () => marcarCompletada(categoria, id, casilla.checked));
   return casilla;
 }
 
@@ -369,6 +396,7 @@ const CONFIG_FICHAS = {
     iconos: ICONOS_TIPO,
     etiqueta: crearEtiquetaDificultad,
     mapa: (e) => CORRECCIONES_MAPA.montes[e.nombre] || busquedaMapa(e.nombre, e.zona),
+    marcable: true,
     datos: (e) => [
       ['coche', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
       ['bota', 'Distancia de la ruta', formatearNumero(e.km, 'km')],
@@ -383,10 +411,11 @@ const CONFIG_FICHAS = {
   },
   lugares: {
     campoGrupo: 'categoria',
-    grupos: () => EXCURSIONES.categoriasLugares,
+    grupos: () => [...EXCURSIONES.categoriasLugares, ...GRUPOS_NUEVOS.lugares],
     iconos: ICONOS_CATEGORIA_LUGAR,
     etiqueta: crearEtiquetaPopularidad,
     mapa: (e) => CORRECCIONES_MAPA.lugares[e.nombre] || busquedaMapa(e.nombre, e.zona),
+    marcable: true,
     datos: (e) => [
       ['coche', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
       ['ubicacion', 'Zona', e.zona],
@@ -420,6 +449,7 @@ const CONFIG_FICHAS = {
   bicicleta: {
     icono: (e) => ICONOS_BICI[e.categoria] || 'bicicleta',
     mapa: (e) => busquedaMapa(e.nombre, e.zona),
+    marcable: true,
     datos: (e) => [
       ['coche', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
       ['bicicleta', 'Km en bici', formatearNumero(e.km, 'km')],
@@ -433,6 +463,30 @@ const CONFIG_FICHAS = {
     ],
   },
 };
+
+/**
+ * Excursiones cuya ficha, al abrirse, muestra solo una foto con un pie
+ * (con aspecto de foto antigua en blanco y negro). La clave es el nombre del Excel.
+ */
+const FICHAS_CON_FOTO = {
+  'Menorca': { imagen: 'img/menorca-ciutadella.png', pie: 'Ciutadella 2026' },
+};
+
+/**
+ * Contenido de una ficha con foto: la imagen y el pie debajo.
+ */
+function crearContenidoFoto({ imagen, pie }) {
+  const contenido = crearElemento('div', 'ficha__contenido ficha__contenido--foto');
+  const figura = crearElemento('figure', 'foto-antigua');
+  const img = crearElemento('img', 'foto-antigua__imagen');
+  img.src = imagen;
+  img.alt = pie;
+  const marco = crearElemento('div', 'foto-antigua__marco'); // para oscurecer los bordes
+  marco.appendChild(img);
+  figura.append(marco, crearElemento('figcaption', 'foto-antigua__pie', pie));
+  contenido.appendChild(figura);
+  return contenido;
+}
 
 /**
  * Ficha desplegable de una excursión con todos sus datos.
@@ -449,6 +503,13 @@ function crearFicha(config, excursion) {
   resumen.appendChild(nombre);
   if (config.etiqueta) {
     resumen.appendChild(config.etiqueta(excursion));
+  }
+
+  // Excursiones que al abrirse solo muestran una foto con su pie (sin datos)
+  const foto = FICHAS_CON_FOTO[excursion.nombre];
+  if (foto) {
+    ficha.append(resumen, crearContenidoFoto(foto));
+    return ficha;
   }
 
   const contenido = crearElemento('div', 'ficha__contenido');
@@ -503,7 +564,7 @@ function crearFicha(config, excursion) {
 function crearLista(categoria, excursiones) {
   const lista = crearElemento('ul', 'excursiones');
   const config = CONFIG_FICHAS[categoria];
-  const visitados = config?.marcable ? leerVisitados() : null;
+  const completadas = config?.marcable ? leerCompletadas(categoria) : null;
 
   excursiones.forEach((excursion) => {
     const elemento = crearElemento('li', 'excursiones__elemento');
@@ -513,7 +574,7 @@ function crearLista(categoria, excursiones) {
         // La casilla queda fuera de la ficha: se ve sin desplegar y no la abre
         elemento.classList.add('excursiones__elemento--marcable');
         const nombreVisible = config.titulo ? config.titulo(excursion) : excursion.nombre;
-        elemento.appendChild(crearCasillaVisitado(excursion, nombreVisible, visitados));
+        elemento.appendChild(crearCasillaCompletada(categoria, excursion, nombreVisible, completadas));
       }
       elemento.appendChild(crearFicha(config, excursion));
     } else {

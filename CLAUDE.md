@@ -4,7 +4,7 @@
 
 **EXCURSIONES POR NAVARRA Y COMPAÑÍA** es una aplicación web para gestionar excursiones por Navarra.
 
-- La pantalla principal muestra el título **EXCURSIONES POR NAVARRA Y COMPAÑÍA**, un mapa de Navarra con una rosa de los vientos, cuatro botones de categoría y un acceso aparte a las excursiones completadas.
+- La pantalla principal muestra el título **EXCURSIONES POR NAVARRA Y COMPAÑÍA**, un mapa de Navarra con una rosa de los vientos, cuatro botones de categoría y un acceso aparte a **INFORMACIÓN DE INTERÉS** (antes "Excursiones completadas").
 - Las excursiones vienen de un archivo Excel que aporta el propietario del proyecto. Ese Excel es solo de lectura.
 - La web debe abrirse y funcionar tanto en PC (Windows) como en móvil (Android).
 - Todos los datos del usuario (por ejemplo, qué árboles ha visitado) se guardan en local, en el navegador del dispositivo. No hay servidor ni base de datos remota.
@@ -16,23 +16,36 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 ### Pantalla principal (`#inicio`)
 - Cabecera con el título, mapa de Navarra sin fondo (`img/mapa-navarra.png`) y rosa de los vientos encima (`img/rosa-vientos.svg`).
 - Cuatro botones: **Lugares y pueblos**, **Montes/paseos**, **Bicicleta** y **Monumentos Naturales de Navarra**.
-- Botón aparte: **Excursiones completadas**.
+- Botón aparte: **INFORMACIÓN DE INTERÉS** (enlaza a `#completadas`; el identificador se mantiene).
 
 ### Pantallas de categoría
 - Navegación por `#hash` (`#lugares`, `#montes`, `#bicicleta`, `#monumentos`, `#completadas`). Funciona con doble clic y con el botón "atrás" del móvil.
+- Las excursiones completadas ya no tienen sección propia: están en su categoría como una más (ver "Excursiones completadas").
 - Todas tienen una flecha (←) para volver a la pantalla principal.
 - Galería de imágenes con borde negro y proporción 4:3 encima de la lista. Excepción: en Monumentos, el cartel (`monumentos-1-mapa.png`) va completo, sin recortar, debajo de la lista, y la foto del árbol, que está sola, tiene el tamaño de una imagen de galería de tres.
 
 | Categoría (web) | Hoja del Excel | Cómo se muestra |
 |---|---|---|
-| Montes/paseos | Rutas (120) | 13 desplegables por **Tipo**, con el color del Excel y un icono. Dentro, rutas de dificultad 1 → 5 con etiqueta de dificultad. Cada ruta abre una **ficha** con coche desde Pamplona, distancia, desnivel, tipo de ruta, zona, ruta habitual, notas, fuente de los km, botón a Wikiloc si lo hay y recuadro **VER EN EL MAPA**. |
-| Lugares y pueblos | Lugares a los que ir (113) | 16 desplegables por **Categoría**, con el color del Excel y un icono. Dentro, de más a menos popular, con etiqueta de popularidad (colores del Excel). Cada lugar abre una **ficha** con coche, zona, qué es, notas, datos de ruta, Wikiloc si lo hay y **VER EN EL MAPA**. |
-| Monumentos Naturales | Árboles singulares (48) | Sin desplegables generales. Lista ordenada por número (`MN Nº1 - ENCINA DE ERAUL`, el no oficial al final), con un icono según el tipo de árbol. Cada árbol abre una **ficha** con tipo, especie, municipio, coche, nombre en tu mapa (si difiere), notas y **VER EN EL MAPA**. **No se muestra la columna "Estado".** Tiene **casilla de visitado** visible sin abrir la ficha. |
-| Bicicleta | Bici (11) | Sin desplegables generales. Cada excursión lleva un icono según su categoría y abre una **ficha** con coche, km en bici, tipo de recorrido, categoría, zona, qué es, notas, fuente de los km y **VER EN EL MAPA**. Sin casilla. |
-| Excursiones completadas | Completadas (32) | Solo la lista de nombres, en el orden de la hoja. Sin mapa. |
+| Montes/paseos | Rutas (120) + bloque 1 de "Completadas por categoría" (10) = 130 | 13 desplegables por **Tipo**, con el color del Excel y un icono. Dentro, rutas de dificultad 1 → 5 con etiqueta de dificultad. Cada ruta abre una **ficha** con coche desde Pamplona, distancia, desnivel, tipo de ruta, zona, ruta habitual, notas, fuente de los km, botón a Wikiloc si lo hay y recuadro **VER EN EL MAPA**. |
+| Lugares y pueblos | Lugares a los que ir (113) + bloque 2 (21) = 134 | 16 desplegables por **Categoría**, con el color del Excel y un icono, más el grupo nuevo **Viaje veraniego** al final. Dentro, de más a menos popular, con etiqueta de popularidad (colores del Excel). Cada lugar abre una **ficha** con coche, zona, qué es, notas, datos de ruta, Wikiloc si lo hay y **VER EN EL MAPA**. Excepción: **Menorca** solo muestra una foto (ver "Ficha con foto"). |
+| Monumentos Naturales | Árboles singulares (48) + bloque 3 (1, ya incluido) = 48 | Sin desplegables generales. Lista ordenada por número (`MN Nº1 - ENCINA DE ERAUL`, el no oficial al final), con un icono según el tipo de árbol. Cada árbol abre una **ficha** con tipo, especie, municipio, coche, nombre en tu mapa (si difiere), notas y **VER EN EL MAPA**. **No se muestra la columna "Estado".** |
+| Bicicleta | Bici (11) + bloque 4 (0) = 11 | Sin desplegables generales. Cada excursión lleva un icono según su categoría y abre una **ficha** con coche, km en bici, tipo de recorrido, categoría, zona, qué es, notas, fuente de los km y **VER EN EL MAPA**. |
+| INFORMACIÓN DE INTERÉS | — | Antes "Excursiones completadas". **Pendiente de definir**: por ahora vacía (muestra el aviso antiguo "Todavía no has completado ninguna excursión."). No tocar su interior hasta que el propietario lo indique. |
+
+Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver abajo).
+
+### Excursiones completadas
+- Vienen **solo** de la hoja **"Completadas por categoría"** del Excel (la hoja antigua "Completadas" ya no se usa). Esa hoja tiene 4 bloques, uno por categoría, cada uno con las mismas columnas que la hoja principal de su categoría.
+- Se muestran en su categoría **como una excursión más** (mismo icono, desplegable y ficha). En `datos.js` llevan `completada: true`.
+- El Roble de Lizarraga (MN-35) está en "Árboles singulares" y en las completadas: no se repite, solo se marca como completado.
+- **Menorca** tiene la categoría "Viaje veraniego", que no existe en la hoja Resumen: se creó como grupo nuevo en `app.js` (`GRUPOS_NUEVOS`), con color turquesa `#7FD1C7` (elegido, no del Excel) e icono `isla.svg`.
+
+### Ficha con foto (Menorca)
+- Al abrir Menorca solo se ve la foto `img/menorca-ciutadella.png` con el pie **"Ciutadella 2026"**, sin datos ni mapa. La lista está en `FICHAS_CON_FOTO` de `app.js`.
+- Aspecto de foto antigua en blanco y negro hecho con CSS (`.foto-antigua`: filtro gris/sepia, viñeta, marco de papel viejo, letra manuscrita). La imagen original no se modifica (solo se recortó el borde de la captura).
 
 ### Iconos
-- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 55 archivos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
+- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 56 archivos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
 - Los árboles cuya silueta no se distingue bien (arce, avellano, nogal, morera, peral, espino, acebo) llevan al lado su hoja, fruto o flor.
 - Tamaños en variables de `:root`: `--icono-grupo`, `--icono-nombre`, `--icono-dato`, `--icono-mapa`.
 
@@ -45,12 +58,15 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 - Revisión hecha (nov. 2026): los 292 enlaces se comprobaron en Google Maps. Quedan aproximados, aceptados por el propietario: Peñas de Aya (parque natural), Hotel Continental de Panticosa (Gran Hotel del mismo balneario), Pueblo de Barandiain (museo Barandiaran, Ataun) y Carnavales de Ituren y Zubieta (Ituren).
 - Si se añaden excursiones nuevas al Excel, conviene comprobar su enlace del mapa.
 
-### Casilla de visitado (solo Monumentos)
-- Al marcarla no ocurre nada más: no cambia de categoría ni se mueve. Solo sirve para llevar la cuenta.
-- Se guarda en localStorage con la clave `excursionesNavarra_monumentosVisitados`: un array de identificadores (`MN-1`, `MN-2`…, o el nombre si el árbol no tiene número).
+### Casilla de completada (todas las categorías)
+- Cada excursión de Montes, Lugares, Monumentos y Bicicleta tiene una casilla visible sin abrir la ficha. Al marcarla no ocurre nada más: no cambia de categoría ni se mueve. Solo sirve para llevar la cuenta.
+- Se guarda en localStorage, una clave por categoría, con un array de identificadores (el nombre del Excel; en Monumentos `MN-1`, `MN-2`…, o el nombre si no tiene número):
+  - `excursionesNavarra_montesCompletadas`, `excursionesNavarra_lugaresCompletadas`, `excursionesNavarra_bicicletaCompletadas`.
+  - `excursionesNavarra_monumentosVisitados` (Monumentos conserva su clave antigua para no perder lo ya marcado).
+- **Valor inicial:** mientras no se haya marcado nada en una categoría, salen marcadas las que el Excel da como completadas (`completada: true`). En cuanto se toca una casilla, se guarda la lista completa de esa categoría y manda lo guardado.
 
 ### Pendiente o no abordado todavía
-- Marcar excursiones como completadas en otras categorías y relacionarlo con la hoja Completadas.
+- Contenido de **INFORMACIÓN DE INTERÉS** (se hablará más adelante).
 - Abrir la web en el móvil (Android) o compartirla, por ejemplo por Drive o WhatsApp. Se ha hablado, pero se aparca por decisión del propietario.
 
 ## Tecnologías
@@ -77,7 +93,8 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 │   ├── excel.js                           # Vacío (reservado; los datos van por datos.js)
 │   └── app.js                             # Navegación, listas, desplegables, fichas, casillas y mapas
 └── img/
-    ├── iconos/*.svg                       # Iconos de categorías y fichas (55)
+    ├── iconos/*.svg                       # Iconos de categorías y fichas (56)
+    ├── menorca-ciutadella.png             # Foto de la ficha de Menorca
     ├── mapa-navarra.png, rosa-vientos.svg # Pantalla principal
     ├── montes-*.{webp,png}                # Galería de Montes/paseos (3)
     ├── lugares-*.{webp,png}               # Galería de Lugares y pueblos (3)
@@ -93,7 +110,11 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 
 1. Se copia el Excel a una carpeta temporal y se lee esa copia (es un `.xlsx`, o sea, un zip de XML). **El original nunca se abre para escribir.** Se comprueba su huella MD5 antes y después.
 2. Un script de PowerShell genera `js/datos.js` con el objeto `EXCURSIONES`:
-   - `montes`, `lugares`, `monumentos`, `bicicleta`, `completadas`: las filas de cada hoja, en el orden de la hoja. `app.js` se encarga de ordenar.
+   - `montes`, `lugares`, `monumentos`, `bicicleta`: las filas de su hoja y, a continuación, las del bloque correspondiente de **"Completadas por categoría"** (con `completada: true`), en el orden de la hoja. `app.js` se encarga de ordenar.
+     - Esa hoja tiene varias tablas una debajo de otra; cada bloque se localiza por su título en la columna A ("1. Montes…", "2. Lugares…", "3. Monumentos…", "4. Bici…").
+     - Diferencias de columnas: en los bloques, las notas de Lugares se llaman "Notas" (no "Tus notas del mapa") y el enlace de Wikiloc está en la celda "Fuente km". La fila "Ninguna completada todavía" (sin categoría) se ignora.
+     - Monumentos: si el Nº MN ya está en "Árboles singulares", no se repite; se marca ese árbol como completado.
+   - `completadas`: vacío (`[]`). La hoja antigua "Completadas" ya no se lee.
    - `tiposMontes` y `categoriasLugares`: nombre y colores (fondo y letra) de cada grupo, leídos de las tablas de la hoja **Resumen**, en su orden.
    - `popularidades`: colores de cada nivel de popularidad, también de la hoja Resumen.
    - Los tiempos en coche se convierten de fracción de día a minutos. Los valores `-` o `—` pasan a `null` y no se muestran.
@@ -110,13 +131,16 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
   - `iconos` (por grupo) o `icono` (por excursión).
   - `etiqueta`: la de dificultad o la de popularidad.
   - `titulo`: texto del nombre, por ejemplo el formato MN.
-  - `marcable`: si lleva casilla de visitado.
+  - `marcable`: si lleva casilla de completada (ahora, las 4 categorías).
   - `mapa`: texto de búsqueda (o coordenadas) para Google Maps.
   - `datos`: los recuadros de la ficha (`[icono, etiqueta, valor]`).
   - `bloques`: los textos de la ficha.
 - Las categorías sin configuración (Completadas) muestran solo nombres.
 - Iconos: `crearIcono(nombre, clase)` crea un `<img>` decorativo de `img/iconos/<nombre>.svg`. Los mapas de iconos guardan el nombre del archivo sin `.svg`: `ICONOS_TIPO` (Montes), `ICONOS_CATEGORIA_LUGAR` (Lugares), `ICONOS_ARBOL` (Monumentos, buscado por el comienzo del tipo de árbol) e `ICONOS_BICI` (Bicicleta).
 - Mapa: `busquedaMapa(...)`, `crearEnlaceMapa(busqueda)`, `COORDENADAS_MONUMENTOS` y `CORRECCIONES_MAPA` (ver "Enlace VER EN EL MAPA").
+- Completadas: `CLAVES_COMPLETADAS` (clave de localStorage por categoría), `leerCompletadas(categoria)`, `marcarCompletada(...)` y `crearCasillaCompletada(...)`.
+- `GRUPOS_NUEVOS`: grupos que no están en la hoja Resumen (de momento, "Viaje veraniego" en Lugares), con su color.
+- `FICHAS_CON_FOTO` y `crearContenidoFoto(...)`: fichas que solo muestran una foto con pie (Menorca).
 - Los desplegables y las fichas usan `<details>`/`<summary>`. Los textos se insertan con `textContent`, nunca con `innerHTML`.
 
 ## Convenciones de código
@@ -161,6 +185,7 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 ## Notas técnicas
 
 - **Probar la web:** con doble clic funciona. El navegador integrado de Claude, en cambio, no carga los CSS ni los JS relativos al abrir un `file://`, así que para verla se usa un servidor local temporal. Python no está instalado, por eso se usa un pequeño servidor de PowerShell en la carpeta temporal, que no forma parte del proyecto. Si el navegador muestra una versión antigua, se recarga con un parámetro distinto (`?v=N`) o con Ctrl+F5.
+- **Leer el Excel**: `Expand-Archive` no acepta la extensión `.xlsx`; hay que renombrar la copia a `.zip` antes de descomprimirla.
 - **localStorage** es propio de cada navegador y de cada dispositivo. Lo marcado en el PC no aparece en el móvil, y al revés, salvo que más adelante se añada exportar e importar.
 - **Android y compartir la web**: Chrome para Android no abre bien archivos locales, y Google Drive no muestra HTML como página. Subir solo `index.html` no funciona, porque depende de `css/`, `js/` e `img/`. Las opciones viables son un hosting estático (Netlify Drop, GitHub Pages…), sin subir el Excel, o un único HTML con todo dentro. Está aparcado; antes de publicar, revisar qué notas personales se muestran.
 - **Iconos en vez de emoticonos**: los emoticonos se veían distintos en Windows y Android (Windows no dibuja banderas: 🇫🇷 salía como "FR"). Los SVG de `img/iconos/` se ven igual en todos los dispositivos y funcionan con doble clic (`file://`).
