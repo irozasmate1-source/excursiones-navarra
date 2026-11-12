@@ -34,6 +34,14 @@
         </div>
       </div>
 
+      <!-- Buscador de excursiones por nombre -->
+      <div class="buscador" role="search">
+        <label class="buscador__etiqueta" for="buscador-texto">Buscar excursión</label>
+        <input class="buscador__campo" type="search" id="buscador-texto" placeholder="Escribe el nombre de una excursión…" autocomplete="off" aria-describedby="buscador-aviso">
+        <p class="buscador__aviso" id="buscador-aviso" aria-live="polite" hidden></p>
+        <ul class="buscador__resultados" id="buscador-resultados" hidden></ul>
+      </div>
+
       <nav class="rutas" aria-label="Categorías de rutas">
         <a class="ruta" href="#lugares">Lugares y pueblos</a>
         <a class="ruta" href="#montes">Montes/paseos</a>

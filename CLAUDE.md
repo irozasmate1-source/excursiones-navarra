@@ -18,6 +18,11 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 - **Contador de excursiones realizadas**, entre el mapa y los botones: botón redondeado "N excursiones realizadas" ("excursión realizada" si es 1). Suma las casillas marcadas de las 4 categorías (incluidas las marcadas de inicio por el Excel) y se actualiza al marcar o desmarcar.
   - Al pulsarlo aparece/desaparece debajo la **cara enfadada** (`img/cara-enfadada.png`, la imagen del propietario tal cual, con el fondo blanco quitado) y el texto **"¡A SUBIR EL NÚMERO!"**. Botón con `aria-expanded`; sin `alert()`.
   - `img/cara-enfadada.svg` es una versión dibujada anterior que ya no se usa; el propietario prefiere conservarla en la carpeta (no está en git).
+- **Buscador de excursiones**, debajo del contador: caja "Buscar excursión" que filtra mientras se escribe.
+  - Busca **solo en el nombre que se ve** de cada excursión de las 4 categorías (en Monumentos, "MN Nº5 - EL CENTINELA", así que "5" encuentra MN Nº5, 15, 25… y también los montes con 5 en el nombre, como "Abodi. 1532m"). No busca en distancias, zonas, notas ni nombres de categoría: "monasterio" da los lugares que se llaman "Monasterio…", no la categoría Monasterio.
+  - Ignora mayúsculas y tildes ("andia" = "Andía"). Con varias palabras, cada resultado debe contenerlas todas.
+  - Cada resultado muestra el icono, el nombre y una etiqueta con su categoría. Máximo 30 resultados ("Se muestran 30 de N. Escribe más para afinar."); sin coincidencias: "No hay ninguna excursión con ese nombre."
+  - Al pulsar un resultado se va a su categoría, se abre su desplegable y su ficha, se baja hasta ella y se resalta en amarillo unos segundos.
 - Cuatro botones: **Lugares y pueblos**, **Montes/paseos**, **Bicicleta** y **Monumentos Naturales de Navarra**.
 - Botón aparte: **INFORMACIÓN DE INTERÉS** (enlaza a `#completadas`; el identificador se mantiene).
 - **Icono de la pestaña (favicon)**: rosa de los vientos azul propia, `img/favicon.svg` y su versión PNG de 32 px `img/favicon-32.png` (para navegadores que no aceptan SVG). No se usó la imagen de Dreamstime que propuso el propietario porque tenía marca de agua.
@@ -168,7 +173,8 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 - Completadas: `CLAVES_COMPLETADAS` (clave de localStorage por categoría), `leerCompletadas(categoria)`, `marcarCompletada(...)` y `crearCasillaCompletada(...)`.
 - Contador: `contarCompletadas()`, `actualizarContador()` (se llama también desde `marcarCompletada`) y `prepararContador()` (muestra u oculta la cara al pulsar).
 - Reloj de Sanfermines: `estadoSanfermines(ahora)`, `actualizarRelojSanfermines()` e `iniciarRelojSanfermines()` (actualiza cada segundo).
-- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
+- Buscador: `EXCURSIONES_PINTADAS` (cada excursión pintada con su categoría y su `<li>`, lo rellena `crearLista`), `normalizar(texto)` (minúsculas y sin tildes), `nombreVisible(...)`, `iconoExcursion(...)`, `buscarExcursiones(texto)`, `mostrarResultados(texto)`, `irAExcursion(...)` (cambia el `#hash` y, tras el `hashchange`, abre desplegable y ficha y hace scroll) y `prepararBuscador()`. `NOMBRES_CATEGORIA` y `MAXIMO_RESULTADOS` (30).
+- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `prepararBuscador()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
 - `GRUPOS_NUEVOS`: grupos que no están en la hoja Resumen (de momento, "Viaje veraniego" en Lugares), con su color.
 - `FICHAS_CON_FOTO` y `crearContenidoFoto(...)`: fichas que solo muestran una foto con pie (Menorca).
 - Los desplegables y las fichas usan `<details>`/`<summary>`. Los textos se insertan con `textContent`, nunca con `innerHTML`.

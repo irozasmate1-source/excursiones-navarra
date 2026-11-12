@@ -60,6 +60,10 @@
   /* Contador de la pantalla principal */
   --color-rojo-aviso: #c4161c;
   --tamano-cara: 9rem;
+
+  /* Buscador */
+  --color-arena-borde: #d9cbb0;
+  --color-resaltado: #f6e3a1;
 }
 
 /* ---------- Reseteo mínimo ---------- */
@@ -219,6 +223,114 @@ body {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-rojo-aviso);
+}
+
+/* ---------- Buscador de excursiones ---------- */
+.buscador {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-s);
+}
+
+.buscador__etiqueta {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  color: var(--color-bosque);
+}
+
+.buscador__campo {
+  width: 100%;
+  min-height: 3rem;
+  padding: var(--espacio-s) var(--espacio-m);
+  border: 2px solid var(--color-bosque);
+  border-radius: var(--radio);
+  background-color: var(--color-pergamino);
+  font-family: var(--fuente-texto);
+  font-size: 1.0625rem;
+  color: var(--color-texto);
+}
+
+.buscador__campo:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: 2px;
+}
+
+.buscador__aviso {
+  margin: 0;
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--color-texto-suave);
+}
+
+.buscador__resultados {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resultado {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-s);
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--espacio-xs) var(--espacio-s);
+  border: 1px solid var(--color-arena-borde);
+  border-radius: 0.5rem;
+  background-color: var(--color-pergamino);
+  font-family: var(--fuente-texto);
+  font-size: 1rem;
+  text-align: left;
+  color: var(--color-texto);
+  cursor: pointer;
+}
+
+.resultado:hover {
+  border-color: var(--color-bosque);
+  background-color: var(--color-arena);
+}
+
+.resultado:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: 2px;
+}
+
+.resultado__icono {
+  flex-shrink: 0;
+  width: var(--icono-nombre);
+  height: var(--icono-nombre);
+}
+
+.resultado__nombre {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.resultado__categoria {
+  flex-shrink: 0;
+  padding: 0.125rem var(--espacio-s);
+  border-radius: 999px;
+  background-color: var(--color-arena);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-texto-suave);
+}
+
+/* Resaltado breve de la excursión a la que lleva el buscador */
+.excursiones__elemento--ficha {
+  scroll-margin-top: var(--espacio-l);
+}
+
+.excursiones__elemento--resaltado {
+  animation: resaltar 2.5s ease-out;
+}
+
+@keyframes resaltar {
+  0%, 40% { background-color: var(--color-resaltado); }
+  100% { background-color: transparent; }
 }
 
 /* ---------- Botones de rutas ---------- */

@@ -626,6 +626,9 @@ function crearFicha(config, excursion) {
   return ficha;
 }
 
+// Cada excursión pintada con su categoría y su elemento <li> (lo usa el buscador)
+const EXCURSIONES_PINTADAS = [];
+
 /**
  * Crea una lista <ul> con las excursiones.
  * En las categorías con configuración de ficha, cada excursión es una ficha
@@ -647,6 +650,7 @@ function crearLista(categoria, excursiones) {
         elemento.appendChild(crearCasillaCompletada(categoria, excursion, nombreVisible, completadas));
       }
       elemento.appendChild(crearFicha(config, excursion));
+      EXCURSIONES_PINTADAS.push({ categoria, excursion, elemento });
     } else {
       elemento.textContent = textoExcursion(categoria, excursion);
     }
@@ -737,12 +741,122 @@ function pintarCategorias() {
   });
 }
 
+/* ---------- Buscador de excursiones por nombre (pantalla principal) ---------- */
+
+const NOMBRES_CATEGORIA = {
+  montes: 'Montes/paseos',
+  lugares: 'Lugares y pueblos',
+  monumentos: 'Monumentos',
+  bicicleta: 'Bicicleta',
+};
+
+const MAXIMO_RESULTADOS = 30;
+
+/**
+ * Texto en minúsculas y sin tildes, para comparar ("Ermita" = "ermita", "Andía" = "andia").
+ */
+function normalizar(texto) {
+  return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+}
+
+/**
+ * Nombre que se ve en la lista (en Monumentos, "MN Nº1 - ENCINA DE ERAUL").
+ */
+function nombreVisible(categoria, excursion) {
+  const config = CONFIG_FICHAS[categoria];
+  return config.titulo ? config.titulo(excursion) : excursion.nombre;
+}
+
+/**
+ * Icono de una excursión: el de su grupo (Montes, Lugares) o el suyo propio.
+ */
+function iconoExcursion(categoria, excursion) {
+  const config = CONFIG_FICHAS[categoria];
+  if (config.icono) return config.icono(excursion);
+  return config.iconos?.[excursion[config.campoGrupo]] || null;
+}
+
+/**
+ * Excursiones cuyo nombre contiene todas las palabras buscadas.
+ * Solo mira el nombre: no distancias, zonas, notas ni categorías.
+ */
+function buscarExcursiones(texto) {
+  const palabras = normalizar(texto).split(/\s+/).filter(Boolean);
+  if (palabras.length === 0) return [];
+  return EXCURSIONES_PINTADAS.filter(({ categoria, excursion }) => {
+    const nombre = normalizar(nombreVisible(categoria, excursion));
+    return palabras.every((palabra) => nombre.includes(palabra));
+  });
+}
+
+/**
+ * Lleva a la excursión: abre su categoría, su desplegable y su ficha, y baja hasta ella.
+ */
+function irAExcursion({ categoria, elemento }) {
+  const abrirFicha = () => {
+    const desplegable = elemento.closest('details.desplegable');
+    if (desplegable) desplegable.open = true;
+    elemento.querySelector('details.ficha').open = true;
+    elemento.scrollIntoView({ block: 'start' });
+    elemento.classList.add('excursiones__elemento--resaltado');
+    setTimeout(() => elemento.classList.remove('excursiones__elemento--resaltado'), 2500);
+  };
+  // Al cambiar la dirección se muestra la categoría (y la página sube arriba);
+  // la ficha se abre justo después.
+  window.addEventListener('hashchange', abrirFicha, { once: true });
+  window.location.hash = categoria;
+}
+
+function crearResultado(encontrada) {
+  const { categoria, excursion } = encontrada;
+  const elemento = crearElemento('li');
+  const boton = crearElemento('button', 'resultado');
+  boton.type = 'button';
+  const icono = iconoExcursion(categoria, excursion);
+  if (icono) boton.appendChild(crearIcono(icono, 'resultado__icono'));
+  boton.append(
+    crearElemento('span', 'resultado__nombre', nombreVisible(categoria, excursion)),
+    crearElemento('span', 'resultado__categoria', NOMBRES_CATEGORIA[categoria])
+  );
+  boton.addEventListener('click', () => irAExcursion(encontrada));
+  elemento.appendChild(boton);
+  return elemento;
+}
+
+function mostrarResultados(texto) {
+  const lista = document.getElementById('buscador-resultados');
+  const aviso = document.getElementById('buscador-aviso');
+  const encontradas = buscarExcursiones(texto);
+
+  lista.replaceChildren(...encontradas.slice(0, MAXIMO_RESULTADOS).map(crearResultado));
+  lista.hidden = encontradas.length === 0;
+
+  if (!texto.trim()) {
+    aviso.hidden = true;
+  } else if (encontradas.length === 0) {
+    aviso.textContent = 'No hay ninguna excursión con ese nombre.';
+    aviso.hidden = false;
+  } else if (encontradas.length > MAXIMO_RESULTADOS) {
+    aviso.textContent = `Se muestran ${MAXIMO_RESULTADOS} de ${encontradas.length}. Escribe más para afinar.`;
+    aviso.hidden = false;
+  } else {
+    aviso.textContent = encontradas.length === 1 ? '1 excursión encontrada.' : `${encontradas.length} excursiones encontradas.`;
+    aviso.hidden = false;
+  }
+}
+
+function prepararBuscador() {
+  const campo = document.getElementById('buscador-texto');
+  campo.addEventListener('input', () => mostrarResultados(campo.value));
+}
+
 /**
  * Punto de entrada de la aplicación.
  */
 function iniciarApp() {
   pintarCategorias();
   prepararContador();
+  prepararBuscador();
   iniciarRelojSanfermines();
   mostrarPantalla(pantallaDesdeDireccion());
 
