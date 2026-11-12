@@ -50,6 +50,9 @@
   --color-desplegable-webs: #A9CFEA;
   --color-desplegable-tiempo: #FFE08A;
   --color-desplegable-reloj: #F4A3A3;
+  --color-desplegable-arboles: #B6D7A8;
+  --color-desplegable-mamiferos: #E4C9A2;
+  --foto-especie-ancho: 15rem;
 
   /* Reloj de Sanfermines */
   --color-reloj-fondo: #1a1412;
@@ -999,6 +1002,86 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--color-reloj-texto);
+}
+
+/* Guía de campo: desplegables de árboles y mamíferos (fichas de especie) */
+.info-guia .info-uso__titulo {
+  margin-bottom: var(--espacio-m);
+}
+
+.desplegable--arboles {
+  --color-tipo: var(--color-desplegable-arboles);
+}
+
+.desplegable--mamiferos {
+  --color-tipo: var(--color-desplegable-mamiferos);
+}
+
+.guia-especies {
+  margin: 0;
+  padding: var(--espacio-m);
+  list-style: none;
+  background-color: var(--color-pergamino);
+}
+
+.especie {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espacio-m);
+  padding: var(--espacio-m) 0;
+}
+
+.especie + .especie {
+  border-top: 1px solid var(--color-arena-borde);
+}
+
+.especie__foto {
+  margin: 0;
+}
+
+.especie__foto img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center 25%; /* en fotos verticales, no cortar la cabeza */
+  border: 3px solid var(--color-texto);
+}
+
+.especie__foto figcaption {
+  margin-top: var(--espacio-xs);
+  font-size: 0.75rem;
+  color: var(--color-texto-suave);
+}
+
+.especie__foto figcaption a {
+  color: inherit;
+}
+
+.especie__nombre {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  color: var(--color-bosque);
+}
+
+.especie__cientifico {
+  margin: var(--espacio-xs) 0 var(--espacio-s);
+  font-style: italic;
+  color: var(--color-texto-suave);
+}
+
+.especie__descripcion {
+  margin: 0;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .especie {
+    grid-template-columns: var(--foto-especie-ancho) 1fr;
+    align-items: start;
+  }
 }
 
 .lista-enlaces {

@@ -54,14 +54,25 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
   1. **Línea bajo el título** (`hr.linea-titulo`, grosor en `--grosor-linea-titulo`).
   2. **Recuadro punteado** (mismo estilo que el de las excursiones) con la **introducción** a la web, justificada.
   3. **Tres lemas centrados**, uno por línea: «Ad Astra», «Audentes fortuna iuvat» y **sorioneku en signario celtibérico**. Este último es una imagen, `img/sorioneku.svg`, redibujada trazo a trazo desde la imagen del propietario (el signario celtibérico no existe en Unicode). Solo los signos, sin la transcripción.
-  4. **CÓMO USAR LA WEB**: lista numerada de 6 pasos.
+  4. Línea (`hr.linea-titulo`), **CÓMO USAR LA WEB** (lista numerada de 6 pasos) y otra línea debajo del paso 6.
   5. **Tres desplegables** (`<details class="desplegable">`, mismo formato que los de las excursiones; color en `:root` y aplicado con las clases `.desplegable--webs`, `.desplegable--tiempo` y `.desplegable--reloj`):
      - **Webs interesantes** (azul `#A9CFEA`, icono `globo.svg`): Javier Colomo (Monumentos Naturales), Rutas Navarra / Napar Bideak (buscador), Navarrincón (excursiones para niños), Mis escapadas por Navarra (listado de rutas; sin el `#google_vignette` de la dirección original), Rutas de Paisajes Enogastronómicos (Visit Navarra) y Visit Navarra (web oficial de turismo).
      - **Tiempo: predicción 7 días** (amarillo `#FFE08A`, icono `tiempo.svg`): enlaces a AEMET (Pamplona/Iruña, 7 días) y a Meteo Navarra (Gobierno de Navarra). Son enlaces: mostrar la predicción dentro de la web necesitaría un widget o servicio externo, pendiente de aprobación.
      - **EL RELOJ DE SANFERMINES** (rosa rojizo `#F4A3A3`, icono `reloj-sanfermin.svg`): cuenta atrás en directo (días, horas, minutos, segundos) hasta el **chupinazo, 6 de julio a las 12:00** hora de Pamplona (10:00 UTC, en julio siempre es horario de verano), con aspecto de reloj LED rojo como el de la calle Estafeta. Del chupinazo al final del 14 de julio muestra "¡Estamos en Sanfermines! ¡Gora San Fermín!"; después cuenta hasta el año siguiente. Debajo, enlace a la página del reloj en sanfermin.com.
        - El reloj de sanfermin.com es un reloj físico; su web no ofrece datos ni widget, así que la cuenta se calcula en el navegador (`estadoSanfermines`, `actualizarRelojSanfermines`, cada segundo).
      - Cada enlace es un recuadro `.enlace-web` con título y una línea de descripción, y se abre en otra pestaña.
+  6. Línea (`hr.linea-titulo`) y **GUÍA DE CAMPO BÁSICA** (`.info-guia`, título con el mismo formato que CÓMO USAR LA WEB), con dos desplegables de fichas de especie (ver "Guía de campo").
 - Los textos del propietario llevan pequeñas correcciones ortográficas aceptadas ("a la web", "excursiones", "¡suerte y disfrutad…!", "Wikiloc").
+
+### Guía de campo (en INFORMACIÓN DE INTERÉS)
+- Dos desplegables con **fichas de especie** (`ul.guia-especies` > `li.especie`): foto con borde negro (`.especie__foto`, recorte 4:3 con el encuadre algo subido, `object-position: center 25%`, para no cortar cabezas en fotos verticales), nombre común (`.especie__nombre`), nombre científico en cursiva (`.especie__cientifico`) y descripción breve (`.especie__descripcion`): cómo reconocerla y dónde vive en Navarra. En tablet y ordenador, foto a la izquierda (`--foto-especie-ancho`, 15rem) y texto a la derecha; en el móvil, uno debajo de otro.
+- **Árboles: las 25 especies más relevantes** (verde `#B6D7A8`, icono `roble.svg`, `.desplegable--arboles`). Orden: haya, pino silvestre, encina, pino laricio, roble (común y albar), pino carrasco, quejigo, abeto blanco, chopo, castaño, sauce blanco, espino albar, cedro del Líbano, secuoya gigante, nogal, serbal de cazadores, plátano de sombra, tilo, abedul, arce mayor, arce menor, acebo, fresno, álamo blanco y ciprés. Si se añaden más, hay que actualizar el número del título.
+  - Fotos en `img/arboles/` (JPG reducidos a 640 px de ancho), sacadas de Wikipedia / Wikimedia Commons. **Cada una lleva un `figcaption` con autor, licencia (CC BY, CC BY-SA, CC0 o dominio público) y enlace a su ficha en Commons**: lo exigen las licencias; no quitarlo.
+  - Excepción: el **haya** usa una foto del propietario (`img/arboles/haya.webp`), sin pie de autor. `img/arboles/haya.jpg` (hayedo de Irati, Commons) quedó sin usar; el propietario prefiere conservarla (fuera de git).
+  - Descargar de Wikimedia: con varias peticiones seguidas devuelve error 429 ("robot policy"); hay que espaciar las descargas (unos 25 s entre fotos). No poner datos personales en el User-Agent.
+- **Mamíferos: los 16 más importantes de Navarra** (arena `#E4C9A2`, icono `huella.svg`, `.desplegable--mamiferos`): jabalí, corzo, ciervo, sarrio, zorro rojo, visón europeo, desmán de los Pirineos, oso pardo, nutria, gato montés, tejón, gineta, garduña, ardilla roja, erizo común y castor europeo.
+  - Fotos aportadas por el propietario, en `img/mamiferos/` (JPG reducidos o WebP tal cual), sin pie de autor.
+- Las descripciones las redactó Claude; el propietario puede pedir matizarlas.
 
 ### LA LISTA (`#lista`): mapa de My Maps
 - Sección con la flecha de volver, el título **LA LISTA** y la línea bajo el título (`hr.linea-titulo`).
@@ -84,7 +95,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Aspecto de foto antigua en blanco y negro hecho con CSS (`.foto-antigua`: filtro gris/sepia, viñeta, marco de papel viejo, letra manuscrita). La imagen original no se modifica (solo se recortó el borde de la captura).
 
 ### Iconos
-- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 59 archivos; `globo.svg`, `tiempo.svg` y `reloj-sanfermin.svg` son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
+- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 60 archivos; `globo.svg`, `tiempo.svg`, `reloj-sanfermin.svg` y `huella.svg` son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
 - Los árboles cuya silueta no se distingue bien (arce, avellano, nogal, morera, peral, espino, acebo) llevan al lado su hoja, fruto o flor.
 - Tamaños en variables de `:root`: `--icono-grupo`, `--icono-nombre`, `--icono-dato`, `--icono-mapa`.
 
@@ -136,9 +147,11 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 │   ├── excel.js                           # Vacío (reservado; los datos van por datos.js)
 │   └── app.js                             # Navegación, listas, desplegables, fichas, casillas y mapas
 └── img/
-    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (59)
+    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (60)
     ├── favicon.svg, favicon-32.png        # Icono de la pestaña (rosa de los vientos)
     ├── cara-enfadada.png                  # Cara del aviso del contador (cara-enfadada.svg: versión antigua sin usar, fuera de git)
+    ├── arboles/                           # Fotos de la guía de campo de árboles (25; haya.jpg sin usar, fuera de git)
+    ├── mamiferos/                         # Fotos de la guía de campo de mamíferos (16)
     ├── menorca-ciutadella.png             # Foto de la ficha de Menorca
     ├── sorioneku.svg                      # Lema en signario celtibérico (INFORMACIÓN DE INTERÉS)
     ├── mapa-navarra.png, rosa-vientos.svg # Pantalla principal

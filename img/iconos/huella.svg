@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+<!-- Huella de mamífero (desplegable de mamíferos de la guía de campo) -->
+<g fill="#6b4a2f">
+  <path d="M24 25c-6 0-11 5-12 10-.8 4 2 7 5.5 6.5 2.5-.4 4.2-1.8 6.5-1.8s4 1.4 6.5 1.8c3.5.5 6.3-2.5 5.5-6.5-1-5-6-10-12-10z"/>
+  <ellipse cx="11" cy="20" rx="4" ry="5.2" transform="rotate(-20 11 20)"/>
+  <ellipse cx="19" cy="12" rx="4.2" ry="5.6" transform="rotate(-8 19 12)"/>
+  <ellipse cx="29" cy="12" rx="4.2" ry="5.6" transform="rotate(8 29 12)"/>
+  <ellipse cx="37" cy="20" rx="4" ry="5.2" transform="rotate(20 37 20)"/>
+</g>
+<g fill="#8f6a46" opacity=".7">
+  <path d="M18 30c2-2 4-3 6-3" stroke="#a88560" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+</g>
+</svg>
