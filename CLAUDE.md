@@ -22,7 +22,8 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 - Navegación por `#hash` (`#lugares`, `#montes`, `#bicicleta`, `#monumentos`, `#completadas`). Funciona con doble clic y con el botón "atrás" del móvil.
 - Las excursiones completadas ya no tienen sección propia: están en su categoría como una más (ver "Excursiones completadas").
 - Todas tienen una flecha (←) para volver a la pantalla principal.
-- Galería de imágenes con borde negro y proporción 4:3 encima de la lista. Excepción: en Monumentos, el cartel (`monumentos-1-mapa.png`) va completo, sin recortar, debajo de la lista, y la foto del árbol, que está sola, tiene el tamaño de una imagen de galería de tres.
+- Galería de imágenes con borde negro y proporción 4:3 encima de la lista. Excepción: en Monumentos, el cartel (`monumentos-1-mapa.png`) va completo, sin recortar, debajo de la lista.
+- **Monumentos**: galería de tres fotos (encina `monumentos-3-encina.webp` a la izquierda, la foto antigua `monumentos-2-arbol.png` en el centro y el árbol con valla `monumentos-4-arbol.png` a la derecha). Debajo de la galería y encima de la lista, un recuadro de enlace (`.enlace-web`, icono `globo.svg`) a la web de **Javier Colomo** sobre los Monumentos Naturales (`https://www.javiercolomo.com/index_archivos/M%20Nat/Mns.htm`). La clase `.galeria--sola` ya no se usa.
 
 | Categoría (web) | Hoja del Excel | Cómo se muestra |
 |---|---|---|
@@ -30,9 +31,22 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 | Lugares y pueblos | Lugares a los que ir (113) + bloque 2 (21) = 134 | 16 desplegables por **Categoría**, con el color del Excel y un icono, más el grupo nuevo **Viaje veraniego** al final. Dentro, de más a menos popular, con etiqueta de popularidad (colores del Excel). Cada lugar abre una **ficha** con coche, zona, qué es, notas, datos de ruta, Wikiloc si lo hay y **VER EN EL MAPA**. Excepción: **Menorca** solo muestra una foto (ver "Ficha con foto"). |
 | Monumentos Naturales | Árboles singulares (48) + bloque 3 (1, ya incluido) = 48 | Sin desplegables generales. Lista ordenada por número (`MN Nº1 - ENCINA DE ERAUL`, el no oficial al final), con un icono según el tipo de árbol. Cada árbol abre una **ficha** con tipo, especie, municipio, coche, nombre en tu mapa (si difiere), notas y **VER EN EL MAPA**. **No se muestra la columna "Estado".** |
 | Bicicleta | Bici (11) + bloque 4 (0) = 11 | Sin desplegables generales. Cada excursión lleva un icono según su categoría y abre una **ficha** con coche, km en bici, tipo de recorrido, categoría, zona, qué es, notas, fuente de los km y **VER EN EL MAPA**. |
-| INFORMACIÓN DE INTERÉS | — | Antes "Excursiones completadas". **Pendiente de definir**: por ahora vacía (muestra el aviso antiguo "Todavía no has completado ninguna excursión."). No tocar su interior hasta que el propietario lo indique. |
+| INFORMACIÓN DE INTERÉS | — (texto fijo en `index.html`) | Antes "Excursiones completadas". Página informativa, sin excursiones (ver "INFORMACIÓN DE INTERÉS"). |
 
 Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver abajo).
+
+### INFORMACIÓN DE INTERÉS (`#completadas`)
+- Texto escrito directamente en `index.html` (no viene del Excel ni lo pinta `app.js`: el recuadro no lleva `data-categoria`).
+- De arriba abajo:
+  1. **Línea bajo el título** (`hr.linea-titulo`, grosor en `--grosor-linea-titulo`).
+  2. **Recuadro punteado** (mismo estilo que el de las excursiones) con la **introducción** a la web, justificada.
+  3. **Tres lemas centrados**, uno por línea: «Ad Astra», «Audentes fortuna iuvat» y **sorioneku en signario celtibérico**. Este último es una imagen, `img/sorioneku.svg`, redibujada trazo a trazo desde la imagen del propietario (el signario celtibérico no existe en Unicode). Solo los signos, sin la transcripción.
+  4. **CÓMO USAR LA WEB**: lista numerada de 6 pasos.
+  5. **Dos desplegables** (`<details class="desplegable">`, mismo formato que los de las excursiones; color en `:root` y aplicado con las clases `.desplegable--webs` y `.desplegable--tiempo`):
+     - **Webs interesantes** (azul `#A9CFEA`, icono `globo.svg`): Javier Colomo (Monumentos Naturales), Rutas Navarra / Napar Bideak (buscador), Navarrincón (excursiones para niños) y Mis escapadas por Navarra (listado de rutas; sin el `#google_vignette` de la dirección original).
+     - **Tiempo: predicción 7 días** (amarillo `#FFE08A`, icono `tiempo.svg`): enlaces a AEMET (Pamplona/Iruña, 7 días) y a Meteo Navarra (Gobierno de Navarra). Son enlaces: mostrar la predicción dentro de la web necesitaría un widget o servicio externo, pendiente de aprobación.
+     - Cada enlace es un recuadro `.enlace-web` con título y una línea de descripción, y se abre en otra pestaña.
+- Los textos del propietario llevan pequeñas correcciones ortográficas aceptadas ("a la web", "excursiones", "¡suerte y disfrutad…!", "Wikiloc").
 
 ### Excursiones completadas
 - Vienen **solo** de la hoja **"Completadas por categoría"** del Excel (la hoja antigua "Completadas" ya no se usa). Esa hoja tiene 4 bloques, uno por categoría, cada uno con las mismas columnas que la hoja principal de su categoría.
@@ -45,7 +59,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Aspecto de foto antigua en blanco y negro hecho con CSS (`.foto-antigua`: filtro gris/sepia, viñeta, marco de papel viejo, letra manuscrita). La imagen original no se modifica (solo se recortó el borde de la captura).
 
 ### Iconos
-- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 56 archivos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
+- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 58 archivos; los dos últimos, `globo.svg` y `tiempo.svg`, son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
 - Los árboles cuya silueta no se distingue bien (arce, avellano, nogal, morera, peral, espino, acebo) llevan al lado su hoja, fruto o flor.
 - Tamaños en variables de `:root`: `--icono-grupo`, `--icono-nombre`, `--icono-dato`, `--icono-mapa`.
 
@@ -66,7 +80,6 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - **Valor inicial:** mientras no se haya marcado nada en una categoría, salen marcadas las que el Excel da como completadas (`completada: true`). En cuanto se toca una casilla, se guarda la lista completa de esa categoría y manda lo guardado.
 
 ### Pendiente o no abordado todavía
-- Contenido de **INFORMACIÓN DE INTERÉS** (se hablará más adelante).
 - Abrir la web en el móvil (Android) o compartirla, por ejemplo por Drive o WhatsApp. Se ha hablado, pero se aparca por decisión del propietario.
 
 ## Tecnologías
@@ -93,13 +106,14 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 │   ├── excel.js                           # Vacío (reservado; los datos van por datos.js)
 │   └── app.js                             # Navegación, listas, desplegables, fichas, casillas y mapas
 └── img/
-    ├── iconos/*.svg                       # Iconos de categorías y fichas (56)
+    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (58)
     ├── menorca-ciutadella.png             # Foto de la ficha de Menorca
+    ├── sorioneku.svg                      # Lema en signario celtibérico (INFORMACIÓN DE INTERÉS)
     ├── mapa-navarra.png, rosa-vientos.svg # Pantalla principal
     ├── montes-*.{webp,png}                # Galería de Montes/paseos (3)
     ├── lugares-*.{webp,png}               # Galería de Lugares y pueblos (3)
     ├── bicicleta-*.webp                   # Galería de Bicicleta (2)
-    └── monumentos-*.png                   # Cartel y foto del árbol de Monumentos
+    └── monumentos-*.{png,webp}            # Cartel y tres fotos de la galería de Monumentos
 ```
 
 Orden de carga de scripts en `index.html`: `datos.js`, `storage.js`, `excel.js`, `app.js`.
@@ -135,7 +149,7 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
   - `mapa`: texto de búsqueda (o coordenadas) para Google Maps.
   - `datos`: los recuadros de la ficha (`[icono, etiqueta, valor]`).
   - `bloques`: los textos de la ficha.
-- Las categorías sin configuración (Completadas) muestran solo nombres.
+- Las categorías sin configuración muestran solo nombres (ahora no queda ninguna: `#completadas` es INFORMACIÓN DE INTERÉS, con texto fijo en el HTML).
 - Iconos: `crearIcono(nombre, clase)` crea un `<img>` decorativo de `img/iconos/<nombre>.svg`. Los mapas de iconos guardan el nombre del archivo sin `.svg`: `ICONOS_TIPO` (Montes), `ICONOS_CATEGORIA_LUGAR` (Lugares), `ICONOS_ARBOL` (Monumentos, buscado por el comienzo del tipo de árbol) e `ICONOS_BICI` (Bicicleta).
 - Mapa: `busquedaMapa(...)`, `crearEnlaceMapa(busqueda)`, `COORDENADAS_MONUMENTOS` y `CORRECCIONES_MAPA` (ver "Enlace VER EN EL MAPA").
 - Completadas: `CLAVES_COMPLETADAS` (clave de localStorage por categoría), `leerCompletadas(categoria)`, `marcarCompletada(...)` y `crearCasillaCompletada(...)`.

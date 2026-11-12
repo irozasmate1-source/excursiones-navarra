@@ -47,6 +47,8 @@
   /* INFORMACIÓN DE INTERÉS */
   --grosor-linea-titulo: 3px;
   --alto-signario: 2.25rem;
+  --color-desplegable-webs: #A9CFEA;
+  --color-desplegable-tiempo: #FFE08A;
 }
 
 /* ---------- Reseteo mínimo ---------- */
@@ -716,6 +718,85 @@ body {
   font-family: var(--fuente-titulo);
   font-weight: 700;
   color: var(--color-tierra);
+}
+
+/* Desplegables de INFORMACIÓN DE INTERÉS, cada uno con su color */
+.info-desplegables {
+  margin-top: var(--espacio-l);
+}
+
+.desplegable--webs {
+  --color-tipo: var(--color-desplegable-webs);
+}
+
+.desplegable--tiempo {
+  --color-tipo: var(--color-desplegable-tiempo);
+}
+
+.lista-enlaces {
+  margin: 0;
+  padding: var(--espacio-m);
+  list-style: none;
+  background-color: var(--color-pergamino);
+}
+
+.lista-enlaces li + li {
+  margin-top: var(--espacio-s);
+}
+
+/* Recuadro de enlace a otra web (Monumentos y desplegables de información) */
+.enlace-web {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-m);
+  min-height: 3rem;
+  padding: var(--espacio-s) var(--espacio-m);
+  border: 2px solid var(--color-tierra);
+  border-radius: var(--radio);
+  background: linear-gradient(135deg, var(--color-pergamino), var(--color-arena));
+  box-shadow: 0 2px 0 var(--color-corteza);
+  color: var(--color-texto);
+  text-decoration: none;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.enlace-web:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 var(--color-corteza);
+  border-color: var(--color-bosque);
+}
+
+.enlace-web:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 var(--color-corteza);
+}
+
+.enlace-web:focus-visible {
+  outline: 3px solid var(--color-bosque);
+  outline-offset: 2px;
+}
+
+.enlace-web__icono {
+  flex-shrink: 0;
+  width: var(--icono-mapa);
+  height: var(--icono-mapa);
+}
+
+.enlace-web__textos {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.enlace-web__titulo {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  color: var(--color-bosque);
+}
+
+.enlace-web__detalle {
+  font-size: 0.875rem;
+  color: var(--color-texto-suave);
 }
 
 .aviso-vacio {
