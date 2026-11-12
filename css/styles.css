@@ -67,6 +67,9 @@
 
   /* Carrusel de fotos en el móvil (deja asomar la foto siguiente) */
   --carrusel-ancho-foto: 85%;
+
+  /* LA LISTA (mapa de My Maps) */
+  --alto-mapa-lista: 70vh;
 }
 
 /* ---------- Reseteo mínimo ---------- */
@@ -337,10 +340,16 @@ body {
 }
 
 /* ---------- Botones de rutas ---------- */
-.rutas {
+.rutas,
+.accesos {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--espacio-m);
+}
+
+/* INFORMACIÓN DE INTERÉS y LA LISTA: misma rejilla y separación que las categorías */
+.accesos {
+  margin-top: calc(var(--espacio-m) - var(--espacio-l));
 }
 
 .ruta,
@@ -1071,6 +1080,72 @@ body {
   border-top: 0.25rem solid var(--color-tierra);
 }
 
+/* ---------- LA LISTA: mapa de My Maps ---------- */
+.mapa-lista {
+  overflow: hidden;
+  border: 3px solid var(--color-texto);
+  border-radius: var(--radio);
+  background-color: var(--color-arena);
+}
+
+.mapa-lista__marco {
+  display: block;
+  width: 100%;
+  height: var(--alto-mapa-lista);
+  border: 0;
+}
+
+/* A pantalla completa el mapa ocupa toda la pantalla */
+.mapa-lista:fullscreen {
+  border: 0;
+  border-radius: 0;
+}
+
+.mapa-lista:fullscreen .mapa-lista__marco {
+  height: 100%;
+}
+
+.mapa-lista__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-m);
+}
+
+.mapa-lista__acciones > * {
+  flex: 1 1 16rem;
+}
+
+.boton-mapa {
+  min-height: 3rem;
+  padding: var(--espacio-s) var(--espacio-m);
+  border: 2px solid var(--color-bosque);
+  border-radius: var(--radio);
+  background-color: var(--color-bosque);
+  box-shadow: 0 2px 0 var(--color-corteza);
+  font-family: var(--fuente-titulo);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-pergamino);
+  cursor: pointer;
+}
+
+.boton-mapa:hover {
+  background-color: var(--color-musgo);
+}
+
+.boton-mapa:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: 2px;
+}
+
+.mapa-lista__nota {
+  margin: 0;
+  font-size: 0.875rem;
+  font-style: italic;
+  text-align: center;
+  color: var(--color-texto-suave);
+}
+
 /* ---------- Galería en el móvil: carrusel deslizable ---------- */
 /* Puntitos bajo el carrusel (solo se ven en el móvil; los crea app.js) */
 .galeria__puntos {
@@ -1147,6 +1222,7 @@ body {
   }
 
   .rutas,
+  .accesos,
   .galeria {
     grid-template-columns: 1fr 1fr;
   }
@@ -1161,11 +1237,6 @@ body {
 
   .ficha__dato:last-child:nth-child(odd) {
     grid-column: auto;
-  }
-
-  .acceso-completadas {
-    width: min(100%, 24rem);
-    margin: 0 auto;
   }
 }
 

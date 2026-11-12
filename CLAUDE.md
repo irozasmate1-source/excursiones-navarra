@@ -4,7 +4,7 @@
 
 **EXCURSIONES POR NAVARRA Y COMPAÑÍA** es una aplicación web para gestionar excursiones por Navarra.
 
-- La pantalla principal muestra el título **EXCURSIONES POR NAVARRA Y COMPAÑÍA**, un mapa de Navarra con una rosa de los vientos, cuatro botones de categoría y un acceso aparte a **INFORMACIÓN DE INTERÉS** (antes "Excursiones completadas").
+- La pantalla principal muestra el título **EXCURSIONES POR NAVARRA Y COMPAÑÍA**, un mapa de Navarra con una rosa de los vientos, cuatro botones de categoría y dos accesos aparte: **INFORMACIÓN DE INTERÉS** (antes "Excursiones completadas") y **LA LISTA** (mapa de My Maps).
 - Las excursiones vienen de un archivo Excel que aporta el propietario del proyecto. Ese Excel es solo de lectura.
 - La web debe abrirse y funcionar tanto en PC (Windows) como en móvil (Android). Está publicada en GitHub Pages: https://irozasmate1-source.github.io/excursiones-navarra/
 - Todos los datos del usuario (por ejemplo, qué árboles ha visitado) se guardan en local, en el navegador del dispositivo. No hay servidor ni base de datos remota.
@@ -24,11 +24,12 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
   - Cada resultado muestra el icono, el nombre y una etiqueta con su categoría. Máximo 30 resultados ("Se muestran 30 de N. Escribe más para afinar."); sin coincidencias: "No hay ninguna excursión con ese nombre."
   - Al pulsar un resultado se va a su categoría, se abre su desplegable y su ficha, se baja hasta ella y se resalta en amarillo unos segundos.
 - Cuatro botones: **Lugares y pueblos**, **Montes/paseos**, **Bicicleta** y **Monumentos Naturales de Navarra**.
-- Botón aparte: **INFORMACIÓN DE INTERÉS** (enlaza a `#completadas`; el identificador se mantiene).
+- Dos botones aparte, en marrón claro (`.acceso-completadas`), dentro de `nav.accesos`: **INFORMACIÓN DE INTERÉS** (enlaza a `#completadas`; el identificador se mantiene) y **LA LISTA** (`#lista`).
+  - `.accesos` usa la misma rejilla que `.rutas`: en tablet y ordenador quedan **3 filas de 2** (las dos categorías por fila y estos dos en la última), todas del mismo ancho y separación; en el móvil, uno debajo de otro.
 - **Icono de la pestaña (favicon)**: rosa de los vientos azul propia, `img/favicon.svg` y su versión PNG de 32 px `img/favicon-32.png` (para navegadores que no aceptan SVG). No se usó la imagen de Dreamstime que propuso el propietario porque tenía marca de agua.
 
 ### Pantallas de categoría
-- Navegación por `#hash` (`#lugares`, `#montes`, `#bicicleta`, `#monumentos`, `#completadas`). Funciona con doble clic y con el botón "atrás" del móvil.
+- Navegación por `#hash` (`#lugares`, `#montes`, `#bicicleta`, `#monumentos`, `#completadas`, `#lista`). Funciona con doble clic y con el botón "atrás" del móvil.
 - Las excursiones completadas ya no tienen sección propia: están en su categoría como una más (ver "Excursiones completadas").
 - Todas tienen una flecha (←) para volver a la pantalla principal.
 - Galería de imágenes con borde negro y proporción 4:3 encima de la lista. Excepción: en Monumentos, el cartel (`monumentos-1-mapa.png`) va completo, sin recortar, debajo de la lista.
@@ -61,6 +62,16 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
        - El reloj de sanfermin.com es un reloj físico; su web no ofrece datos ni widget, así que la cuenta se calcula en el navegador (`estadoSanfermines`, `actualizarRelojSanfermines`, cada segundo).
      - Cada enlace es un recuadro `.enlace-web` con título y una línea de descripción, y se abre en otra pestaña.
 - Los textos del propietario llevan pequeñas correcciones ortográficas aceptadas ("a la web", "excursiones", "¡suerte y disfrutad…!", "Wikiloc").
+
+### LA LISTA (`#lista`): mapa de My Maps
+- Sección con la flecha de volver, el título **LA LISTA** y la línea bajo el título (`hr.linea-titulo`).
+- Dentro, el mapa de **Google My Maps "La lista"** del propietario, insertado con un `<iframe>` (`https://www.google.com/maps/d/embed?mid=1V7lsMXTH8brW9LNynKAJOCVaSxGChEo&ehbc=2E312F`), a todo el ancho y con alto `--alto-mapa-lista` (70vh). Es interactivo: moverse, zoom y pinchar en los puntos para ver sus descripciones. `loading="lazy"`: solo carga al entrar en la sección.
+- **No está vinculado a la web**: no sabe qué excursiones están marcadas y sus puntos no salen del Excel. Es el mapa **en directo**: lo que el propietario cambie en My Maps se ve en la web sin tocar nada (puede tardar unos minutos). Deja de verse si borra el mapa o deja de compartirlo como "cualquier persona con el enlace".
+- Debajo:
+  - Botón **"⛶ Ver a pantalla completa"** (`prepararMapaLista()`, Fullscreen API sobre el contenedor `#mapa-lista`). Solo aparece si el navegador lo permite (en iPhone no).
+  - Recuadro `.enlace-web` **"Abrir LA LISTA en Google Maps"** (`https://www.google.com/maps/d/viewer?mid=1V7lsMXTH8brW9LNynKAJOCVaSxGChEo`), más cómodo en el móvil.
+  - Nota: "Pincha en cada punto del mapa para ver su descripción. Necesita conexión a internet."
+- Servicio externo (Google) aprobado expresamente por el propietario. My Maps muestra el nombre del mapa y el autor de la cuenta de Google; no se puede quitar desde la web.
 
 ### Excursiones completadas
 - Vienen **solo** de la hoja **"Completadas por categoría"** del Excel (la hoja antigua "Completadas" ya no se usa). Esa hoja tiene 4 bloques, uno por categoría, cada uno con las mismas columnas que la hoja principal de su categoría.
@@ -178,7 +189,8 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 - Reloj de Sanfermines: `estadoSanfermines(ahora)`, `actualizarRelojSanfermines()` e `iniciarRelojSanfermines()` (actualiza cada segundo).
 - Buscador: `EXCURSIONES_PINTADAS` (cada excursión pintada con su categoría y su `<li>`, lo rellena `crearLista`), `normalizar(texto)` (minúsculas y sin tildes), `nombreVisible(...)`, `iconoExcursion(...)`, `buscarExcursiones(texto)`, `mostrarResultados(texto)`, `irAExcursion(...)` (cambia el `#hash` y, tras el `hashchange`, abre desplegable y ficha y hace scroll) y `prepararBuscador()`. `NOMBRES_CATEGORIA` y `MAXIMO_RESULTADOS` (30).
 - Carrusel: `prepararCarrusel(galeria)` (crea los puntitos tras la galería y marca el activo según la foto más centrada) y `prepararCarruseles()`.
-- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `prepararBuscador()`, `prepararCarruseles()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
+- LA LISTA: `prepararMapaLista()` (muestra el botón de pantalla completa si el navegador lo permite).
+- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `prepararBuscador()`, `prepararCarruseles()`, `prepararMapaLista()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
 - `GRUPOS_NUEVOS`: grupos que no están en la hoja Resumen (de momento, "Viaje veraniego" en Lugares), con su color.
 - `FICHAS_CON_FOTO` y `crearContenidoFoto(...)`: fichas que solo muestran una foto con pie (Menorca).
 - Los desplegables y las fichas usan `<details>`/`<summary>`. Los textos se insertan con `textContent`, nunca con `innerHTML`.

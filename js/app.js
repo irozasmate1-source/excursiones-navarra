@@ -790,6 +790,24 @@ function prepararCarruseles() {
   document.querySelectorAll('.galeria').forEach(prepararCarrusel);
 }
 
+/* ---------- LA LISTA: mapa de My Maps a pantalla completa ---------- */
+
+/**
+ * El botón "Ver a pantalla completa" solo se muestra si el navegador lo
+ * permite (en iPhone, por ejemplo, no). Siempre queda el enlace a Google Maps.
+ */
+function prepararMapaLista() {
+  const contenedor = document.getElementById('mapa-lista');
+  const boton = document.getElementById('mapa-pantalla-completa');
+  if (!contenedor.requestFullscreen) return;
+  boton.hidden = false;
+  boton.addEventListener('click', () => {
+    contenedor.requestFullscreen().catch(() => {
+      boton.hidden = true; // si el navegador lo rechaza, se usa el enlace
+    });
+  });
+}
+
 /* ---------- Buscador de excursiones por nombre (pantalla principal) ---------- */
 
 const NOMBRES_CATEGORIA = {
@@ -907,6 +925,7 @@ function iniciarApp() {
   prepararContador();
   prepararBuscador();
   prepararCarruseles();
+  prepararMapaLista();
   iniciarRelojSanfermines();
   mostrarPantalla(pantallaDesdeDireccion());
 

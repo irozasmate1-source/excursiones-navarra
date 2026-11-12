@@ -49,7 +49,10 @@
         <a class="ruta" href="#monumentos">Monumentos Naturales de Navarra</a>
       </nav>
 
-      <a class="acceso-completadas" href="#completadas">INFORMACIÓN DE INTERÉS</a>
+      <nav class="accesos" aria-label="Otras secciones">
+        <a class="acceso-completadas" href="#completadas">INFORMACIÓN DE INTERÉS</a>
+        <a class="acceso-completadas" href="#lista">LA LISTA</a>
+      </nav>
     </section>
 
     <!-- ========== Categoría: Lugares y pueblos ========== -->
@@ -254,6 +257,31 @@
           </div>
         </details>
       </div>
+    </section>
+
+    <!-- ========== LA LISTA: mapa de My Maps (Google) ========== -->
+    <section id="lista" class="pantalla" aria-labelledby="titulo-lista" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#inicio" aria-label="Volver a la pantalla principal">&larr;</a>
+        <h2 id="titulo-lista" class="pantalla__titulo">LA LISTA</h2>
+      </div>
+      <hr class="linea-titulo">
+
+      <div class="mapa-lista" id="mapa-lista">
+        <iframe class="mapa-lista__marco" src="https://www.google.com/maps/d/embed?mid=1V7lsMXTH8brW9LNynKAJOCVaSxGChEo&amp;ehbc=2E312F" title="Mapa de La Lista en Google My Maps: todas las excursiones" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+      <div class="mapa-lista__acciones">
+        <button type="button" class="boton-mapa" id="mapa-pantalla-completa" hidden>⛶ Ver a pantalla completa</button>
+        <a class="enlace-web" href="https://www.google.com/maps/d/viewer?mid=1V7lsMXTH8brW9LNynKAJOCVaSxGChEo" target="_blank" rel="noopener noreferrer">
+          <img class="enlace-web__icono" src="img/iconos/mapa.svg" alt="">
+          <span class="enlace-web__textos">
+            <span class="enlace-web__titulo">Abrir LA LISTA en Google Maps</span>
+            <span class="enlace-web__detalle">Más cómodo en el móvil: se abre en otra pestaña o en la app ↗</span>
+          </span>
+        </a>
+      </div>
+      <p class="mapa-lista__nota">Pincha en cada punto del mapa para ver su descripción. Necesita conexión a internet.</p>
     </section>
 
   </main>
