@@ -6,7 +6,7 @@
 
 - La pantalla principal muestra el título **EXCURSIONES POR NAVARRA Y COMPAÑÍA**, un mapa de Navarra con una rosa de los vientos, cuatro botones de categoría y un acceso aparte a **INFORMACIÓN DE INTERÉS** (antes "Excursiones completadas").
 - Las excursiones vienen de un archivo Excel que aporta el propietario del proyecto. Ese Excel es solo de lectura.
-- La web debe abrirse y funcionar tanto en PC (Windows) como en móvil (Android).
+- La web debe abrirse y funcionar tanto en PC (Windows) como en móvil (Android). Está publicada en GitHub Pages: https://irozasmate1-source.github.io/excursiones-navarra/
 - Todos los datos del usuario (por ejemplo, qué árboles ha visitado) se guardan en local, en el navegador del dispositivo. No hay servidor ni base de datos remota.
 
 El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
@@ -15,8 +15,12 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 
 ### Pantalla principal (`#inicio`)
 - Cabecera con el título, mapa de Navarra sin fondo (`img/mapa-navarra.png`) y rosa de los vientos encima (`img/rosa-vientos.svg`).
+- **Contador de excursiones realizadas**, entre el mapa y los botones: botón redondeado "N excursiones realizadas" ("excursión realizada" si es 1). Suma las casillas marcadas de las 4 categorías (incluidas las marcadas de inicio por el Excel) y se actualiza al marcar o desmarcar.
+  - Al pulsarlo aparece/desaparece debajo la **cara enfadada** (`img/cara-enfadada.png`, la imagen del propietario tal cual, con el fondo blanco quitado) y el texto **"¡A SUBIR EL NÚMERO!"**. Botón con `aria-expanded`; sin `alert()`.
+  - `img/cara-enfadada.svg` es una versión dibujada anterior que ya no se usa; el propietario prefiere conservarla en la carpeta (no está en git).
 - Cuatro botones: **Lugares y pueblos**, **Montes/paseos**, **Bicicleta** y **Monumentos Naturales de Navarra**.
 - Botón aparte: **INFORMACIÓN DE INTERÉS** (enlaza a `#completadas`; el identificador se mantiene).
+- **Icono de la pestaña (favicon)**: rosa de los vientos azul propia, `img/favicon.svg` y su versión PNG de 32 px `img/favicon-32.png` (para navegadores que no aceptan SVG). No se usó la imagen de Dreamstime que propuso el propietario porque tenía marca de agua.
 
 ### Pantallas de categoría
 - Navegación por `#hash` (`#lugares`, `#montes`, `#bicicleta`, `#monumentos`, `#completadas`). Funciona con doble clic y con el botón "atrás" del móvil.
@@ -42,9 +46,11 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
   2. **Recuadro punteado** (mismo estilo que el de las excursiones) con la **introducción** a la web, justificada.
   3. **Tres lemas centrados**, uno por línea: «Ad Astra», «Audentes fortuna iuvat» y **sorioneku en signario celtibérico**. Este último es una imagen, `img/sorioneku.svg`, redibujada trazo a trazo desde la imagen del propietario (el signario celtibérico no existe en Unicode). Solo los signos, sin la transcripción.
   4. **CÓMO USAR LA WEB**: lista numerada de 6 pasos.
-  5. **Dos desplegables** (`<details class="desplegable">`, mismo formato que los de las excursiones; color en `:root` y aplicado con las clases `.desplegable--webs` y `.desplegable--tiempo`):
-     - **Webs interesantes** (azul `#A9CFEA`, icono `globo.svg`): Javier Colomo (Monumentos Naturales), Rutas Navarra / Napar Bideak (buscador), Navarrincón (excursiones para niños) y Mis escapadas por Navarra (listado de rutas; sin el `#google_vignette` de la dirección original).
+  5. **Tres desplegables** (`<details class="desplegable">`, mismo formato que los de las excursiones; color en `:root` y aplicado con las clases `.desplegable--webs`, `.desplegable--tiempo` y `.desplegable--reloj`):
+     - **Webs interesantes** (azul `#A9CFEA`, icono `globo.svg`): Javier Colomo (Monumentos Naturales), Rutas Navarra / Napar Bideak (buscador), Navarrincón (excursiones para niños), Mis escapadas por Navarra (listado de rutas; sin el `#google_vignette` de la dirección original), Rutas de Paisajes Enogastronómicos (Visit Navarra) y Visit Navarra (web oficial de turismo).
      - **Tiempo: predicción 7 días** (amarillo `#FFE08A`, icono `tiempo.svg`): enlaces a AEMET (Pamplona/Iruña, 7 días) y a Meteo Navarra (Gobierno de Navarra). Son enlaces: mostrar la predicción dentro de la web necesitaría un widget o servicio externo, pendiente de aprobación.
+     - **EL RELOJ DE SANFERMINES** (rosa rojizo `#F4A3A3`, icono `reloj-sanfermin.svg`): cuenta atrás en directo (días, horas, minutos, segundos) hasta el **chupinazo, 6 de julio a las 12:00** hora de Pamplona (10:00 UTC, en julio siempre es horario de verano), con aspecto de reloj LED rojo como el de la calle Estafeta. Del chupinazo al final del 14 de julio muestra "¡Estamos en Sanfermines! ¡Gora San Fermín!"; después cuenta hasta el año siguiente. Debajo, enlace a la página del reloj en sanfermin.com.
+       - El reloj de sanfermin.com es un reloj físico; su web no ofrece datos ni widget, así que la cuenta se calcula en el navegador (`estadoSanfermines`, `actualizarRelojSanfermines`, cada segundo).
      - Cada enlace es un recuadro `.enlace-web` con título y una línea de descripción, y se abre en otra pestaña.
 - Los textos del propietario llevan pequeñas correcciones ortográficas aceptadas ("a la web", "excursiones", "¡suerte y disfrutad…!", "Wikiloc").
 
@@ -59,7 +65,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Aspecto de foto antigua en blanco y negro hecho con CSS (`.foto-antigua`: filtro gris/sepia, viñeta, marco de papel viejo, letra manuscrita). La imagen original no se modifica (solo se recortó el borde de la captura).
 
 ### Iconos
-- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 58 archivos; los dos últimos, `globo.svg` y `tiempo.svg`, son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
+- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 59 archivos; `globo.svg`, `tiempo.svg` y `reloj-sanfermin.svg` son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
 - Los árboles cuya silueta no se distingue bien (arce, avellano, nogal, morera, peral, espino, acebo) llevan al lado su hoja, fruto o flor.
 - Tamaños en variables de `:root`: `--icono-grupo`, `--icono-nombre`, `--icono-dato`, `--icono-mapa`.
 
@@ -79,8 +85,13 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
   - `excursionesNavarra_monumentosVisitados` (Monumentos conserva su clave antigua para no perder lo ya marcado).
 - **Valor inicial:** mientras no se haya marcado nada en una categoría, salen marcadas las que el Excel da como completadas (`completada: true`). En cuanto se toca una casilla, se guarda la lista completa de esa categoría y manda lo guardado.
 
+### Publicación (GitHub Pages)
+- La web está publicada en **https://irozasmate1-source.github.io/excursiones-navarra/** y se abre en PC y en móvil. Es el enlace que el propietario comparte.
+- Es **pública**: entra cualquiera que tenga el enlace. El propietario ha confirmado que no le importa que se vean sus notas.
+- Se queda publicada indefinidamente sin hacer nada. Solo deja de funcionar si se borra el repositorio, se pasa a privado o se desactiva Pages.
+
 ### Pendiente o no abordado todavía
-- Abrir la web en el móvil (Android) o compartirla, por ejemplo por Drive o WhatsApp. Se ha hablado, pero se aparca por decisión del propietario.
+- Nada pendiente por ahora.
 
 ## Tecnologías
 
@@ -106,7 +117,9 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 │   ├── excel.js                           # Vacío (reservado; los datos van por datos.js)
 │   └── app.js                             # Navegación, listas, desplegables, fichas, casillas y mapas
 └── img/
-    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (58)
+    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (59)
+    ├── favicon.svg, favicon-32.png        # Icono de la pestaña (rosa de los vientos)
+    ├── cara-enfadada.png                  # Cara del aviso del contador (cara-enfadada.svg: versión antigua sin usar, fuera de git)
     ├── menorca-ciutadella.png             # Foto de la ficha de Menorca
     ├── sorioneku.svg                      # Lema en signario celtibérico (INFORMACIÓN DE INTERÉS)
     ├── mapa-navarra.png, rosa-vientos.svg # Pantalla principal
@@ -153,6 +166,9 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 - Iconos: `crearIcono(nombre, clase)` crea un `<img>` decorativo de `img/iconos/<nombre>.svg`. Los mapas de iconos guardan el nombre del archivo sin `.svg`: `ICONOS_TIPO` (Montes), `ICONOS_CATEGORIA_LUGAR` (Lugares), `ICONOS_ARBOL` (Monumentos, buscado por el comienzo del tipo de árbol) e `ICONOS_BICI` (Bicicleta).
 - Mapa: `busquedaMapa(...)`, `crearEnlaceMapa(busqueda)`, `COORDENADAS_MONUMENTOS` y `CORRECCIONES_MAPA` (ver "Enlace VER EN EL MAPA").
 - Completadas: `CLAVES_COMPLETADAS` (clave de localStorage por categoría), `leerCompletadas(categoria)`, `marcarCompletada(...)` y `crearCasillaCompletada(...)`.
+- Contador: `contarCompletadas()`, `actualizarContador()` (se llama también desde `marcarCompletada`) y `prepararContador()` (muestra u oculta la cara al pulsar).
+- Reloj de Sanfermines: `estadoSanfermines(ahora)`, `actualizarRelojSanfermines()` e `iniciarRelojSanfermines()` (actualiza cada segundo).
+- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
 - `GRUPOS_NUEVOS`: grupos que no están en la hoja Resumen (de momento, "Viaje veraniego" en Lugares), con su color.
 - `FICHAS_CON_FOTO` y `crearContenidoFoto(...)`: fichas que solo muestran una foto con pie (Menorca).
 - Los desplegables y las fichas usan `<details>`/`<summary>`. Los textos se insertan con `textContent`, nunca con `innerHTML`.
@@ -192,8 +208,12 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 
 ## Git
 
-- Repositorio local en la rama `main`, sin remoto. El autor de los commits es genérico (`Excursiones Navarra <excursiones@localhost>`) y solo está configurado en este repositorio.
-- **El Excel se queda fuera de git** por decisión del propietario.
+- Rama `main`. El autor de los commits es genérico (`Excursiones Navarra <excursiones@localhost>`) y solo está configurado en este repositorio.
+- **Remoto `origin`**: https://github.com/irozasmate1-source/excursiones-navarra (repositorio público del propietario).
+- **GitHub Pages** activado desde la rama `main`, carpeta `/ (root)`. Cada `git push` a `main` actualiza la web en uno o dos minutos.
+- **Actualizar la web**: hacer los cambios → commit → `git push`. Si los cambios vienen del Excel, antes hay que regenerar `datos.js`. Commits y subidas solo con petición expresa del propietario (restricción 9).
+- La autorización para subir la guarda el administrador de credenciales de Git en Windows. Si caduca, el `git push` abre el navegador para volver a iniciar sesión en GitHub (lo hace el propietario).
+- **El Excel se queda fuera de git** por decisión del propietario (no se ha subido a GitHub; la web no lo necesita).
 - Los commits terminan con la línea `Co-Authored-By` de Claude.
 
 ## Notas técnicas
@@ -201,6 +221,9 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 - **Probar la web:** con doble clic funciona. El navegador integrado de Claude, en cambio, no carga los CSS ni los JS relativos al abrir un `file://`, así que para verla se usa un servidor local temporal. Python no está instalado, por eso se usa un pequeño servidor de PowerShell en la carpeta temporal, que no forma parte del proyecto. Si el navegador muestra una versión antigua, se recarga con un parámetro distinto (`?v=N`) o con Ctrl+F5.
 - **Leer el Excel**: `Expand-Archive` no acepta la extensión `.xlsx`; hay que renombrar la copia a `.zip` antes de descomprimirla.
 - **localStorage** es propio de cada navegador y de cada dispositivo. Lo marcado en el PC no aparece en el móvil, y al revés, salvo que más adelante se añada exportar e importar.
-- **Android y compartir la web**: Chrome para Android no abre bien archivos locales, y Google Drive no muestra HTML como página. Subir solo `index.html` no funciona, porque depende de `css/`, `js/` e `img/`. Las opciones viables son un hosting estático (Netlify Drop, GitHub Pages…), sin subir el Excel, o un único HTML con todo dentro. Está aparcado; antes de publicar, revisar qué notas personales se muestran.
+- **Android y compartir la web**: Chrome para Android no abre bien archivos locales, y Google Drive no muestra HTML como página. Subir solo `index.html` no funciona, porque depende de `css/`, `js/` e `img/`. Por eso se publicó en GitHub Pages (ver "Publicación"). GitHub Pages distingue mayúsculas y minúsculas: los nombres de archivo y las rutas del HTML/JS deben coincidir exactamente.
+- **Favicon**: Chrome y Edge no muestran el icono de la pestaña al abrir `index.html` con doble clic (`file://`); se ve en la web publicada. Tras cambiarlo, el navegador puede tardar en refrescarlo (Ctrl+F5).
+- **Quitar el fondo blanco de una imagen**: relleno por inundación desde los bordes (solo el blanco conectado al exterior), para no borrar blancos interiores como los dientes de la cara enfadada.
+- **Casillas en la web publicada**: se guardan en el navegador de cada persona; cada uno ve sus propias marcas, no las del propietario.
 - **Iconos en vez de emoticonos**: los emoticonos se veían distintos en Windows y Android (Windows no dibuja banderas: 🇫🇷 salía como "FR"). Los SVG de `img/iconos/` se ven igual en todos los dispositivos y funcionan con doble clic (`file://`).
 - **Comprobar enlaces del mapa**: abrir la URL de búsqueda en el navegador y mirar el título de la pestaña (nombre del lugar = lo encontró; la búsqueda repetida = lista de resultados). La primera vez Google pide cookies: se elige "Rechazar todo". Wikiloc no deja leer sus páginas con descarga directa (403), pero sí desde el navegador; el punto de inicio está en el HTML de la ruta.

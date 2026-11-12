@@ -267,6 +267,76 @@ function marcarCompletada(categoria, id, marcada) {
     completadas.delete(id);
   }
   guardarDato(CLAVES_COMPLETADAS[categoria], [...completadas]);
+  actualizarContador();
+}
+
+/* ---------- Contador de excursiones realizadas (pantalla principal) ---------- */
+
+/**
+ * Número total de casillas marcadas en las 4 categorías.
+ */
+function contarCompletadas() {
+  return Object.keys(CLAVES_COMPLETADAS)
+    .reduce((total, categoria) => total + leerCompletadas(categoria).size, 0);
+}
+
+function actualizarContador() {
+  const total = contarCompletadas();
+  document.getElementById('contador-numero').textContent = total;
+  document.getElementById('contador-texto').textContent =
+    total === 1 ? 'excursión realizada' : 'excursiones realizadas';
+}
+
+/**
+ * Al pulsar el contador se muestra (o se oculta) la cara enfadada con su mensaje.
+ */
+function prepararContador() {
+  const boton = document.getElementById('contador');
+  const aviso = document.getElementById('aviso-contador');
+  boton.addEventListener('click', () => {
+    aviso.hidden = !aviso.hidden;
+    boton.setAttribute('aria-expanded', String(!aviso.hidden));
+  });
+  actualizarContador();
+}
+
+/* ---------- El reloj de Sanfermines (INFORMACIÓN DE INTERÉS) ---------- */
+
+/**
+ * Cuenta atrás hasta el chupinazo: 6 de julio a las 12:00 en Pamplona (en julio
+ * es hora de verano, UTC+2, es decir, a las 10:00 UTC). Del chupinazo hasta el
+ * final del 14 de julio se considera que son fiestas.
+ */
+function estadoSanfermines(ahora) {
+  const anio = new Date(ahora).getUTCFullYear();
+  const chupinazo = Date.UTC(anio, 6, 6, 10, 0, 0);
+  const finFiestas = Date.UTC(anio, 6, 14, 22, 0, 0); // 15 de julio, 00:00 en Pamplona
+  if (ahora < chupinazo) return { enFiestas: false, falta: chupinazo - ahora };
+  if (ahora < finFiestas) return { enFiestas: true, falta: 0 };
+  return { enFiestas: false, falta: Date.UTC(anio + 1, 6, 6, 10, 0, 0) - ahora };
+}
+
+function dosCifras(numero) {
+  return String(numero).padStart(2, '0');
+}
+
+function actualizarRelojSanfermines() {
+  const { enFiestas, falta } = estadoSanfermines(Date.now());
+  document.getElementById('reloj-cifras').hidden = enFiestas;
+  document.getElementById('reloj-titulo').hidden = enFiestas;
+  document.getElementById('reloj-fiesta').hidden = !enFiestas;
+  if (enFiestas) return;
+
+  const segundos = Math.floor(falta / 1000);
+  document.getElementById('reloj-dias').textContent = Math.floor(segundos / 86400);
+  document.getElementById('reloj-horas').textContent = dosCifras(Math.floor(segundos / 3600) % 24);
+  document.getElementById('reloj-minutos').textContent = dosCifras(Math.floor(segundos / 60) % 60);
+  document.getElementById('reloj-segundos').textContent = dosCifras(segundos % 60);
+}
+
+function iniciarRelojSanfermines() {
+  actualizarRelojSanfermines();
+  setInterval(actualizarRelojSanfermines, 1000);
 }
 
 /**
@@ -672,6 +742,8 @@ function pintarCategorias() {
  */
 function iniciarApp() {
   pintarCategorias();
+  prepararContador();
+  iniciarRelojSanfermines();
   mostrarPantalla(pantallaDesdeDireccion());
 
   // Al pulsar un enlace (o el botón "atrás" del móvil) cambia la dirección.

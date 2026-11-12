@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+<!-- Reloj con pañuelo rojo de San Fermín -->
+<circle cx="24" cy="21" r="16" fill="#fbf7ee" stroke="#3b3226" stroke-width="3"/>
+<g stroke="#3b3226" stroke-width="2" stroke-linecap="round">
+  <path d="M24 8v3M24 31v3M11 21h3M34 21h3"/>
+</g>
+<path d="M24 21V13M24 21l6 4" stroke="#c4161c" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="24" cy="21" r="1.8" fill="#3b3226"/>
+<!-- Pañuelo rojo anudado debajo -->
+<path d="M9 34c6 3 24 3 30 0l-15 12z" fill="#d7161d" stroke="#8f0e12" stroke-width="1.2" stroke-linejoin="round"/>
+<path d="M20 35.5c2 1.6 6 1.6 8 0l-1 3.2c-2 1-4 1-6 0z" fill="#a50f15"/>
+<path d="M13 35.5c4 1.4 18 1.4 22 0" fill="none" stroke="#ff6b6b" stroke-width="1" opacity=".7"/>
+</svg>

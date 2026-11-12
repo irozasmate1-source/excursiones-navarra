@@ -49,6 +49,17 @@
   --alto-signario: 2.25rem;
   --color-desplegable-webs: #A9CFEA;
   --color-desplegable-tiempo: #FFE08A;
+  --color-desplegable-reloj: #F4A3A3;
+
+  /* Reloj de Sanfermines */
+  --color-reloj-fondo: #1a1412;
+  --color-reloj-marco: #c4161c;
+  --color-reloj-led: #ff3b30;
+  --color-reloj-texto: #e9dccb;
+
+  /* Contador de la pantalla principal */
+  --color-rojo-aviso: #c4161c;
+  --tamano-cara: 9rem;
 }
 
 /* ---------- Reseteo mínimo ---------- */
@@ -138,6 +149,76 @@ body {
   right: -1rem;
   width: 38%;
   height: auto;
+}
+
+/* ---------- Contador de excursiones realizadas ---------- */
+.contador-zona {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espacio-m);
+}
+
+.contador {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--espacio-s);
+  min-height: 3.5rem;
+  padding: var(--espacio-s) var(--espacio-l);
+  border: 2px solid var(--color-bosque);
+  border-radius: 999px;
+  background-color: var(--color-pergamino);
+  box-shadow: 0 0.25rem 0 var(--color-bosque);
+  font-family: var(--fuente-titulo);
+  color: var(--color-texto);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.contador:hover {
+  transform: translateY(-2px);
+}
+
+.contador:active {
+  transform: translateY(0.25rem);
+  box-shadow: none;
+}
+
+.contador:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: 3px;
+}
+
+.contador__numero {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-bosque);
+}
+
+.contador__texto {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.aviso-contador {
+  text-align: center;
+}
+
+.aviso-contador__cara {
+  display: block;
+  width: var(--tamano-cara);
+  height: var(--tamano-cara);
+  margin: 0 auto;
+}
+
+.aviso-contador__texto {
+  margin: var(--espacio-s) 0 0;
+  font-family: var(--fuente-titulo);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-rojo-aviso);
 }
 
 /* ---------- Botones de rutas ---------- */
@@ -731,6 +812,69 @@ body {
 
 .desplegable--tiempo {
   --color-tipo: var(--color-desplegable-tiempo);
+}
+
+.desplegable--reloj {
+  --color-tipo: var(--color-desplegable-reloj);
+}
+
+/* Reloj de Sanfermines: cifras tipo reloj LED, como el de la calle Estafeta */
+.reloj-sanfermin {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-m);
+  padding: var(--espacio-m);
+  background-color: var(--color-pergamino);
+}
+
+.reloj-sanfermin__titulo,
+.reloj-sanfermin__fiesta {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  text-align: center;
+}
+
+.reloj-sanfermin__fiesta {
+  font-size: 1.375rem;
+  color: var(--color-rojo-aviso);
+}
+
+.reloj-sanfermin__pantalla {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--espacio-s);
+  padding: var(--espacio-m) var(--espacio-s);
+  border-radius: var(--radio);
+  background-color: var(--color-reloj-fondo);
+  box-shadow: inset 0 0 0 3px var(--color-reloj-marco);
+}
+
+.reloj-sanfermin__pantalla[hidden] {
+  display: none;
+}
+
+.reloj-sanfermin__bloque {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reloj-sanfermin__cifra {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: clamp(1.75rem, 8vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-reloj-led);
+  text-shadow: 0 0 6px var(--color-reloj-led);
+}
+
+.reloj-sanfermin__unidad {
+  margin-top: var(--espacio-xs);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-reloj-texto);
 }
 
 .lista-enlaces {

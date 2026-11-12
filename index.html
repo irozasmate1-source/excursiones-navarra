@@ -22,6 +22,18 @@
         <img class="mapa__rosa" src="img/rosa-vientos.svg" alt="Rosa de los vientos">
       </figure>
 
+      <!-- Contador de excursiones realizadas (suma de casillas marcadas) -->
+      <div class="contador-zona">
+        <button type="button" class="contador" id="contador" aria-expanded="false" aria-controls="aviso-contador">
+          <span class="contador__numero" id="contador-numero">0</span>
+          <span class="contador__texto" id="contador-texto">excursiones realizadas</span>
+        </button>
+        <div class="aviso-contador" id="aviso-contador" hidden>
+          <img class="aviso-contador__cara" src="img/cara-enfadada.png" alt="Cara roja enfadada con una sonrisa amenazante">
+          <p class="aviso-contador__texto">¡A SUBIR EL NÚMERO!</p>
+        </div>
+      </div>
+
       <nav class="rutas" aria-label="Categorías de rutas">
         <a class="ruta" href="#lugares">Lugares y pueblos</a>
         <a class="ruta" href="#montes">Montes/paseos</a>
@@ -173,6 +185,22 @@
                 </span>
               </a>
             </li>
+            <li>
+              <a class="enlace-web" href="https://www.visitnavarra.es/es/te-gusta/turismo-gastronomico#ruta-de-paisajes-enogastronomicos" target="_blank" rel="noopener noreferrer">
+                <span class="enlace-web__textos">
+                  <span class="enlace-web__titulo">Rutas de Paisajes Enogastronómicos</span>
+                  <span class="enlace-web__detalle">Las cinco rutas a pie o en bici del Gobierno de Navarra, en Visit Navarra ↗</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="enlace-web" href="https://www.visitnavarra.es/es/" target="_blank" rel="noopener noreferrer">
+                <span class="enlace-web__textos">
+                  <span class="enlace-web__titulo">Visit Navarra</span>
+                  <span class="enlace-web__detalle">Web oficial de turismo de Navarra ↗</span>
+                </span>
+              </a>
+            </li>
           </ul>
         </details>
 
@@ -196,6 +224,26 @@
               </a>
             </li>
           </ul>
+        </details>
+
+        <details class="desplegable desplegable--reloj">
+          <summary class="desplegable__titulo"><img class="desplegable__icono" src="img/iconos/reloj-sanfermin.svg" alt="">EL RELOJ DE SANFERMINES</summary>
+          <div class="reloj-sanfermin">
+            <p class="reloj-sanfermin__titulo" id="reloj-titulo">Faltan para el chupinazo (6 de julio, 12:00)</p>
+            <div class="reloj-sanfermin__pantalla" id="reloj-cifras">
+              <div class="reloj-sanfermin__bloque"><span class="reloj-sanfermin__cifra" id="reloj-dias">--</span><span class="reloj-sanfermin__unidad">días</span></div>
+              <div class="reloj-sanfermin__bloque"><span class="reloj-sanfermin__cifra" id="reloj-horas">--</span><span class="reloj-sanfermin__unidad">horas</span></div>
+              <div class="reloj-sanfermin__bloque"><span class="reloj-sanfermin__cifra" id="reloj-minutos">--</span><span class="reloj-sanfermin__unidad">min</span></div>
+              <div class="reloj-sanfermin__bloque"><span class="reloj-sanfermin__cifra" id="reloj-segundos">--</span><span class="reloj-sanfermin__unidad">seg</span></div>
+            </div>
+            <p class="reloj-sanfermin__fiesta" id="reloj-fiesta" hidden>¡Estamos en Sanfermines! ¡Gora San Fermín!</p>
+            <a class="enlace-web" href="https://www.sanfermin.com/es/guia-de-la-fiesta/que-no-debes-perderte/el-reloj-de-sanfermin/" target="_blank" rel="noopener noreferrer">
+              <span class="enlace-web__textos">
+                <span class="enlace-web__titulo">El reloj de San Fermín (sanfermin.com)</span>
+                <span class="enlace-web__detalle">Historia del reloj de la calle Estafeta ↗</span>
+              </span>
+            </a>
+          </div>
         </details>
       </div>
     </section>
