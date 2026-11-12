@@ -43,6 +43,10 @@
   --color-tinta-vieja: #3b3226;
   --fuente-manuscrita: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
   --foto-antigua-ancho: 22rem;
+
+  /* INFORMACIÓN DE INTERÉS */
+  --grosor-linea-titulo: 3px;
+  --alto-signario: 2.25rem;
 }
 
 /* ---------- Reseteo mínimo ---------- */
@@ -649,6 +653,69 @@ body {
   font-size: 0.8125rem;
   font-style: italic;
   color: var(--color-texto-suave);
+}
+
+/* ---------- INFORMACIÓN DE INTERÉS ---------- */
+
+/* Línea bajo el título, como la de un documento de Word */
+.linea-titulo {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-top: var(--grosor-linea-titulo) solid var(--color-bosque);
+}
+
+.info-introduccion p {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Tres lemas centrados, uno debajo de otro */
+.info-lemas {
+  margin: var(--espacio-l) 0 var(--espacio-xl);
+  text-align: center;
+}
+
+.info-lemas p {
+  margin: var(--espacio-s) 0;
+  font-family: var(--fuente-texto);
+  font-size: clamp(1.25rem, 4.5vw, 1.5rem);
+  font-style: italic;
+}
+
+.info-lemas__signario {
+  display: inline-block;
+  height: var(--alto-signario);
+  width: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.info-uso__titulo {
+  margin: 0 0 var(--espacio-m);
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  letter-spacing: 0.06em;
+  color: var(--color-bosque);
+}
+
+.info-uso__lista {
+  margin: 0;
+  padding-left: var(--espacio-l);
+  line-height: 1.6;
+}
+
+.info-uso__lista li {
+  margin-bottom: var(--espacio-s);
+}
+
+.info-uso__lista li::marker {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  color: var(--color-tierra);
 }
 
 .aviso-vacio {
