@@ -52,6 +52,9 @@
   --color-desplegable-reloj: #F4A3A3;
   --color-desplegable-arboles: #B6D7A8;
   --color-desplegable-mamiferos: #E4C9A2;
+  --color-desplegable-aves: #D9D2E9;
+  --color-desplegable-anfibios: #A8D8C0;
+  --color-advertencia-fondo: #fdecea;
   --foto-especie-ancho: 15rem;
 
   /* Reloj de Sanfermines */
@@ -1015,6 +1018,32 @@ body {
 
 .desplegable--mamiferos {
   --color-tipo: var(--color-desplegable-mamiferos);
+}
+
+.desplegable--aves {
+  --color-tipo: var(--color-desplegable-aves);
+}
+
+.desplegable--anfibios {
+  --color-tipo: var(--color-desplegable-anfibios);
+}
+
+/* Advertencia destacada al principio de un desplegable (anfibios) */
+.guia-especies--con-aviso {
+  padding-bottom: 0;
+}
+
+.advertencia {
+  margin: 0;
+  padding: var(--espacio-m);
+  border: 3px solid var(--color-rojo-aviso);
+  border-radius: var(--radio);
+  background-color: var(--color-advertencia-fondo);
+  font-family: var(--fuente-titulo);
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--color-rojo-aviso);
 }
 
 .guia-especies {

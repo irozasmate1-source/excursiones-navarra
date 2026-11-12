@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+<!-- Rana sentada (desplegable de anfibios de la guía de campo) -->
+<path d="M9 38c-3-1-4-4-2-6l6-3M39 38c3-1 4-4 2-6l-6-3" fill="none" stroke="#3f7a2f" stroke-width="3" stroke-linecap="round"/>
+<path d="M6 40h6M36 40h6" stroke="#3f7a2f" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M24 16c-9 0-15 6-15 14 0 6 6 9 15 9s15-3 15-9c0-8-6-14-15-14z" fill="#5f9a3e"/>
+<path d="M14 33c3 3 7 4 10 4s7-1 10-4c-2 4-6 5-10 5s-8-1-10-5z" fill="#c7d89a"/>
+<circle cx="16.5" cy="15" r="5.2" fill="#5f9a3e"/><circle cx="31.5" cy="15" r="5.2" fill="#5f9a3e"/>
+<circle cx="16.5" cy="14.5" r="3.2" fill="#f6e7a6"/><circle cx="31.5" cy="14.5" r="3.2" fill="#f6e7a6"/>
+<circle cx="16.8" cy="14.8" r="1.6" fill="#1c1410"/><circle cx="31.2" cy="14.8" r="1.6" fill="#1c1410"/>
+<path d="M18 26c4 2 8 2 12 0" fill="none" stroke="#2f5a22" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M20 36l-2 4M28 36l2 4" stroke="#3f7a2f" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="13" cy="25" r="1.4" fill="#3f6e2a"/><circle cx="35" cy="24" r="1.2" fill="#3f6e2a"/><circle cx="30" cy="30" r="1" fill="#3f6e2a"/>
+</svg>

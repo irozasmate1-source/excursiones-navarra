@@ -61,7 +61,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
      - **EL RELOJ DE SANFERMINES** (rosa rojizo `#F4A3A3`, icono `reloj-sanfermin.svg`): cuenta atrás en directo (días, horas, minutos, segundos) hasta el **chupinazo, 6 de julio a las 12:00** hora de Pamplona (10:00 UTC, en julio siempre es horario de verano), con aspecto de reloj LED rojo como el de la calle Estafeta. Del chupinazo al final del 14 de julio muestra "¡Estamos en Sanfermines! ¡Gora San Fermín!"; después cuenta hasta el año siguiente. Debajo, enlace a la página del reloj en sanfermin.com.
        - El reloj de sanfermin.com es un reloj físico; su web no ofrece datos ni widget, así que la cuenta se calcula en el navegador (`estadoSanfermines`, `actualizarRelojSanfermines`, cada segundo).
      - Cada enlace es un recuadro `.enlace-web` con título y una línea de descripción, y se abre en otra pestaña.
-  6. Línea (`hr.linea-titulo`) y **GUÍA DE CAMPO BÁSICA** (`.info-guia`, título con el mismo formato que CÓMO USAR LA WEB), con dos desplegables de fichas de especie (ver "Guía de campo").
+  6. Línea (`hr.linea-titulo`) y **GUÍA DE CAMPO BÁSICA** (`.info-guia`, título con el mismo formato que CÓMO USAR LA WEB), con cuatro desplegables de fichas de especie: árboles, mamíferos, aves y anfibios (ver "Guía de campo").
 - Los textos del propietario llevan pequeñas correcciones ortográficas aceptadas ("a la web", "excursiones", "¡suerte y disfrutad…!", "Wikiloc").
 
 ### Guía de campo (en INFORMACIÓN DE INTERÉS)
@@ -72,6 +72,12 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
   - Descargar de Wikimedia: con varias peticiones seguidas devuelve error 429 ("robot policy"); hay que espaciar las descargas (unos 25 s entre fotos). No poner datos personales en el User-Agent.
 - **Mamíferos: los 16 más importantes de Navarra** (arena `#E4C9A2`, icono `huella.svg`, `.desplegable--mamiferos`): jabalí, corzo, ciervo, sarrio, zorro rojo, visón europeo, desmán de los Pirineos, oso pardo, nutria, gato montés, tejón, gineta, garduña, ardilla roja, erizo común y castor europeo.
   - Fotos aportadas por el propietario, en `img/mamiferos/` (JPG reducidos o WebP tal cual), sin pie de autor.
+- **Aves: las 30 más relevantes de Navarra** (lila `#D9D2E9`, icono `pajaro.svg`, `.desplegable--aves`). Orden: buitre leonado, quebrantahuesos, garza real, cigüeña blanca, águila real, grulla, paloma silvestre (torcaz), petirrojo, carbonero, cisne, halcón peregrino, milano real, cuervo, urraca (las 14 del propietario); alimoche, búho real, lechuza, cernícalo, pico picapinos, martín pescador, abubilla, golondrina, mirlo, gorrión, perdiz roja (añadidas por Claude para llegar a 25); abejaruco, autillo, cuco y grajo (pedidas después; el grajo lleva el refrán «Cuando el grajo vuela bajo, hace un frío del carajo»); y mirlo acuático (la número 30, propuesta por Claude y aceptada).
+  - Fotos en `img/aves/` (JPG a 640 px) de **Wikimedia Commons**, cada una con `figcaption` de autor, licencia y enlace. El propietario pidió fotos "de Google"; no se usan porque casi todas tienen derechos de autor y la web es pública.
+  - Las fichas se generaron con scripts de la carpeta temporal (`aves-datos.txt` con nombre|nombre visible|científico|alt|descripción, `aves-creditos2.tsv` con los créditos y `aves-html.ps1` que crea el bloque). Si se pierden, se edita el HTML a mano con el mismo formato.
+- **Anfibios: los 12 más comunes de Navarra** (verde agua `#A8D8C0`, icono `rana.svg`, `.desplegable--anfibios`): rana común, sapo común, sapo corredor, sapo partero común, salamandra común, tritón palmeado, tritón jaspeado, tritón pirenaico, rana bermeja, rana ágil, ranita de San Antón y sapillo moteado común.
+  - Arriba del todo, dentro del desplegable, una **advertencia** en recuadro rojo (`.advertencia`): "⚠ ¡NUNCA SE MANEJA UN ANFIBIO CON LAS MANOS DESNUDAS! ¡NO ES BUENO PARA ELLOS!" (el texto del propietario acababa en "LES.", posiblemente cortado; pendiente de confirmar).
+  - Fotos aportadas por el propietario, en `img/anfibios/`, sin pie de autor. La del sapillo moteado lleva impreso "© Javier Fuentes": tiene derechos de autor; conviene sustituirla o pedir permiso.
 - Las descripciones las redactó Claude; el propietario puede pedir matizarlas.
 
 ### LA LISTA (`#lista`): mapa de My Maps
@@ -95,7 +101,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Aspecto de foto antigua en blanco y negro hecho con CSS (`.foto-antigua`: filtro gris/sepia, viñeta, marco de papel viejo, letra manuscrita). La imagen original no se modifica (solo se recortó el borde de la captura).
 
 ### Iconos
-- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 60 archivos; `globo.svg`, `tiempo.svg`, `reloj-sanfermin.svg` y `huella.svg` son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
+- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 62 archivos; `globo.svg`, `tiempo.svg`, `reloj-sanfermin.svg`, `huella.svg`, `pajaro.svg` y `rana.svg` son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
 - Los árboles cuya silueta no se distingue bien (arce, avellano, nogal, morera, peral, espino, acebo) llevan al lado su hoja, fruto o flor.
 - Tamaños en variables de `:root`: `--icono-grupo`, `--icono-nombre`, `--icono-dato`, `--icono-mapa`.
 
@@ -147,11 +153,13 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 │   ├── excel.js                           # Vacío (reservado; los datos van por datos.js)
 │   └── app.js                             # Navegación, listas, desplegables, fichas, casillas y mapas
 └── img/
-    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (60)
+    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (62)
     ├── favicon.svg, favicon-32.png        # Icono de la pestaña (rosa de los vientos)
     ├── cara-enfadada.png                  # Cara del aviso del contador (cara-enfadada.svg: versión antigua sin usar, fuera de git)
     ├── arboles/                           # Fotos de la guía de campo de árboles (25; haya.jpg sin usar, fuera de git)
     ├── mamiferos/                         # Fotos de la guía de campo de mamíferos (16)
+    ├── aves/                              # Fotos de la guía de campo de aves (30, Wikimedia Commons)
+    ├── anfibios/                          # Fotos de la guía de campo de anfibios (12)
     ├── menorca-ciutadella.png             # Foto de la ficha de Menorca
     ├── sorioneku.svg                      # Lema en signario celtibérico (INFORMACIÓN DE INTERÉS)
     ├── mapa-navarra.png, rosa-vientos.svg # Pantalla principal
