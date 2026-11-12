@@ -25,11 +25,25 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 
 | Categoría (web) | Hoja del Excel | Cómo se muestra |
 |---|---|---|
-| Montes/paseos | Rutas (120) | 13 desplegables por **Tipo**, con el color del Excel y un emoticono. Dentro, rutas de dificultad 1 → 5 con etiqueta de dificultad. Cada ruta abre una **ficha** con coche desde Pamplona, distancia, desnivel, tipo de ruta, zona, ruta habitual, notas, fuente de los km y botón a Wikiloc si lo hay. |
-| Lugares y pueblos | Lugares a los que ir (113) | 16 desplegables por **Categoría**, con el color del Excel y uno o dos emoticonos. Dentro, de más a menos popular, con etiqueta de popularidad (colores del Excel). Cada lugar abre una **ficha** con coche, zona, qué es, notas, datos de ruta y Wikiloc si los hay. |
-| Monumentos Naturales | Árboles singulares (48) | Sin desplegables generales. Lista ordenada por número (`MN Nº1 - ENCINA DE ERAUL`, el no oficial al final), con un emoticono según el tipo de árbol. Cada árbol abre una **ficha** con tipo, especie, municipio, coche, nombre en tu mapa (si difiere) y notas. **No se muestra la columna "Estado".** Tiene **casilla de visitado** visible sin abrir la ficha. |
-| Bicicleta | Bici (11) | Sin desplegables generales. Cada excursión lleva un emoticono según su categoría y abre una **ficha** con coche, km en bici, tipo de recorrido, categoría, zona, qué es, notas y fuente de los km. Sin casilla. |
-| Excursiones completadas | Completadas (32) | Solo la lista de nombres, en el orden de la hoja. |
+| Montes/paseos | Rutas (120) | 13 desplegables por **Tipo**, con el color del Excel y un icono. Dentro, rutas de dificultad 1 → 5 con etiqueta de dificultad. Cada ruta abre una **ficha** con coche desde Pamplona, distancia, desnivel, tipo de ruta, zona, ruta habitual, notas, fuente de los km, botón a Wikiloc si lo hay y recuadro **VER EN EL MAPA**. |
+| Lugares y pueblos | Lugares a los que ir (113) | 16 desplegables por **Categoría**, con el color del Excel y un icono. Dentro, de más a menos popular, con etiqueta de popularidad (colores del Excel). Cada lugar abre una **ficha** con coche, zona, qué es, notas, datos de ruta, Wikiloc si lo hay y **VER EN EL MAPA**. |
+| Monumentos Naturales | Árboles singulares (48) | Sin desplegables generales. Lista ordenada por número (`MN Nº1 - ENCINA DE ERAUL`, el no oficial al final), con un icono según el tipo de árbol. Cada árbol abre una **ficha** con tipo, especie, municipio, coche, nombre en tu mapa (si difiere), notas y **VER EN EL MAPA**. **No se muestra la columna "Estado".** Tiene **casilla de visitado** visible sin abrir la ficha. |
+| Bicicleta | Bici (11) | Sin desplegables generales. Cada excursión lleva un icono según su categoría y abre una **ficha** con coche, km en bici, tipo de recorrido, categoría, zona, qué es, notas, fuente de los km y **VER EN EL MAPA**. Sin casilla. |
+| Excursiones completadas | Completadas (32) | Solo la lista de nombres, en el orden de la hoja. Sin mapa. |
+
+### Iconos
+- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 55 archivos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
+- Los árboles cuya silueta no se distingue bien (arce, avellano, nogal, morera, peral, espino, acebo) llevan al lado su hoja, fruto o flor.
+- Tamaños en variables de `:root`: `--icono-grupo`, `--icono-nombre`, `--icono-dato`, `--icono-mapa`.
+
+### Enlace "VER EN EL MAPA" (Google Maps)
+- Recuadro en cada ficha de las 4 categorías principales que abre `https://www.google.com/maps/search/?api=1&query=…` en otra pestaña (en el móvil, la app de Google Maps).
+- Búsqueda por defecto: **nombre + zona** (Montes, Lugares, Bicicleta) y **nombre + municipio + Navarra** (Monumentos).
+- Las excursiones que Google no encuentra bien tienen una corrección en `app.js`:
+  - `COORDENADAS_MONUMENTOS` (por número de monumento): coordenadas oficiales del anexo del **Decreto Foral 87/2009** (BON nº 157, 23/12/2009), UTM huso 30 **ED50** convertidas a WGS84 (desplazamiento aproximado −110 m E, −208 m N). En los grupos de árboles, el punto medio. Se usan solo en los 25 monumentos que Google no sitúa bien por nombre; el resto se busca por nombre (así sale la ficha de Google con fotos).
+  - `CORRECCIONES_MAPA.montes` y `CORRECCIONES_MAPA.lugares` (por nombre exacto del Excel): una búsqueda mejor o coordenadas. Las coordenadas vienen del propietario (Palacio, Torre, Ojo de San Prudencio, Monte de la Cruz, Subir aqui en coche) o del punto de inicio de la ruta de Wikiloc (Txargain, Quinto Real, Lapiaz de Andía, Mirador de los Buitres de Ugarra, Saboreando Andosilla). "Balcón de Pilatos" de Montes es el de **Urbasa** (Mirador de Ubaba). "RUTAS VERDURAS" es la ruta del valle del Queiles (Paisajes Enogastronómicos), que sale del entorno de Murchante.
+- Revisión hecha (nov. 2026): los 292 enlaces se comprobaron en Google Maps. Quedan aproximados, aceptados por el propietario: Peñas de Aya (parque natural), Hotel Continental de Panticosa (Gran Hotel del mismo balneario), Pueblo de Barandiain (museo Barandiaran, Ataun) y Carnavales de Ituren y Zubieta (Ituren).
+- Si se añaden excursiones nuevas al Excel, conviene comprobar su enlace del mapa.
 
 ### Casilla de visitado (solo Monumentos)
 - Al marcarla no ocurre nada más: no cambia de categoría ni se mueve. Solo sirve para llevar la cuenta.
@@ -61,8 +75,9 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 │   ├── datos.js                           # GENERADO desde el Excel: no editar a mano
 │   ├── storage.js                         # Lectura y escritura en localStorage
 │   ├── excel.js                           # Vacío (reservado; los datos van por datos.js)
-│   └── app.js                             # Navegación, listas, desplegables, fichas y casillas
+│   └── app.js                             # Navegación, listas, desplegables, fichas, casillas y mapas
 └── img/
+    ├── iconos/*.svg                       # Iconos de categorías y fichas (55)
     ├── mapa-navarra.png, rosa-vientos.svg # Pantalla principal
     ├── montes-*.{webp,png}                # Galería de Montes/paseos (3)
     ├── lugares-*.{webp,png}               # Galería de Lugares y pueblos (3)
@@ -96,10 +111,12 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
   - `etiqueta`: la de dificultad o la de popularidad.
   - `titulo`: texto del nombre, por ejemplo el formato MN.
   - `marcable`: si lleva casilla de visitado.
-  - `datos`: los recuadros de la ficha.
+  - `mapa`: texto de búsqueda (o coordenadas) para Google Maps.
+  - `datos`: los recuadros de la ficha (`[icono, etiqueta, valor]`).
   - `bloques`: los textos de la ficha.
 - Las categorías sin configuración (Completadas) muestran solo nombres.
-- Emoticonos en `ICONOS_TIPO` (Montes), `ICONOS_CATEGORIA_LUGAR` (Lugares), `ICONOS_ARBOL` (Monumentos, buscado por el comienzo del tipo de árbol) e `ICONOS_BICI` (Bicicleta).
+- Iconos: `crearIcono(nombre, clase)` crea un `<img>` decorativo de `img/iconos/<nombre>.svg`. Los mapas de iconos guardan el nombre del archivo sin `.svg`: `ICONOS_TIPO` (Montes), `ICONOS_CATEGORIA_LUGAR` (Lugares), `ICONOS_ARBOL` (Monumentos, buscado por el comienzo del tipo de árbol) e `ICONOS_BICI` (Bicicleta).
+- Mapa: `busquedaMapa(...)`, `crearEnlaceMapa(busqueda)`, `COORDENADAS_MONUMENTOS` y `CORRECCIONES_MAPA` (ver "Enlace VER EN EL MAPA").
 - Los desplegables y las fichas usan `<details>`/`<summary>`. Los textos se insertan con `textContent`, nunca con `innerHTML`.
 
 ## Convenciones de código
@@ -146,4 +163,5 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 - **Probar la web:** con doble clic funciona. El navegador integrado de Claude, en cambio, no carga los CSS ni los JS relativos al abrir un `file://`, así que para verla se usa un servidor local temporal. Python no está instalado, por eso se usa un pequeño servidor de PowerShell en la carpeta temporal, que no forma parte del proyecto. Si el navegador muestra una versión antigua, se recarga con un parámetro distinto (`?v=N`) o con Ctrl+F5.
 - **localStorage** es propio de cada navegador y de cada dispositivo. Lo marcado en el PC no aparece en el móvil, y al revés, salvo que más adelante se añada exportar e importar.
 - **Android y compartir la web**: Chrome para Android no abre bien archivos locales, y Google Drive no muestra HTML como página. Subir solo `index.html` no funciona, porque depende de `css/`, `js/` e `img/`. Las opciones viables son un hosting estático (Netlify Drop, GitHub Pages…), sin subir el Excel, o un único HTML con todo dentro. Está aparcado; antes de publicar, revisar qué notas personales se muestran.
-- **Emoticonos**: Windows no dibuja banderas (🇫🇷 aparece como "FR"), y Android dibuja los emoticonos con otro estilo.
+- **Iconos en vez de emoticonos**: los emoticonos se veían distintos en Windows y Android (Windows no dibuja banderas: 🇫🇷 salía como "FR"). Los SVG de `img/iconos/` se ven igual en todos los dispositivos y funcionan con doble clic (`file://`).
+- **Comprobar enlaces del mapa**: abrir la URL de búsqueda en el navegador y mirar el título de la pestaña (nombre del lugar = lo encontró; la búsqueda repetida = lista de resultados). La primera vez Google pide cookies: se elige "Rechazar todo". Wikiloc no deja leer sus páginas con descarga directa (403), pero sí desde el navegador; el punto de inicio está en el HTML de la ruta.

@@ -126,85 +126,98 @@ function crearEtiquetaPopularidad(excursion) {
 }
 
 /**
- * Emoticonos de cada grupo (desplegable) según la categoría de la web.
+ * Crea la imagen de un icono (archivo img/iconos/<nombre>.svg).
+ * Es decorativa: el texto de al lado ya dice lo que representa.
+ */
+function crearIcono(nombre, clase) {
+  const icono = crearElemento('img', clase);
+  icono.src = `img/iconos/${nombre}.svg`;
+  icono.alt = '';
+  icono.setAttribute('aria-hidden', 'true');
+  return icono;
+}
+
+/**
+ * Icono de cada grupo (desplegable) según la categoría de la web.
+ * El valor es el nombre del archivo en img/iconos/ (sin .svg).
  */
 const ICONOS_TIPO = {
-  'Cascada': '💧',
-  'Dolmen y megalitos': '🗿',
-  'Cueva': '🦇',
-  'Pirineo navarro': '🏔️',
-  'Pirineo aragonés y francés': '⛰️🇫🇷',
-  'Cuenca de Pamplona': '🏞️',
-  'Norte de Navarra': '🌲',
-  'Urbasa, Andía y Aralar': '🐑',
-  'Tierra Estella y Codés': '🌄',
-  'Zona Media y Prepirineo': '🦅',
-  'Ribera': '🌾',
-  'País Vasco y costa': '🌊',
-  'Gran travesía': '🎒',
+  'Cascada': 'cascada',
+  'Dolmen y megalitos': 'dolmen',
+  'Cueva': 'cueva',
+  'Pirineo navarro': 'montana-nevada',
+  'Pirineo aragonés y francés': 'montana-francia',
+  'Cuenca de Pamplona': 'valle',
+  'Norte de Navarra': 'abetos',
+  'Urbasa, Andía y Aralar': 'oveja',
+  'Tierra Estella y Codés': 'amanecer',
+  'Zona Media y Prepirineo': 'buitre',
+  'Ribera': 'espiga',
+  'País Vasco y costa': 'ola',
+  'Gran travesía': 'mochila',
 };
 
 const ICONOS_CATEGORIA_LUGAR = {
-  'Ciudad': '🏙️',
-  'Pueblo': '🏘️',
-  'Iglesia y ermita': '⛪',
-  'Monasterio': '⛪📿',
-  'Castillo y palacio': '🏰👑',
-  'Ruinas y yacimientos': '🏛️',
-  'Dolmen y megalitos': '🗿',
-  'Parque y bosque': '🌳',
-  'Naturaleza y paisaje': '🏞️',
-  'Mirador': '🔭',
-  'Cascada': '💧',
-  'Cueva': '🦇',
-  'Lugar curioso': '🧐',
-  'Gastronomía': '🍽️',
-  'Ocio': '🎡',
-  'Fiesta y tradición': '🎭🔔',
+  'Ciudad': 'ciudad',
+  'Pueblo': 'pueblo',
+  'Iglesia y ermita': 'iglesia',
+  'Monasterio': 'monasterio',
+  'Castillo y palacio': 'castillo',
+  'Ruinas y yacimientos': 'ruinas',
+  'Dolmen y megalitos': 'dolmen',
+  'Parque y bosque': 'bosque',
+  'Naturaleza y paisaje': 'valle',
+  'Mirador': 'prismaticos',
+  'Cascada': 'cascada',
+  'Cueva': 'cueva',
+  'Lugar curioso': 'lupa',
+  'Gastronomía': 'gastronomia',
+  'Ocio': 'noria',
+  'Fiesta y tradición': 'campana',
 };
 
 /**
- * Emoticono de cada tipo de árbol (Monumentos Naturales). Se busca por el
- * comienzo del tipo, así "Roble (grupo)" usa el de "Roble". Los árboles muy
- * parecidos llevan un segundo emoticono para distinguirlos.
+ * Icono de cada tipo de árbol (Monumentos Naturales). Se busca por el
+ * comienzo del tipo, así "Roble (grupo)" usa el de "Roble". Los árboles con
+ * silueta poco reconocible llevan al lado su fruto, hoja o flor.
  */
 const ICONOS_ARBOL = [
-  ['Roble', '🌳'],
-  ['Quejigo', '🌳🍂'],
-  ['Encina', '🌳🌰'],
-  ['Haya', '🌳🍃'],
-  ['Álamo', '🌳🤍'],
-  ['Sauce', '🌿'],
-  ['Arce', '🍁'],
-  ['Avellano', '🌰'],
-  ['Nogal', '🌰🍃'],
-  ['Morera', '🫐'],
-  ['Peral', '🍐'],
-  ['Espino', '🌸'],
-  ['Acebo', '🌿🔴'],
-  ['Abeto', '🌲'],
-  ['Pino', '🌲🪵'],
-  ['Cedro', '🌲🌿'],
-  ['Secuoya', '🌲🌲'],
-  ['Tejo', '🌲🔴'],
-  ['Enebro', '🌲🫐'],
+  ['Roble', 'roble'],
+  ['Quejigo', 'quejigo'],
+  ['Encina', 'encina'],
+  ['Haya', 'haya'],
+  ['Álamo', 'alamo'],
+  ['Sauce', 'sauce'],
+  ['Arce', 'arce'],
+  ['Avellano', 'avellano'],
+  ['Nogal', 'nogal'],
+  ['Morera', 'morera'],
+  ['Peral', 'peral'],
+  ['Espino', 'espino'],
+  ['Acebo', 'acebo'],
+  ['Abeto', 'abeto'],
+  ['Pino', 'pino'],
+  ['Cedro', 'cedro'],
+  ['Secuoya', 'secuoya'],
+  ['Tejo', 'tejo'],
+  ['Enebro', 'enebro'],
 ];
 
 function iconoArbol(tipoArbol) {
   const encontrado = ICONOS_ARBOL.find(([tipo]) => (tipoArbol || '').startsWith(tipo));
-  return encontrado ? encontrado[1] : '🌳';
+  return encontrado ? encontrado[1] : 'roble';
 }
 
 /**
- * Emoticono de cada excursión en bici, según su categoría en el Excel.
+ * Icono de cada excursión en bici, según su categoría en el Excel.
  */
 const ICONOS_BICI = {
-  'Vía verde': '🚲🛤️',
-  'Naturaleza': '🦆',
-  'Ermita e iglesia': '⛪',
-  'Lugar curioso': '🧐',
-  'Dolmen y megalitos': '🗿',
-  'Fortificación': '🏰',
+  'Vía verde': 'via-verde',
+  'Naturaleza': 'pato',
+  'Ermita e iglesia': 'iglesia',
+  'Lugar curioso': 'lupa',
+  'Dolmen y megalitos': 'dolmen',
+  'Fortificación': 'castillo',
 };
 
 /* ---------- Casillas de "visitado" (se guardan en el navegador) ---------- */
@@ -244,10 +257,110 @@ function crearCasillaVisitado(excursion, nombreVisible, visitados) {
   return casilla;
 }
 
+/* ---------- Enlace a Google Maps ---------- */
+
+/**
+ * Texto de búsqueda en Google Maps a partir de varias partes (las vacías se omiten).
+ */
+function busquedaMapa(...partes) {
+  return partes.filter(Boolean).join(', ');
+}
+
+/**
+ * Coordenadas (latitud, longitud) de los Monumentos Naturales que Google Maps
+ * no encuentra por su nombre o sitúa mal. La clave es el número de monumento.
+ * Fuente: anexo del Decreto Foral 87/2009 (BON nº 157, 23/12/2009), UTM huso 30
+ * ED50, convertidas a WGS84. En los grupos de árboles, el punto medio del grupo.
+ * Los demás monumentos se buscan por su nombre.
+ */
+const COORDENADAS_MONUMENTOS = {
+  7: '42.617112,-2.173813',   // Quejigos de Learza (12 árboles)
+  8: '43.002745,-1.797610',   // Roble de Jauntsarats I
+  9: '42.997631,-1.798531',   // Roble de Jauntsarats II
+  11: '42.019610,-1.557453',  // Roble de El Bocal
+  12: '42.928735,-1.283049',  // Roble de Garaioa
+  14: '42.993549,-1.276302',  // Haya de Nabala
+  16: '43.012532,-1.184653',  // Avellanos de Orion (5 árboles)
+  17: '42.420197,-2.077379',  // Álamos de Lodosa (19 árboles)
+  18: '42.544427,-1.344663',  // Sauce de la Presa del Molino
+  19: '43.011892,-1.184275',  // Arce de Orion
+  20: '42.481686,-1.649593',  // Morera del Castillo de Olite
+  23: '41.949778,-1.390423',  // Roble de Santa Isabel
+  24: '43.119603,-1.899360',  // Abetos de Leitzalarrea (53 árboles)
+  27: '43.138991,-1.613955',  // Cedro de Bértiz
+  29: '42.933674,-0.924075',  // Pinos de Surio (6 árboles)
+  30: '42.839728,-2.084020',  // Tejo de Otsaportillo
+  31: '42.998270,-1.094703',  // Tejo de Auztegia
+  33: '42.796314,-2.226961',  // Haya de Limitaciones
+  34: '42.799182,-2.021396',  // Arce de Lezáun
+  37: '43.227542,-1.588947',  // Tejo de Etxalar
+  39: '43.303273,-1.631373',  // Acebo de Bera
+  40: '43.070101,-1.894959',  // Majuelo de Leitza
+  45: '42.900763,-1.937219',  // Robles de Irañeta (5 árboles)
+  46: '42.362050,-1.546923',  // Nogal de Mélida
+  47: '42.926367,-2.096425',  // Roble de Etxarri-Aranatz
+};
+
+/**
+ * Correcciones del mapa para excursiones que Google Maps no encuentra bien con
+ * "nombre, zona". La clave es el nombre tal cual está en el Excel; el valor es
+ * una búsqueda mejor o unas coordenadas (latitud,longitud).
+ * Origen de las coordenadas: indicadas por el propietario, o el punto de inicio
+ * de la ruta de Wikiloc.
+ */
+const CORRECCIONES_MAPA = {
+  montes: {
+    'Odériz': 'Odériz, Navarra',
+    'Txargain': '42.861428,-1.878692',                         // inicio de la ruta (Wikiloc)
+    'QUINTO REAL': '43.035992,-1.471637',                      // inicio de la ruta (Wikiloc)
+    'Abodi. 1532m': 'Monte Abodi, Navarra',
+    'Mendaur': 'Monte Mendaur, Navarra',
+    'Moncayo': 'Pico del Moncayo',
+    'Lapiaz de Andía': '42.843666,-2.012328',                  // inicio en Arbeltz (Wikiloc)
+    'Nacedero río Ubagua': 'Riezu, Navarra',
+    'Mirador de los Buitres': '42.711894,-1.260414',           // inicio de la ruta (Wikiloc)
+    'Balcón de Pilatos': 'Mirador de Ubaba, Urbasa',             // es el de Urbasa (indicado por el propietario)
+    'Palacio': '42.739955,-1.367369',                          // indicado por el propietario
+    'Torre': '42.759915,-1.410472',                            // indicado por el propietario
+    'Ojo de San Prudencio': '42.706266,-2.136910',             // indicado por el propietario
+    'Monte de la Cruz / Mirador de buitres': '42.779161,-1.550252', // indicado por el propietario
+  },
+  lugares: {
+    'Tudela': 'Tudela, Navarra',
+    'Ochagavía': 'Ochagavía, Navarra',
+    'Cirauqui': 'Cirauqui, Navarra',
+    'Isaba': 'Isaba, Navarra',
+    'Inicio ruta dolmen de Arrako': 'Inicio ruta dolmen de Arrako',
+    'Subir aqui en coche': '42.677071,-1.543220',              // indicado por el propietario
+    'RUTAS SABOREANDO ANDOSILLA': '42.373623,-1.946973',       // inicio de la ruta (Wikiloc)
+    'RUTAS VERDURAS': 'Murchante, Navarra',                    // inicio de la ruta del valle del Queiles
+  },
+};
+
+/**
+ * Recuadro "VER EN EL MAPA" que abre la búsqueda del lugar en Google Maps
+ * (en el móvil abre la aplicación de Google Maps si está instalada).
+ */
+function crearEnlaceMapa(busqueda) {
+  const enlace = crearElemento('a', 'ficha__mapa');
+  enlace.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(busqueda)}`;
+  enlace.target = '_blank';
+  enlace.rel = 'noopener noreferrer';
+  enlace.setAttribute('aria-label', `Ver en el mapa: ${busqueda} (se abre Google Maps)`);
+
+  const textos = crearElemento('span', 'ficha__mapa-textos');
+  textos.append(
+    crearElemento('span', 'ficha__mapa-titulo', 'VER EN EL MAPA'),
+    crearElemento('span', 'ficha__mapa-detalle', 'Abrir en Google Maps ↗')
+  );
+  enlace.append(crearIcono('ubicacion', 'ficha__mapa-icono'), textos);
+  return enlace;
+}
+
 /**
  * Configuración de las categorías que se muestran con desplegables y fichas:
- * por qué campo se agrupan, colores y emoticonos de los grupos, etiqueta junto
- * al nombre y qué datos aparecen en la ficha.
+ * por qué campo se agrupan, colores e iconos de los grupos, etiqueta junto
+ * al nombre, qué datos aparecen en la ficha y qué se busca en el mapa.
  */
 const CONFIG_FICHAS = {
   montes: {
@@ -255,12 +368,13 @@ const CONFIG_FICHAS = {
     grupos: () => EXCURSIONES.tiposMontes,
     iconos: ICONOS_TIPO,
     etiqueta: crearEtiquetaDificultad,
+    mapa: (e) => CORRECCIONES_MAPA.montes[e.nombre] || busquedaMapa(e.nombre, e.zona),
     datos: (e) => [
-      ['🚗', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
-      ['🥾', 'Distancia de la ruta', formatearNumero(e.km, 'km')],
-      ['⛰️', 'Desnivel positivo', formatearNumero(e.desnivel, 'm')],
-      ['🔁', 'Tipo de ruta', e.tipoRuta],
-      ['📍', 'Zona', e.zona],
+      ['coche', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
+      ['bota', 'Distancia de la ruta', formatearNumero(e.km, 'km')],
+      ['desnivel', 'Desnivel positivo', formatearNumero(e.desnivel, 'm')],
+      ['ruta', 'Tipo de ruta', e.tipoRuta],
+      ['ubicacion', 'Zona', e.zona],
     ],
     bloques: (e) => [
       ['Ruta habitual', e.rutaHabitual],
@@ -272,12 +386,13 @@ const CONFIG_FICHAS = {
     grupos: () => EXCURSIONES.categoriasLugares,
     iconos: ICONOS_CATEGORIA_LUGAR,
     etiqueta: crearEtiquetaPopularidad,
+    mapa: (e) => CORRECCIONES_MAPA.lugares[e.nombre] || busquedaMapa(e.nombre, e.zona),
     datos: (e) => [
-      ['🚗', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
-      ['📍', 'Zona', e.zona],
-      ['🥾', 'Distancia de la ruta', formatearNumero(e.km, 'km')],
-      ['⛰️', 'Desnivel positivo', formatearNumero(e.desnivel, 'm')],
-      ['🔁', 'Tipo de ruta', e.tipoRuta],
+      ['coche', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
+      ['ubicacion', 'Zona', e.zona],
+      ['bota', 'Distancia de la ruta', formatearNumero(e.km, 'km')],
+      ['desnivel', 'Desnivel positivo', formatearNumero(e.desnivel, 'm')],
+      ['ruta', 'Tipo de ruta', e.tipoRuta],
     ],
     bloques: (e) => [
       ['Qué es', e.queEs],
@@ -289,12 +404,13 @@ const CONFIG_FICHAS = {
     titulo: (e) => textoExcursion('monumentos', e),
     icono: (e) => iconoArbol(e.tipoArbol),
     marcable: true,
+    mapa: (e) => COORDENADAS_MONUMENTOS[e.numero] || busquedaMapa(e.nombre, e.municipio, 'Navarra'),
     datos: (e) => [
-      ['🌳', 'Tipo de árbol', e.tipoArbol],
-      ['🔬', 'Especie', e.especie],
-      ['📍', 'Municipio', e.municipio],
-      ['🚗', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
-      ['🗺️', 'Nombre en tu mapa', e.nombreMapa !== e.nombre ? e.nombreMapa : null],
+      [iconoArbol(e.tipoArbol), 'Tipo de árbol', e.tipoArbol],
+      ['hoja', 'Especie', e.especie],
+      ['ubicacion', 'Municipio', e.municipio],
+      ['coche', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
+      ['mapa', 'Nombre en tu mapa', e.nombreMapa !== e.nombre ? e.nombreMapa : null],
     ],
     bloques: (e) => [
       ['Notas', e.notas],
@@ -302,13 +418,14 @@ const CONFIG_FICHAS = {
   },
   // Sin desplegables generales: lista de excursiones en bici con ficha
   bicicleta: {
-    icono: (e) => ICONOS_BICI[e.categoria] || '🚲',
+    icono: (e) => ICONOS_BICI[e.categoria] || 'bicicleta',
+    mapa: (e) => busquedaMapa(e.nombre, e.zona),
     datos: (e) => [
-      ['🚗', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
-      ['🚲', 'Km en bici', formatearNumero(e.km, 'km')],
-      ['🔁', 'Tipo de recorrido', e.tipoRecorrido],
-      ['🏷️', 'Categoría', e.categoria],
-      ['📍', 'Zona', e.zona],
+      ['coche', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
+      ['bicicleta', 'Km en bici', formatearNumero(e.km, 'km')],
+      ['ruta', 'Tipo de recorrido', e.tipoRecorrido],
+      ['etiqueta', 'Categoría', e.categoria],
+      ['ubicacion', 'Zona', e.zona],
     ],
     bloques: (e) => [
       ['Qué es', e.queEs],
@@ -326,9 +443,7 @@ function crearFicha(config, excursion) {
   const resumen = crearElemento('summary', 'ficha__resumen');
   const nombre = crearElemento('span', 'ficha__nombre');
   if (config.icono) {
-    const icono = crearElemento('span', 'ficha__icono-nombre', config.icono(excursion));
-    icono.setAttribute('aria-hidden', 'true');
-    nombre.appendChild(icono);
+    nombre.appendChild(crearIcono(config.icono(excursion), 'ficha__icono-nombre'));
   }
   nombre.append(config.titulo ? config.titulo(excursion) : excursion.nombre);
   resumen.appendChild(nombre);
@@ -344,11 +459,16 @@ function crearFicha(config, excursion) {
     if (!valor) return;
     const dato = crearElemento('div', 'ficha__dato');
     const titulo = crearElemento('dt', 'ficha__etiqueta');
-    titulo.append(crearElemento('span', 'ficha__icono', icono), etiqueta);
+    titulo.append(crearIcono(icono, 'ficha__icono'), etiqueta);
     dato.append(titulo, crearElemento('dd', 'ficha__valor', valor));
     datos.appendChild(dato);
   });
   contenido.appendChild(datos);
+
+  // Recuadro para ver el lugar en Google Maps
+  if (config.mapa) {
+    contenido.appendChild(crearEnlaceMapa(config.mapa(excursion)));
+  }
 
   // Bloques de texto
   config.bloques(excursion).forEach(([titulo, texto]) => {
@@ -443,9 +563,7 @@ function crearDesplegablesPorGrupo(categoria, excursiones) {
     const titulo = document.createElement('summary');
     titulo.className = 'desplegable__titulo';
     if (config.iconos[nombre]) {
-      const icono = crearElemento('span', 'desplegable__icono', config.iconos[nombre]);
-      icono.setAttribute('aria-hidden', 'true');
-      titulo.appendChild(icono);
+      titulo.appendChild(crearIcono(config.iconos[nombre], 'desplegable__icono'));
     }
     titulo.append(nombre);
 
