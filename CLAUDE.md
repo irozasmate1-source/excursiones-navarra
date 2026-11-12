@@ -32,6 +32,9 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 - Las excursiones completadas ya no tienen sección propia: están en su categoría como una más (ver "Excursiones completadas").
 - Todas tienen una flecha (←) para volver a la pantalla principal.
 - Galería de imágenes con borde negro y proporción 4:3 encima de la lista. Excepción: en Monumentos, el cartel (`monumentos-1-mapa.png`) va completo, sin recortar, debajo de la lista.
+- **En el móvil (< 768 px) la galería es un carrusel deslizable**: fotos en fila (cada una al 85 % del ancho, `--carrusel-ancho-foto`, asomando la siguiente), `scroll-snap` para que cada foto encaje centrada y barra de desplazamiento oculta. Ocupa unos 220 px de alto (antes ~750 px con las fotos apiladas). Debajo, **puntitos** (`.galeria__puntos`, uno por foto) que marcan la foto visible y llevan a ella al pulsarlos. En tablet y escritorio no cambia nada y los puntitos no se muestran.
+  - Los puntitos los crea `app.js` (`prepararCarruseles()`); el deslizamiento es solo CSS (`@media (max-width: 767px)`).
+  - En una pestaña oculta el navegador no anima el desplazamiento suave ni lanza el evento `scroll`; para probarlo hay que tener la página visible.
 - **Monumentos**: galería de tres fotos (encina `monumentos-3-encina.webp` a la izquierda, la foto antigua `monumentos-2-arbol.png` en el centro y el árbol con valla `monumentos-4-arbol.png` a la derecha). Debajo de la galería y encima de la lista, un recuadro de enlace (`.enlace-web`, icono `globo.svg`) a la web de **Javier Colomo** sobre los Monumentos Naturales (`https://www.javiercolomo.com/index_archivos/M%20Nat/Mns.htm`). La clase `.galeria--sola` ya no se usa.
 
 | Categoría (web) | Hoja del Excel | Cómo se muestra |
@@ -174,7 +177,8 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 - Contador: `contarCompletadas()`, `actualizarContador()` (se llama también desde `marcarCompletada`) y `prepararContador()` (muestra u oculta la cara al pulsar).
 - Reloj de Sanfermines: `estadoSanfermines(ahora)`, `actualizarRelojSanfermines()` e `iniciarRelojSanfermines()` (actualiza cada segundo).
 - Buscador: `EXCURSIONES_PINTADAS` (cada excursión pintada con su categoría y su `<li>`, lo rellena `crearLista`), `normalizar(texto)` (minúsculas y sin tildes), `nombreVisible(...)`, `iconoExcursion(...)`, `buscarExcursiones(texto)`, `mostrarResultados(texto)`, `irAExcursion(...)` (cambia el `#hash` y, tras el `hashchange`, abre desplegable y ficha y hace scroll) y `prepararBuscador()`. `NOMBRES_CATEGORIA` y `MAXIMO_RESULTADOS` (30).
-- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `prepararBuscador()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
+- Carrusel: `prepararCarrusel(galeria)` (crea los puntitos tras la galería y marca el activo según la foto más centrada) y `prepararCarruseles()`.
+- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `prepararBuscador()`, `prepararCarruseles()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
 - `GRUPOS_NUEVOS`: grupos que no están en la hoja Resumen (de momento, "Viaje veraniego" en Lugares), con su color.
 - `FICHAS_CON_FOTO` y `crearContenidoFoto(...)`: fichas que solo muestran una foto con pie (Menorca).
 - Los desplegables y las fichas usan `<details>`/`<summary>`. Los textos se insertan con `textContent`, nunca con `innerHTML`.

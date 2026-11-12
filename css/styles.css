@@ -64,6 +64,9 @@
   /* Buscador */
   --color-arena-borde: #d9cbb0;
   --color-resaltado: #f6e3a1;
+
+  /* Carrusel de fotos en el móvil (deja asomar la foto siguiente) */
+  --carrusel-ancho-foto: 85%;
 }
 
 /* ---------- Reseteo mínimo ---------- */
@@ -1066,6 +1069,71 @@ body {
   min-height: var(--espacio-l);
   background-color: var(--color-bosque);
   border-top: 0.25rem solid var(--color-tierra);
+}
+
+/* ---------- Galería en el móvil: carrusel deslizable ---------- */
+/* Puntitos bajo el carrusel (solo se ven en el móvil; los crea app.js) */
+.galeria__puntos {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  /* Las fotos van en fila y se pasan deslizando; cada una encaja en el centro */
+  .galeria {
+    position: relative;
+    display: flex;
+    gap: var(--espacio-s);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .galeria::-webkit-scrollbar {
+    display: none;
+  }
+
+  .galeria img {
+    flex: 0 0 var(--carrusel-ancho-foto);
+    width: var(--carrusel-ancho-foto);
+    scroll-snap-align: center;
+  }
+
+  .galeria__puntos {
+    display: flex;
+    justify-content: center;
+    margin-top: calc(-1 * var(--espacio-l));
+  }
+
+  .galeria__punto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .galeria__punto::before {
+    content: "";
+    width: 0.625rem;
+    height: 0.625rem;
+    border: 2px solid var(--color-bosque);
+    border-radius: 50%;
+    background-color: transparent;
+  }
+
+  .galeria__punto--activo::before {
+    background-color: var(--color-bosque);
+  }
+
+  .galeria__punto:focus-visible {
+    outline: 3px solid var(--color-tierra);
+    outline-offset: -6px;
+  }
 }
 
 /* ---------- Pantallas grandes ---------- */

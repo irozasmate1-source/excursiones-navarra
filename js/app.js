@@ -741,6 +741,55 @@ function pintarCategorias() {
   });
 }
 
+/* ---------- Carrusel de fotos de cada categoría (en el móvil) ---------- */
+
+/**
+ * Añade bajo cada galería unos puntitos que indican qué foto se ve y permiten
+ * saltar a otra. El deslizamiento lo hace el CSS; en pantallas grandes las
+ * fotos van en fila y los puntitos no se muestran.
+ */
+function prepararCarrusel(galeria) {
+  const fotos = [...galeria.querySelectorAll('img')];
+  if (fotos.length < 2) return;
+
+  const puntos = crearElemento('div', 'galeria__puntos');
+  const botones = fotos.map((foto, indice) => {
+    const boton = crearElemento('button', 'galeria__punto');
+    boton.type = 'button';
+    boton.setAttribute('aria-label', `Ver foto ${indice + 1} de ${fotos.length}`);
+    boton.addEventListener('click', () => {
+      galeria.scrollTo({
+        left: foto.offsetLeft - (galeria.clientWidth - foto.clientWidth) / 2,
+        behavior: 'smooth',
+      });
+    });
+    puntos.appendChild(boton);
+    return boton;
+  });
+  galeria.after(puntos);
+
+  // Marca el puntito de la foto más centrada
+  const marcarActivo = () => {
+    const centro = galeria.scrollLeft + galeria.clientWidth / 2;
+    let activa = 0;
+    fotos.forEach((foto, indice) => {
+      const distancia = Math.abs(foto.offsetLeft + foto.clientWidth / 2 - centro);
+      const mejor = Math.abs(fotos[activa].offsetLeft + fotos[activa].clientWidth / 2 - centro);
+      if (distancia < mejor) activa = indice;
+    });
+    botones.forEach((boton, indice) => {
+      boton.classList.toggle('galeria__punto--activo', indice === activa);
+      boton.setAttribute('aria-current', indice === activa ? 'true' : 'false');
+    });
+  };
+  galeria.addEventListener('scroll', marcarActivo, { passive: true });
+  marcarActivo();
+}
+
+function prepararCarruseles() {
+  document.querySelectorAll('.galeria').forEach(prepararCarrusel);
+}
+
 /* ---------- Buscador de excursiones por nombre (pantalla principal) ---------- */
 
 const NOMBRES_CATEGORIA = {
@@ -857,6 +906,7 @@ function iniciarApp() {
   pintarCategorias();
   prepararContador();
   prepararBuscador();
+  prepararCarruseles();
   iniciarRelojSanfermines();
   mostrarPantalla(pantallaDesdeDireccion());
 
