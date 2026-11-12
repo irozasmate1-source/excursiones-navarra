@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<!-- Rosa de los vientos propia (icono de la pestaña). Fondo transparente. -->
+<g fill="none" stroke="#2563EB" stroke-width="3.2" stroke-linecap="butt">
+  <path d="M36.5 10.4 A22 22 0 0 1 53.6 27.5"/>
+  <path d="M53.6 36.5 A22 22 0 0 1 36.5 53.6"/>
+  <path d="M27.5 53.6 A22 22 0 0 1 10.4 36.5"/>
+  <path d="M10.4 27.5 A22 22 0 0 1 27.5 10.4"/>
+</g>
+<!-- Puntas diagonales (más cortas), media punta azul y media blanca -->
+<g stroke="#2563EB" stroke-width="1" stroke-linejoin="round">
+  <g id="d">
+    <path d="M51 13 L35 31 L32 32 Z" fill="#2563EB"/>
+    <path d="M51 13 L33 29 L32 32 Z" fill="#ffffff"/>
+  </g>
+  <use href="#d" transform="rotate(90 32 32)"/>
+  <use href="#d" transform="rotate(180 32 32)"/>
+  <use href="#d" transform="rotate(270 32 32)"/>
+</g>
+<!-- Puntas principales (N, E, S, O) -->
+<g stroke="#2563EB" stroke-width="1.2" stroke-linejoin="round">
+  <g id="p">
+    <path d="M32 1 L26.5 26.5 L32 32 Z" fill="#2563EB"/>
+    <path d="M32 1 L37.5 26.5 L32 32 Z" fill="#ffffff"/>
+  </g>
+  <use href="#p" transform="rotate(90 32 32)"/>
+  <use href="#p" transform="rotate(180 32 32)"/>
+  <use href="#p" transform="rotate(270 32 32)"/>
+</g>
+</svg>
