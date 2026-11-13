@@ -596,11 +596,13 @@ function textoCompartir(categoria, excursion) {
     lineas.push(`${EMOJI_DATO[etiqueta] || '•'} ${etiqueta}: ${valor}`);
   });
 
+  // El enlace de la web va primero: WhatsApp hace la vista previa con el
+  // primer enlace del mensaje, y así sale la imagen de portada de la web.
   lineas.push('');
+  lineas.push(`🌐 Excursiones por Navarra y Compañía: ${URL_WEB}`);
   if (config.mapa) {
     lineas.push(`🗺️ Google Maps: ${urlMapa(config.mapa(excursion))}`);
   }
-  lineas.push(`🌐 Excursiones por Navarra y Compañía: ${URL_WEB}`);
   return lineas.join('\n');
 }
 
