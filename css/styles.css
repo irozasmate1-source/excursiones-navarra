@@ -556,6 +556,36 @@ body {
   background-color: var(--color-pergamino);
 }
 
+/* Flecha pequeña al final de los desplegables grandes para cerrarlos */
+.desplegable__cerrar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espacio-xs);
+  width: 100%;
+  min-height: 2.75rem; /* 44 px: cómodo para el dedo aunque se vea pequeño */
+  padding: var(--espacio-xs) var(--espacio-m);
+  border: none;
+  background-color: var(--color-pergamino);
+  color: var(--color-tierra);
+  font-family: var(--fuente-texto);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.desplegable__cerrar-flecha {
+  font-size: 0.75rem;
+}
+
+.desplegable__cerrar:hover {
+  text-decoration: underline;
+}
+
+.desplegable__cerrar:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: -3px;
+}
+
 /* ---------- Etiquetas de dificultad (Montes) y popularidad (Lugares) ---------- */
 .dificultad,
 .popularidad {
@@ -1362,4 +1392,40 @@ body {
     grid-template-columns: calc((100% - 2 * var(--espacio-m)) / 3);
     justify-content: center;
   }
+}
+
+/* ---------- Flecha flotante para volver al principio de la categoría ---------- */
+.subir {
+  position: fixed;
+  right: var(--espacio-m);
+  bottom: var(--espacio-m);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;  /* 44 px: cómodo para el dedo */
+  height: 2.75rem;
+  padding: 0;
+  border: 2px solid var(--color-pergamino);
+  border-radius: 50%;
+  background-color: var(--color-bosque);
+  color: var(--color-pergamino);
+  font-size: 1rem;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.subir[hidden] {
+  display: none;
+}
+
+.subir:hover {
+  opacity: 1;
+}
+
+.subir:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: 2px;
 }

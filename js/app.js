@@ -55,15 +55,70 @@ function excursionesOrdenadas() {
 }
 
 /**
+ * Nombres de excursiones con el formato corregido: mayúscula inicial, el resto
+ * en minúscula salvo los nombres propios. Solo cambia el texto que se ve: el
+ * nombre original del Excel se sigue usando para las casillas guardadas y las
+ * correcciones del mapa. Las que ya estaban bien escritas no aparecen aquí.
+ */
+const NOMBRES_CORREGIDOS = {
+  // Montes/paseos
+  'Cruz del Monte Gorbea': 'Cruz del monte Gorbea',
+  'León Dormido (Pico)': 'León Dormido (pico)',
+  'Senda de los Cazadores': 'Senda de los cazadores',
+  'Cascada del Barranco de la Garona': 'Cascada del barranco de la Garona',
+  'ERROTALDE I': 'Errotalde I',
+  'Labetxu - El Valle de Los Colores': 'Labetxu - El Valle de los Colores',
+  'Mirador de los Buitres': 'Mirador de los buitres',
+  'OJO DE IRUAIZETA': 'Ojo de Iruaizeta',
+  'Parking Dólmenes Lesaka': 'Parking dólmenes Lesaka',
+  'QUINTO REAL': 'Quinto Real',
+  'Sendero de los Robles Milenarios': 'Sendero de los robles milenarios',
+  'Sierra tajonar': 'Sierra Tajonar',
+  'cueva de Lezestali': 'Cueva de Lezestali',
+  'Bosque Animado': 'Bosque animado',
+  'Cueva de lezaundi': 'Cueva de Lezaundi',
+  'El Cristo Yacente de J. Urdín': 'El Cristo yacente de J. Urdín',
+  'Fuerte Carlista de Velate': 'Fuerte carlista de Velate',
+  'Roble Milenario de Echagüe': 'Roble milenario de Echagüe',
+  'Senda Mitológica': 'Senda mitológica',
+  'CABEZON DE ECHAURI': 'Cabezón de Echauri',
+  'Nacedero del Río Urederra': 'Nacedero del río Urederra',
+  'Hayedo Encantado': 'Hayedo encantado',
+  // Lugares y pueblos
+  'Monasterio Viejo de San Juan de la Peña': 'Monasterio viejo de San Juan de la Peña',
+  'Monasterio Nuevo de San Juan de la Peña': 'Monasterio nuevo de San Juan de la Peña',
+  'CARNAVALES DE ITUREN Y ZUBIETA': 'Carnavales de Ituren y Zubieta',
+  'Fuente del Vino de las Bodegas Irache': 'Fuente del vino de las bodegas Irache',
+  'Mirador del Salto del Nervión': 'Mirador del salto del Nervión',
+  'Parque Natural Señorío de Bértiz': 'Parque natural Señorío de Bértiz',
+  'Chabola de La Hechicera': 'Chabola de la Hechicera',
+  'bera': 'Bera',
+  'PARKING RUTA CASCADA AIZPUN': 'Parking ruta cascada Aizpún',
+  'RUTAS VERDURAS': 'Rutas verduras',
+  'Mirador Embalse de Itoiz': 'Mirador embalse de Itoiz',
+  'Ciudad Romana de Cara': 'Ciudad romana de Cara',
+  'Estanque Celtibérico de la Barbacana': 'Estanque celtibérico de la Barbacana',
+  'Villa Romana de Las Musas de Arellano': 'Villa romana de Las Musas de Arellano',
+  'RUTAS SABOREANDO ANDOSILLA': 'Rutas saboreando Andosilla',
+  'El Memorial del Alto de Loiti': 'El memorial del Alto de Loiti',
+  'Posta Romana de Liédena': 'Posta romana de Liédena',
+  'Monumento a la Batalla de Noáin': 'Monumento a la batalla de Noáin',
+  'Frontón Público Municipal de Egulbati.': 'Frontón público municipal de Egulbati.',
+  // Bicicleta
+  'Vía Verde del Plazaola': 'Vía verde del Plazaola',
+  'San Esteban de ugarra': 'San Esteban de Ugarra',
+};
+
+/**
  * Texto que se muestra para cada excursión según su categoría.
- * Monumentos: "MN Nº1 - ENCINA DE ERAUL" (sin número, solo el nombre).
+ * Monumentos: "MN Nº1 - Encina de Eraul" (sin número, solo el nombre).
  */
 function textoExcursion(categoria, excursion) {
+  const nombre = NOMBRES_CORREGIDOS[excursion.nombre] || excursion.nombre;
   if (categoria === 'monumentos') {
-    const nombre = excursion.nombre.toLocaleUpperCase('es');
     return excursion.numero ? `MN Nº${excursion.numero} - ${nombre}` : nombre;
   }
-  return excursion.nombre;
+  return nombre;
 }
 
 /**
@@ -461,6 +516,7 @@ function crearEnlaceMapa(busqueda) {
  */
 const CONFIG_FICHAS = {
   montes: {
+    titulo: (e) => textoExcursion('montes', e),
     campoGrupo: 'tipo',
     grupos: () => EXCURSIONES.tiposMontes,
     iconos: ICONOS_TIPO,
@@ -480,6 +536,7 @@ const CONFIG_FICHAS = {
     ],
   },
   lugares: {
+    titulo: (e) => textoExcursion('lugares', e),
     campoGrupo: 'categoria',
     grupos: () => [...EXCURSIONES.categoriasLugares, ...GRUPOS_NUEVOS.lugares],
     iconos: ICONOS_CATEGORIA_LUGAR,
@@ -517,6 +574,7 @@ const CONFIG_FICHAS = {
   },
   // Sin desplegables generales: lista de excursiones en bici con ficha
   bicicleta: {
+    titulo: (e) => textoExcursion('bicicleta', e),
     icono: (e) => ICONOS_BICI[e.categoria] || 'bicicleta',
     mapa: (e) => busquedaMapa(e.nombre, e.zona),
     marcable: true,
@@ -661,6 +719,32 @@ function crearLista(categoria, excursiones) {
 }
 
 /**
+ * Flecha pequeña al final de un desplegable grande para cerrarlo sin tener
+ * que subir hasta su título. Al cerrar, se deja el título a la vista.
+ */
+function crearBotonCerrar(desplegable) {
+  const boton = crearElemento('button', 'desplegable__cerrar');
+  boton.type = 'button';
+  boton.setAttribute('aria-label', 'Cerrar desplegable');
+  boton.append(crearElemento('span', 'desplegable__cerrar-flecha', '▲'), ' Cerrar');
+  boton.addEventListener('click', () => {
+    desplegable.open = false;
+    desplegable.querySelector('summary').scrollIntoView({ block: 'nearest' });
+  });
+  return boton;
+}
+
+/**
+ * Añade la flecha de cerrar a los desplegables de la guía de campo,
+ * que están escritos en index.html.
+ */
+function prepararCierresGuia() {
+  document.querySelectorAll('.info-guia details.desplegable').forEach((desplegable) => {
+    desplegable.appendChild(crearBotonCerrar(desplegable));
+  });
+}
+
+/**
  * Crea un desplegable por cada grupo (tipo en Montes, categoría en Lugares),
  * en el orden y con el color que les da el Excel. Dentro se mantiene el orden
  * de la categoría (dificultad 1 → 5 o popularidad 5 → 1).
@@ -702,7 +786,7 @@ function crearDesplegablesPorGrupo(categoria, excursiones) {
     }
     titulo.append(nombre);
 
-    desplegable.append(titulo, crearLista(categoria, delGrupo));
+    desplegable.append(titulo, crearLista(categoria, delGrupo), crearBotonCerrar(desplegable));
     fragmento.appendChild(desplegable);
   });
 
@@ -827,7 +911,7 @@ function normalizar(texto) {
 }
 
 /**
- * Nombre que se ve en la lista (en Monumentos, "MN Nº1 - ENCINA DE ERAUL").
+ * Nombre que se ve en la lista (en Monumentos, "MN Nº1 - Encina de Eraul").
  */
 function nombreVisible(categoria, excursion) {
   const config = CONFIG_FICHAS[categoria];
@@ -917,6 +1001,35 @@ function prepararBuscador() {
   campo.addEventListener('input', () => mostrarResultados(campo.value));
 }
 
+/* ---------- Flecha flotante para volver arriba ---------- */
+
+// Cuánto hay que bajar (en píxeles) para que aparezca la flecha
+const DISTANCIA_FLECHA_SUBIR = 600;
+
+/**
+ * Muestra la flecha solo dentro de una categoría (no en la pantalla
+ * principal) y cuando se ha bajado bastante.
+ */
+function actualizarBotonSubir() {
+  const boton = document.getElementById('boton-subir');
+  if (!boton) return;
+  const enInicio = pantallaDesdeDireccion() === PANTALLA_INICIAL;
+  boton.hidden = enInicio || window.scrollY < DISTANCIA_FLECHA_SUBIR;
+}
+
+/**
+ * Prepara la flecha: al pulsarla sube al principio de la categoría.
+ */
+function prepararBotonSubir() {
+  const boton = document.getElementById('boton-subir');
+  if (!boton) return;
+  boton.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  window.addEventListener('scroll', actualizarBotonSubir, { passive: true });
+  window.addEventListener('hashchange', actualizarBotonSubir);
+}
+
 /**
  * Punto de entrada de la aplicación.
  */
@@ -926,6 +1039,8 @@ function iniciarApp() {
   prepararBuscador();
   prepararCarruseles();
   prepararMapaLista();
+  prepararCierresGuia();
+  prepararBotonSubir();
   iniciarRelojSanfermines();
   mostrarPantalla(pantallaDesdeDireccion());
 

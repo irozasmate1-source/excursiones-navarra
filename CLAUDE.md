@@ -19,11 +19,12 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
   - Al pulsarlo aparece/desaparece debajo la **cara enfadada** (`img/cara-enfadada.png`, la imagen del propietario tal cual, con el fondo blanco quitado) y el texto **"¡A SUBIR EL NÚMERO!"**. Botón con `aria-expanded`; sin `alert()`.
   - `img/cara-enfadada.svg` es una versión dibujada anterior que ya no se usa; el propietario prefiere conservarla en la carpeta (no está en git).
 - **Buscador de excursiones**, debajo del contador: caja "Buscar excursión" que filtra mientras se escribe.
-  - Busca **solo en el nombre que se ve** de cada excursión de las 4 categorías (en Monumentos, "MN Nº5 - EL CENTINELA", así que "5" encuentra MN Nº5, 15, 25… y también los montes con 5 en el nombre, como "Abodi. 1532m"). No busca en distancias, zonas, notas ni nombres de categoría: "monasterio" da los lugares que se llaman "Monasterio…", no la categoría Monasterio.
+  - Busca **solo en el nombre que se ve** de cada excursión de las 4 categorías (en Monumentos, "MN Nº5 - El Centinela", así que "5" encuentra MN Nº5, 15, 25… y también los montes con 5 en el nombre, como "Abodi. 1532m"). No busca en distancias, zonas, notas ni nombres de categoría: "monasterio" da los lugares que se llaman "Monasterio…", no la categoría Monasterio.
   - Ignora mayúsculas y tildes ("andia" = "Andía"). Con varias palabras, cada resultado debe contenerlas todas.
   - Cada resultado muestra el icono, el nombre y una etiqueta con su categoría. Máximo 30 resultados ("Se muestran 30 de N. Escribe más para afinar."); sin coincidencias: "No hay ninguna excursión con ese nombre."
   - Al pulsar un resultado se va a su categoría, se abre su desplegable y su ficha, se baja hasta ella y se resalta en amarillo unos segundos.
-- Cuatro botones: **Lugares y pueblos**, **Montes/paseos**, **Bicicleta** y **Monumentos Naturales de Navarra**.
+- Cuatro botones: **LUGARES Y PUEBLOS**, **MONTES/PASEOS**, **BICICLETA** y **MONUMENTOS NATURALES DE NAVARRA**.
+- **Todos los títulos de sección van en MAYÚSCULAS** (decisión del propietario): los botones de la pantalla principal, los títulos de cada pantalla y los desplegables de INFORMACIÓN DE INTERÉS (incluidos los de la guía de campo). Están escritos así en `index.html`. Los nombres de los grupos que vienen del Excel ("Pirineo navarro", "Ciudad"…) no se han cambiado.
 - Dos botones aparte, en marrón claro (`.acceso-completadas`), dentro de `nav.accesos`: **INFORMACIÓN DE INTERÉS** (enlaza a `#completadas`; el identificador se mantiene) y **LA LISTA** (`#lista`).
   - `.accesos` usa la misma rejilla que `.rutas`: en tablet y ordenador quedan **3 filas de 2** (las dos categorías por fila y estos dos en la última), todas del mismo ancho y separación; en el móvil, uno debajo de otro.
 - **Icono de la pestaña (favicon)**: rosa de los vientos azul propia, `img/favicon.svg` y su versión PNG de 32 px `img/favicon-32.png` (para navegadores que no aceptan SVG). No se usó la imagen de Dreamstime que propuso el propietario porque tenía marca de agua.
@@ -42,11 +43,23 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 |---|---|---|
 | Montes/paseos | Rutas (120) + bloque 1 de "Completadas por categoría" (10) = 130 | 13 desplegables por **Tipo**, con el color del Excel y un icono. Dentro, rutas de dificultad 1 → 5 con etiqueta de dificultad. Cada ruta abre una **ficha** con coche desde Pamplona, distancia, desnivel, tipo de ruta, zona, ruta habitual, notas, fuente de los km, botón a Wikiloc si lo hay y recuadro **VER EN EL MAPA**. |
 | Lugares y pueblos | Lugares a los que ir (113) + bloque 2 (21) = 134 | 16 desplegables por **Categoría**, con el color del Excel y un icono, más el grupo nuevo **Viaje veraniego** al final. Dentro, de más a menos popular, con etiqueta de popularidad (colores del Excel). Cada lugar abre una **ficha** con coche, zona, qué es, notas, datos de ruta, Wikiloc si lo hay y **VER EN EL MAPA**. Excepción: **Menorca** solo muestra una foto (ver "Ficha con foto"). |
-| Monumentos Naturales | Árboles singulares (48) + bloque 3 (1, ya incluido) = 48 | Sin desplegables generales. Lista ordenada por número (`MN Nº1 - ENCINA DE ERAUL`, el no oficial al final), con un icono según el tipo de árbol. Cada árbol abre una **ficha** con tipo, especie, municipio, coche, nombre en tu mapa (si difiere), notas y **VER EN EL MAPA**. **No se muestra la columna "Estado".** |
+| Monumentos Naturales | Árboles singulares (48) + bloque 3 (1, ya incluido) = 48 | Sin desplegables generales. Lista ordenada por número (`MN Nº1 - Encina de Eraul`, el no oficial al final), con un icono según el tipo de árbol. Cada árbol abre una **ficha** con tipo, especie, municipio, coche, nombre en tu mapa (si difiere), notas y **VER EN EL MAPA**. **No se muestra la columna "Estado".** |
 | Bicicleta | Bici (11) + bloque 4 (0) = 11 | Sin desplegables generales. Cada excursión lleva un icono según su categoría y abre una **ficha** con coche, km en bici, tipo de recorrido, categoría, zona, qué es, notas, fuente de los km y **VER EN EL MAPA**. |
 | INFORMACIÓN DE INTERÉS | — (texto fijo en `index.html`) | Antes "Excursiones completadas". Página informativa, sin excursiones (ver "INFORMACIÓN DE INTERÉS"). |
 
 Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver abajo).
+
+### Formato de los nombres de las excursiones
+- En el Excel los nombres no siguen un formato fijo ("bera", "QUINTO REAL", "Cruz del Monte Gorbea"…). En la web se muestran con **mayúscula inicial y el resto en minúscula, salvo los nombres propios** (pueblos, montes, ríos, santos, nombres de lugares concretos).
+- Se hace con `NOMBRES_CORREGIDOS` en `app.js` (nombre del Excel → nombre que se ve), solo para los 42 que no cumplían la regla; los demás se muestran tal cual. Lo usa `textoExcursion(...)`, que es el `titulo` de las 4 categorías, así que también lo ven el buscador y las casillas.
+- **Solo cambia lo que se ve.** El nombre original del Excel se sigue usando como identificador de las casillas guardadas y en `CORRECCIONES_MAPA`, así que no se pierden marcas.
+- Monumentos: `MN NºXX - Nombre` ("MN Nº35 - Roble de Lizarraga"). "MN Nº" va en mayúsculas por ser sigla; el nombre del árbol, como el resto (antes iba todo en mayúsculas).
+- Decisiones de criterio aceptadas por el propietario: se tratan como nombre propio "Tierra Rapaz", "Molino del Infierno", "El Valle de los Colores", "Parque de los Desvelados", "Real Fábrica de Armas", "Hotel Continental"; van en minúscula "Bosque animado", "Hayedo encantado", "Senda mitológica"; se recuperó la tilde perdida en mayúsculas en "Cabezón de Echauri" y "Aizpún".
+- Si se añaden excursiones al Excel con nombres mal escritos, hay que añadirlas a `NOMBRES_CORREGIDOS`.
+
+### Ayudas para moverse por listas largas
+- **Flecha de cerrar al final de los desplegables grandes**: un "▲ Cerrar" pequeño (`.desplegable__cerrar`, `crearBotonCerrar(desplegable)`) al final de los desplegables de grupo de Montes (13) y Lugares (17) y de los 4 de la guía de campo (`prepararCierresGuia()`). Cierra el desplegable y deja su título a la vista. No está en las fichas de cada excursión ni en Webs, Tiempo y el reloj (son cortos).
+- **Flecha flotante de subir**: botón redondo "▲" abajo a la derecha (`#boton-subir`, `.subir`). Aparece al bajar más de `DISTANCIA_FLECHA_SUBIR` (600 px) en cualquier sección menos la pantalla principal, y sube suavemente al principio. Funciones `actualizarBotonSubir()` y `prepararBotonSubir()`.
 
 ### INFORMACIÓN DE INTERÉS (`#completadas`)
 - Texto escrito directamente en `index.html` (no viene del Excel ni lo pinta `app.js`: el recuadro no lleva `data-categoria`).
@@ -211,7 +224,9 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 - Buscador: `EXCURSIONES_PINTADAS` (cada excursión pintada con su categoría y su `<li>`, lo rellena `crearLista`), `normalizar(texto)` (minúsculas y sin tildes), `nombreVisible(...)`, `iconoExcursion(...)`, `buscarExcursiones(texto)`, `mostrarResultados(texto)`, `irAExcursion(...)` (cambia el `#hash` y, tras el `hashchange`, abre desplegable y ficha y hace scroll) y `prepararBuscador()`. `NOMBRES_CATEGORIA` y `MAXIMO_RESULTADOS` (30).
 - Carrusel: `prepararCarrusel(galeria)` (crea los puntitos tras la galería y marca el activo según la foto más centrada) y `prepararCarruseles()`.
 - LA LISTA: `prepararMapaLista()` (muestra el botón de pantalla completa si el navegador lo permite).
-- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `prepararBuscador()`, `prepararCarruseles()`, `prepararMapaLista()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
+- Nombres: `NOMBRES_CORREGIDOS` y `textoExcursion(categoria, excursion)` (ver "Formato de los nombres de las excursiones").
+- Cerrar y subir: `crearBotonCerrar(desplegable)`, `prepararCierresGuia()`, `DISTANCIA_FLECHA_SUBIR`, `actualizarBotonSubir()` y `prepararBotonSubir()`.
+- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `prepararBuscador()`, `prepararCarruseles()`, `prepararMapaLista()`, `prepararCierresGuia()`, `prepararBotonSubir()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
 - `GRUPOS_NUEVOS`: grupos que no están en la hoja Resumen (de momento, "Viaje veraniego" en Lugares), con su color.
 - `FICHAS_CON_FOTO` y `crearContenidoFoto(...)`: fichas que solo muestran una foto con pie (Menorca).
 - Los desplegables y las fichas usan `<details>`/`<summary>`. Los textos se insertan con `textContent`, nunca con `innerHTML`.
@@ -230,7 +245,7 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
   - Las claves de localStorage llevan el prefijo `excursionesNavarra_`.
   - No se usan `alert()` ni `confirm()` para los mensajes al usuario: se muestran dentro de la propia interfaz.
 - **Accesibilidad**: buen contraste, `alt` en las imágenes, `label` en los controles y uso posible con teclado.
-- **Nombres del Excel**: se muestran tal cual, sin corregir mayúsculas ni erratas (salvo el formato MN de Monumentos, que va en mayúsculas).
+- **Nombres del Excel**: se muestran con mayúscula inicial y nombres propios en mayúscula, mediante `NOMBRES_CORREGIDOS` (ver "Formato de los nombres de las excursiones"). Fuera de eso no se corrigen erratas.
 
 ## Restricciones
 
