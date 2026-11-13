@@ -55,6 +55,7 @@
   --color-desplegable-aves: #D9D2E9;
   --color-desplegable-anfibios: #A8D8C0;
   --color-desplegable-reptiles: #DDB96B;
+  --color-desplegable-peces: #8FC1D4;
   --color-advertencia-fondo: #fdecea;
   --foto-especie-ancho: 15rem;
 
@@ -1123,6 +1124,10 @@ body {
 
 .desplegable--reptiles {
   --color-tipo: var(--color-desplegable-reptiles);
+}
+
+.desplegable--peces {
+  --color-tipo: var(--color-desplegable-peces);
 }
 
 /* Advertencia destacada al principio de un desplegable (anfibios) */

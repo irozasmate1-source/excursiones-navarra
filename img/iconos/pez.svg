@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+<!-- Trucha de perfil (desplegable de peces de la guía de campo) -->
+<path d="M34 24l10-9c1 4 1 14 0 18z" fill="#6b7f5a"/>
+<path d="M17 15c3-4 9-5 12-3l-2 4zM20 33c2 3 6 4 8 3l-1-3z" fill="#6b7f5a"/>
+<path d="M4 24c4-7 12-11 20-11 7 0 11 4 13 11-2 7-6 11-13 11-8 0-16-4-20-11z" fill="#8a9a6e"/>
+<path d="M5 25c5 5 12 8 19 8 6 0 10-3 12-8-5 2-11 3-17 3-5 0-10-1-14-3z" fill="#e9dcb5"/>
+<path d="M8 23c6-1 18-1 28 1" fill="none" stroke="#c96a5a" stroke-width="1.6" stroke-linecap="round" stroke-opacity=".8"/>
+<circle cx="18" cy="18" r="1.1" fill="#3b2a1e"/><circle cx="23" cy="17" r="1" fill="#3b2a1e"/><circle cx="27" cy="19" r="1.1" fill="#3b2a1e"/><circle cx="21" cy="21" r="0.9" fill="#c0392b"/><circle cx="30" cy="22" r="0.9" fill="#c0392b"/><circle cx="15" cy="21" r="0.9" fill="#3b2a1e"/>
+<circle cx="9.5" cy="21.5" r="2" fill="#f6efd8"/><circle cx="9.8" cy="21.5" r="1.1" fill="#1c1410"/>
+<path d="M13 19c1 3 1 6 0 9" fill="none" stroke="#5b6a48" stroke-width="1.2" stroke-linecap="round"/>
+<path d="M4.5 24.5l2 .3" stroke="#3b2a1e" stroke-width="1" stroke-linecap="round"/>
+</svg>

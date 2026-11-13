@@ -58,7 +58,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Si se añaden excursiones al Excel con nombres mal escritos, hay que añadirlas a `NOMBRES_CORREGIDOS`.
 
 ### Ayudas para moverse por listas largas
-- **Flecha de cerrar al final de los desplegables grandes**: un "▲ Cerrar" pequeño (`.desplegable__cerrar`, `crearBotonCerrar(desplegable)`) al final de los desplegables de grupo de Montes (13) y Lugares (17) y de los 5 de la guía de campo (`prepararCierresGuia()`). Cierra el desplegable y deja su título a la vista. No está en las fichas de cada excursión ni en Webs, Tiempo y el reloj (son cortos).
+- **Flecha de cerrar al final de los desplegables grandes**: un "▲ Cerrar" pequeño (`.desplegable__cerrar`, `crearBotonCerrar(desplegable)`) al final de los desplegables de grupo de Montes (13) y Lugares (17) y de los 6 de la guía de campo (`prepararCierresGuia()`). Cierra el desplegable y deja su título a la vista. No está en las fichas de cada excursión ni en Webs, Tiempo y el reloj (son cortos).
 - **Flecha flotante de subir**: botón redondo "▲" abajo a la derecha (`#boton-subir`, `.subir`). Aparece al bajar más de `DISTANCIA_FLECHA_SUBIR` (600 px) en cualquier sección menos la pantalla principal, y sube suavemente al principio. Funciones `actualizarBotonSubir()` y `prepararBotonSubir()`.
 
 ### INFORMACIÓN DE INTERÉS (`#completadas`)
@@ -74,7 +74,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
      - **EL RELOJ DE SANFERMINES** (rosa rojizo `#F4A3A3`, icono `reloj-sanfermin.svg`): cuenta atrás en directo (días, horas, minutos, segundos) hasta el **chupinazo, 6 de julio a las 12:00** hora de Pamplona (10:00 UTC, en julio siempre es horario de verano), con aspecto de reloj LED rojo como el de la calle Estafeta. Del chupinazo al final del 14 de julio muestra "¡Estamos en Sanfermines! ¡Gora San Fermín!"; después cuenta hasta el año siguiente. Debajo, enlace a la página del reloj en sanfermin.com.
        - El reloj de sanfermin.com es un reloj físico; su web no ofrece datos ni widget, así que la cuenta se calcula en el navegador (`estadoSanfermines`, `actualizarRelojSanfermines`, cada segundo).
      - Cada enlace es un recuadro `.enlace-web` con título y una línea de descripción, y se abre en otra pestaña.
-  6. Línea (`hr.linea-titulo`) y **GUÍA DE CAMPO BÁSICA** (`.info-guia`, título con el mismo formato que CÓMO USAR LA WEB), con cinco desplegables de fichas de especie: árboles, mamíferos, aves, anfibios y reptiles (ver "Guía de campo").
+  6. Línea (`hr.linea-titulo`) y **GUÍA DE CAMPO BÁSICA** (`.info-guia`, título con el mismo formato que CÓMO USAR LA WEB), con seis desplegables de fichas de especie: árboles, mamíferos, aves, anfibios, reptiles y peces (ver "Guía de campo").
 - Los textos del propietario llevan pequeñas correcciones ortográficas aceptadas ("a la web", "excursiones", "¡suerte y disfrutad…!", "Wikiloc").
 
 ### Guía de campo (en INFORMACIÓN DE INTERÉS)
@@ -94,6 +94,8 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - **Reptiles: los 21 más comunes de Navarra** (ocre `#DDB96B`, icono `lagarto.svg`, `.desplegable--reptiles`). Orden: lagarto ocelado, lagarto verde, lagartija roquera, lagartija parda, lagartija colilarga, lagartija colirroja, lución, eslizón tridáctilo, salamanquesa común; víbora áspid, víbora de Seoane, culebra bastarda, culebra de escalera, culebra viperina, culebra de collar, culebra lisa europea, culebra de Esculapio, culebra verdiamarilla; galápago leproso, galápago europeo y galápago de Florida (invasor).
   - Sin advertencia general: las dos víboras (las venenosas) llevan al final de su ficha un aviso en rojo (`p.especie__aviso`): "⚠ VENENOSA: no la toques ni intentes cogerla. Si te muerde, mantén la calma, no hagas cortes ni chupes la herida y llama al 112." La culebra bastarda menciona en su descripción su veneno leve, sin aviso.
   - Fotos en `img/reptiles/` (JPG a 640 px), la imagen principal de su artículo de Wikipedia (Wikimedia Commons), cada una con `figcaption` de autor, licencia y enlace. Las fichas se generaron con `reptiles-datos.txt` y `reptiles-html.ps1` de la carpeta temporal (mismo formato que las aves; el .ps1 debe guardarse con BOM para que PowerShell 5 lea bien las tildes y el «·»).
+- **Peces: los 20 más comunes de Navarra** (azul agua `#8FC1D4`, icono `pez.svg`, `.desplegable--peces`). Orden: autóctonos (trucha común, salmón atlántico, lamprea marina, anguila europea, barbo de Graells, barbo colirrojo, madrilla, cacho, piscardo, gobio, lobo de río, colmilleja, fraile o blenio de río), introducidos (trucha arcoíris, carpa, alburno, lucio, siluro, perca americana) y, al final, el **cangrejo de río común** (*Austropotamobius pallipes*), que no es un pez pero el propietario lo quiso en esta categoría; su ficha lo aclara. El título dice "20" contando el cangrejo.
+  - Fotos en `img/peces/` (JPG a 640 px) de Wikimedia Commons, con `figcaption` de autor, licencia y enlace. Generadas con `peces-datos.txt` y `peces-html.ps1` de la carpeta temporal.
 - Las descripciones las redactó Claude; el propietario puede pedir matizarlas.
 
 ### LA LISTA (`#lista`): mapa de My Maps
@@ -117,7 +119,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Aspecto de foto antigua en blanco y negro hecho con CSS (`.foto-antigua`: filtro gris/sepia, viñeta, marco de papel viejo, letra manuscrita). La imagen original no se modifica (solo se recortó el borde de la captura).
 
 ### Iconos
-- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 64 archivos; `compartir.svg` es el del botón COMPARTIR; `globo.svg`, `tiempo.svg`, `reloj-sanfermin.svg`, `huella.svg`, `pajaro.svg`, `rana.svg` y `lagarto.svg` son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene. Excepción: el texto que se envía con COMPARTIR sí lleva emojis (lo pidió el propietario; en WhatsApp se ven bien).
+- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 65 archivos; `compartir.svg` es el del botón COMPARTIR; `globo.svg`, `tiempo.svg`, `reloj-sanfermin.svg`, `huella.svg`, `pajaro.svg`, `rana.svg`, `lagarto.svg` y `pez.svg` son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene. Excepción: el texto que se envía con COMPARTIR sí lleva emojis (lo pidió el propietario; en WhatsApp se ven bien).
 - Los árboles cuya silueta no se distingue bien (arce, avellano, nogal, morera, peral, espino, acebo) llevan al lado su hoja, fruto o flor.
 - Tamaños en variables de `:root`: `--icono-grupo`, `--icono-nombre`, `--icono-dato`, `--icono-mapa`.
 
@@ -177,7 +179,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 │   ├── excel.js                           # Vacío (reservado; los datos van por datos.js)
 │   └── app.js                             # Navegación, listas, desplegables, fichas, casillas y mapas
 └── img/
-    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (64)
+    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (65)
     ├── favicon.svg, favicon-32.png        # Icono de la pestaña (rosa de los vientos)
     ├── portada-compartir.png              # Imagen de la vista previa al compartir el enlace (1200 × 630)
     ├── cara-enfadada.png                  # Cara del aviso del contador (cara-enfadada.svg: versión antigua sin usar, fuera de git)
@@ -186,6 +188,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
     ├── aves/                              # Fotos de la guía de campo de aves (30, Wikimedia Commons)
     ├── anfibios/                          # Fotos de la guía de campo de anfibios (12)
     ├── reptiles/                          # Fotos de la guía de campo de reptiles (21, Wikimedia Commons)
+    ├── peces/                             # Fotos de la guía de campo de peces y cangrejo (20, Wikimedia Commons)
     ├── menorca-ciutadella.png             # Foto de la ficha de Menorca
     ├── sorioneku.svg                      # Lema en signario celtibérico (INFORMACIÓN DE INTERÉS)
     ├── mapa-navarra.png, rosa-vientos.svg # Pantalla principal
