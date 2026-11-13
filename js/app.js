@@ -651,16 +651,13 @@ async function compartirExcursion(categoria, excursion, aviso, cajaTexto) {
  */
 function crearBotonCompartir(categoria, excursion) {
   const zona = crearElemento('div', 'ficha__compartir-zona');
-  const boton = crearElemento('button', 'ficha__mapa ficha__compartir');
+  const boton = crearElemento('button', 'ficha__compartir');
   boton.type = 'button';
   boton.setAttribute('aria-label', `Compartir: ${textoExcursion(categoria, excursion)}`);
-
-  const textos = crearElemento('span', 'ficha__mapa-textos');
-  textos.append(
-    crearElemento('span', 'ficha__mapa-titulo', 'COMPARTIR'),
-    crearElemento('span', 'ficha__mapa-detalle', 'Enviar los datos por WhatsApp, correo…')
+  boton.append(
+    crearIcono('compartir', 'ficha__compartir-icono'),
+    crearElemento('span', 'ficha__compartir-titulo', 'COMPARTIR')
   );
-  boton.append(crearIcono('compartir', 'ficha__mapa-icono'), textos);
 
   const aviso = crearElemento('p', 'ficha__compartir-aviso');
   aviso.setAttribute('aria-live', 'polite');

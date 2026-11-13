@@ -892,18 +892,44 @@ body {
   color: var(--color-texto-suave);
 }
 
-/* Recuadro COMPARTIR: mismo aspecto que VER EN EL MAPA, pero es un botón */
+/* Botón COMPARTIR: recuadro pequeño y fino, solo icono y palabra */
 .ficha__compartir-zona {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--espacio-xs);
 }
 
 .ficha__compartir {
-  width: 100%;
-  font: inherit;
-  text-align: left;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-s);
+  min-height: 2.75rem;
+  padding: 0 var(--espacio-m);
+  border: 1px solid var(--color-tierra);
+  border-radius: var(--radio);
+  background-color: var(--color-pergamino);
+  color: var(--color-bosque);
+  font-family: var(--fuente-titulo);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   cursor: pointer;
+}
+
+.ficha__compartir:hover {
+  border-color: var(--color-bosque);
+}
+
+.ficha__compartir:focus-visible {
+  outline: 3px solid var(--color-bosque);
+  outline-offset: 2px;
+}
+
+.ficha__compartir-icono {
+  flex-shrink: 0;
+  width: 1.375rem;
+  height: 1.375rem;
 }
 
 .ficha__compartir-aviso {

@@ -128,7 +128,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Si se añaden excursiones nuevas al Excel, conviene comprobar su enlace del mapa.
 
 ### Botón COMPARTIR (en cada ficha)
-- Recuadro **COMPARTIR** debajo de VER EN EL MAPA, con el mismo aspecto (`.ficha__mapa.ficha__compartir`, icono `compartir.svg`), en todas las fichas de las 4 categorías salvo las de solo foto (Menorca).
+- Botón **COMPARTIR** debajo de VER EN EL MAPA: recuadro pequeño y fino (borde de 1 px, 44 px de alto, ancho según el texto) con el icono `compartir.svg` y la palabra COMPARTIR, sin descripción (`.ficha__compartir`; el propietario lo pidió así porque el recuadro grande se veía demasiado). Está en todas las fichas de las 4 categorías salvo las de solo foto (Menorca).
 - Envía un **texto** con emojis: nombre en negrita de WhatsApp (`*…*`), categoría y grupo, dificultad (💪) o popularidad (⭐) y los datos de la ficha con su emoji (`EMOJI_DATO`). No incluye las notas ni "Nombre en tu mapa". Al final, el enlace de **Google Maps** (el mismo de VER EN EL MAPA, `urlMapa(...)`) y el de la **página principal de la web** (`URL_WEB`, siempre la publicada, aunque se abra en local). El propietario aceptó que el enlace lleve a la portada y no a la excursión.
 - Usa el menú de compartir del dispositivo (`navigator.share`: móvil, Chrome/Edge en Windows). Si no existe, copia el texto al portapapeles y avisa debajo; si tampoco puede, muestra el texto en un recuadro (`.ficha__compartir-texto`) para copiarlo a mano. Sin `alert()`.
 - Funciones: `textoCompartir(categoria, excursion)`, `lineaCategoria`, `lineaNivel`, `copiarTexto`, `compartirExcursion` y `crearBotonCompartir`. `crearFicha` recibe ahora también la categoría.
