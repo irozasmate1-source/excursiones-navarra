@@ -892,6 +892,42 @@ body {
   color: var(--color-texto-suave);
 }
 
+/* Recuadro COMPARTIR: mismo aspecto que VER EN EL MAPA, pero es un botón */
+.ficha__compartir-zona {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-xs);
+}
+
+.ficha__compartir {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ficha__compartir-aviso {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-bosque);
+}
+
+/* Texto para copiar a mano si el navegador no deja compartir ni copiar */
+.ficha__compartir-texto {
+  width: 100%;
+  padding: var(--espacio-s);
+  border: 1px solid var(--color-tierra);
+  border-radius: var(--radio);
+  background-color: var(--color-pergamino);
+  font-family: var(--fuente-texto);
+  font-size: 0.875rem;
+  resize: vertical;
+}
+
+.ficha__compartir-texto[hidden] {
+  display: none;
+}
+
 .ficha__fuente {
   font-size: 0.8125rem;
   font-style: italic;

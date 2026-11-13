@@ -490,12 +490,19 @@ const CORRECCIONES_MAPA = {
 };
 
 /**
+ * Dirección de Google Maps que busca un lugar (texto o coordenadas).
+ */
+function urlMapa(busqueda) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(busqueda)}`;
+}
+
+/**
  * Recuadro "VER EN EL MAPA" que abre la búsqueda del lugar en Google Maps
  * (en el móvil abre la aplicación de Google Maps si está instalada).
  */
 function crearEnlaceMapa(busqueda) {
   const enlace = crearElemento('a', 'ficha__mapa');
-  enlace.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(busqueda)}`;
+  enlace.href = urlMapa(busqueda);
   enlace.target = '_blank';
   enlace.rel = 'noopener noreferrer';
   enlace.setAttribute('aria-label', `Ver en el mapa: ${busqueda} (se abre Google Maps)`);
@@ -507,6 +514,167 @@ function crearEnlaceMapa(busqueda) {
   );
   enlace.append(crearIcono('ubicacion', 'ficha__mapa-icono'), textos);
   return enlace;
+}
+
+/* ---------- Compartir una excursión ---------- */
+
+// Dirección de la web publicada (se comparte siempre esta, aunque se abra en local)
+const URL_WEB = 'https://irozasmate1-source.github.io/excursiones-navarra/';
+
+// Emoji de cada categoría, delante del nombre en el texto compartido
+const EMOJI_CATEGORIA = {
+  montes: '🥾',
+  lugares: '🏘️',
+  monumentos: '🌳',
+  bicicleta: '🚲',
+};
+
+// Emoji de cada dato de la ficha (por su etiqueta)
+const EMOJI_DATO = {
+  'Coche desde Pamplona': '🚗',
+  'Distancia de la ruta': '📏',
+  'Desnivel positivo': '⛰️',
+  'Tipo de ruta': '🔁',
+  'Tipo de recorrido': '🔁',
+  'Zona': '📍',
+  'Municipio': '📍',
+  'Tipo de árbol': '🌳',
+  'Especie': '🍃',
+  'Km en bici': '🚲',
+  'Categoría': '🏷️',
+};
+
+// Datos que no se incluyen en el texto compartido
+const DATOS_SIN_COMPARTIR = ['Nombre en tu mapa'];
+
+// Nombres completos de las categorías para el texto compartido
+const CATEGORIAS_COMPARTIR = {
+  montes: 'Montes/paseos',
+  lugares: 'Lugares y pueblos',
+  monumentos: 'Monumentos Naturales de Navarra',
+  bicicleta: 'Bicicleta',
+};
+
+/**
+ * Línea con la categoría y su grupo: "Montes/paseos · Pirineo navarro".
+ */
+function lineaCategoria(categoria, excursion) {
+  const config = CONFIG_FICHAS[categoria];
+  const grupo = config.campoGrupo ? excursion[config.campoGrupo] : null;
+  return [CATEGORIAS_COMPARTIR[categoria], grupo].filter(Boolean).join(' · ');
+}
+
+/**
+ * Línea de dificultad (Montes) o popularidad (Lugares), si la tiene.
+ */
+function lineaNivel(categoria, excursion) {
+  if (categoria === 'montes' && excursion.nivel) {
+    return `💪 Dificultad: ${excursion.nivel.replace(/\s*-\s*/, ' · ')}`;
+  }
+  if (categoria === 'lugares' && excursion.nivelPopularidad) {
+    return `⭐ Popularidad: ${excursion.nivelPopularidad.replace(/\s*-\s*/, ' · ')}`;
+  }
+  return null;
+}
+
+/**
+ * Texto que se comparte: nombre, extracto de los datos de la ficha,
+ * enlace de Google Maps y enlace a la web.
+ */
+function textoCompartir(categoria, excursion) {
+  const config = CONFIG_FICHAS[categoria];
+  const lineas = [
+    `${EMOJI_CATEGORIA[categoria] || '📌'} *${textoExcursion(categoria, excursion)}*`,
+    lineaCategoria(categoria, excursion),
+  ];
+
+  const nivel = lineaNivel(categoria, excursion);
+  if (nivel) lineas.push(nivel);
+
+  config.datos(excursion).forEach(([, etiqueta, valor]) => {
+    if (!valor || DATOS_SIN_COMPARTIR.includes(etiqueta)) return;
+    lineas.push(`${EMOJI_DATO[etiqueta] || '•'} ${etiqueta}: ${valor}`);
+  });
+
+  lineas.push('');
+  if (config.mapa) {
+    lineas.push(`🗺️ Google Maps: ${urlMapa(config.mapa(excursion))}`);
+  }
+  lineas.push(`🌐 Excursiones por Navarra y Compañía: ${URL_WEB}`);
+  return lineas.join('\n');
+}
+
+/**
+ * Copia un texto al portapapeles. Devuelve true si se ha podido.
+ */
+async function copiarTexto(texto) {
+  try {
+    await navigator.clipboard.writeText(texto);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
+ * Comparte la excursión con el menú de compartir del dispositivo (WhatsApp,
+ * correo...). Si el navegador no lo permite, copia el texto para pegarlo;
+ * y si tampoco puede copiarlo, lo muestra para copiarlo a mano.
+ */
+async function compartirExcursion(categoria, excursion, aviso, cajaTexto) {
+  const texto = textoCompartir(categoria, excursion);
+  aviso.hidden = true;
+  cajaTexto.hidden = true;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: textoExcursion(categoria, excursion), text: texto });
+      return;
+    } catch (error) {
+      if (error.name === 'AbortError') return; // se cerró el menú sin compartir
+    }
+  }
+
+  if (await copiarTexto(texto)) {
+    aviso.textContent = 'Texto copiado. Pégalo donde quieras compartirlo.';
+  } else {
+    aviso.textContent = 'Copia este texto para compartirlo:';
+    cajaTexto.value = texto;
+    cajaTexto.hidden = false;
+    cajaTexto.select();
+  }
+  aviso.hidden = false;
+}
+
+/**
+ * Recuadro "COMPARTIR" de la ficha, con un aviso debajo para cuando se copia.
+ */
+function crearBotonCompartir(categoria, excursion) {
+  const zona = crearElemento('div', 'ficha__compartir-zona');
+  const boton = crearElemento('button', 'ficha__mapa ficha__compartir');
+  boton.type = 'button';
+  boton.setAttribute('aria-label', `Compartir: ${textoExcursion(categoria, excursion)}`);
+
+  const textos = crearElemento('span', 'ficha__mapa-textos');
+  textos.append(
+    crearElemento('span', 'ficha__mapa-titulo', 'COMPARTIR'),
+    crearElemento('span', 'ficha__mapa-detalle', 'Enviar los datos por WhatsApp, correo…')
+  );
+  boton.append(crearIcono('compartir', 'ficha__mapa-icono'), textos);
+
+  const aviso = crearElemento('p', 'ficha__compartir-aviso');
+  aviso.setAttribute('aria-live', 'polite');
+  aviso.hidden = true;
+
+  const cajaTexto = crearElemento('textarea', 'ficha__compartir-texto');
+  cajaTexto.readOnly = true;
+  cajaTexto.rows = 10;
+  cajaTexto.setAttribute('aria-label', 'Texto para compartir');
+  cajaTexto.hidden = true;
+
+  boton.addEventListener('click', () => compartirExcursion(categoria, excursion, aviso, cajaTexto));
+  zona.append(boton, aviso, cajaTexto);
+  return zona;
 }
 
 /**
@@ -619,7 +787,7 @@ function crearContenidoFoto({ imagen, pie }) {
 /**
  * Ficha desplegable de una excursión con todos sus datos.
  */
-function crearFicha(config, excursion) {
+function crearFicha(config, excursion, categoria) {
   const ficha = crearElemento('details', 'ficha');
 
   const resumen = crearElemento('summary', 'ficha__resumen');
@@ -658,6 +826,9 @@ function crearFicha(config, excursion) {
   if (config.mapa) {
     contenido.appendChild(crearEnlaceMapa(config.mapa(excursion)));
   }
+
+  // Recuadro para compartir la excursión (texto con sus datos y enlaces)
+  contenido.appendChild(crearBotonCompartir(categoria, excursion));
 
   // Bloques de texto
   config.bloques(excursion).forEach(([titulo, texto]) => {
@@ -707,7 +878,7 @@ function crearLista(categoria, excursiones) {
         const nombreVisible = config.titulo ? config.titulo(excursion) : excursion.nombre;
         elemento.appendChild(crearCasillaCompletada(categoria, excursion, nombreVisible, completadas));
       }
-      elemento.appendChild(crearFicha(config, excursion));
+      elemento.appendChild(crearFicha(config, excursion, categoria));
       EXCURSIONES_PINTADAS.push({ categoria, excursion, elemento });
     } else {
       elemento.textContent = textoExcursion(categoria, excursion);

@@ -114,7 +114,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Aspecto de foto antigua en blanco y negro hecho con CSS (`.foto-antigua`: filtro gris/sepia, viñeta, marco de papel viejo, letra manuscrita). La imagen original no se modifica (solo se recortó el borde de la captura).
 
 ### Iconos
-- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 62 archivos; `globo.svg`, `tiempo.svg`, `reloj-sanfermin.svg`, `huella.svg`, `pajaro.svg` y `rana.svg` son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene.
+- Las categorías y los datos de las fichas usan **iconos SVG propios** (`img/iconos/*.svg`, 63 archivos; `compartir.svg` es el del botón COMPARTIR; `globo.svg`, `tiempo.svg`, `reloj-sanfermin.svg`, `huella.svg`, `pajaro.svg` y `rana.svg` son de INFORMACIÓN DE INTERÉS y del enlace de Monumentos), dibujados con colores naturales y estilo ilustrado sobrio. **No se usan emoticonos** (se sustituyeron para dar un aspecto más profesional). La estrella ★ de la popularidad es un carácter tipográfico y se mantiene. Excepción: el texto que se envía con COMPARTIR sí lleva emojis (lo pidió el propietario; en WhatsApp se ven bien).
 - Los árboles cuya silueta no se distingue bien (arce, avellano, nogal, morera, peral, espino, acebo) llevan al lado su hoja, fruto o flor.
 - Tamaños en variables de `:root`: `--icono-grupo`, `--icono-nombre`, `--icono-dato`, `--icono-mapa`.
 
@@ -126,6 +126,13 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
   - `CORRECCIONES_MAPA.montes` y `CORRECCIONES_MAPA.lugares` (por nombre exacto del Excel): una búsqueda mejor o coordenadas. Las coordenadas vienen del propietario (Palacio, Torre, Ojo de San Prudencio, Monte de la Cruz, Subir aqui en coche) o del punto de inicio de la ruta de Wikiloc (Txargain, Quinto Real, Lapiaz de Andía, Mirador de los Buitres de Ugarra, Saboreando Andosilla). "Balcón de Pilatos" de Montes es el de **Urbasa** (Mirador de Ubaba). "RUTAS VERDURAS" es la ruta del valle del Queiles (Paisajes Enogastronómicos), que sale del entorno de Murchante.
 - Revisión hecha (nov. 2026): los 292 enlaces se comprobaron en Google Maps. Quedan aproximados, aceptados por el propietario: Peñas de Aya (parque natural), Hotel Continental de Panticosa (Gran Hotel del mismo balneario), Pueblo de Barandiain (museo Barandiaran, Ataun) y Carnavales de Ituren y Zubieta (Ituren).
 - Si se añaden excursiones nuevas al Excel, conviene comprobar su enlace del mapa.
+
+### Botón COMPARTIR (en cada ficha)
+- Recuadro **COMPARTIR** debajo de VER EN EL MAPA, con el mismo aspecto (`.ficha__mapa.ficha__compartir`, icono `compartir.svg`), en todas las fichas de las 4 categorías salvo las de solo foto (Menorca).
+- Envía un **texto** con emojis: nombre en negrita de WhatsApp (`*…*`), categoría y grupo, dificultad (💪) o popularidad (⭐) y los datos de la ficha con su emoji (`EMOJI_DATO`). No incluye las notas ni "Nombre en tu mapa". Al final, el enlace de **Google Maps** (el mismo de VER EN EL MAPA, `urlMapa(...)`) y el de la **página principal de la web** (`URL_WEB`, siempre la publicada, aunque se abra en local). El propietario aceptó que el enlace lleve a la portada y no a la excursión.
+- Usa el menú de compartir del dispositivo (`navigator.share`: móvil, Chrome/Edge en Windows). Si no existe, copia el texto al portapapeles y avisa debajo; si tampoco puede, muestra el texto en un recuadro (`.ficha__compartir-texto`) para copiarlo a mano. Sin `alert()`.
+- Funciones: `textoCompartir(categoria, excursion)`, `lineaCategoria`, `lineaNivel`, `copiarTexto`, `compartirExcursion` y `crearBotonCompartir`. `crearFicha` recibe ahora también la categoría.
+- Pendiente de decisión del propietario: añadir una **tarjeta en imagen** con los datos (dibujada con canvas y compartida como archivo).
 
 ### Casilla de completada (todas las categorías)
 - Cada excursión de Montes, Lugares, Monumentos y Bicicleta tiene una casilla visible sin abrir la ficha. Al marcarla no ocurre nada más: no cambia de categoría ni se mueve. Solo sirve para llevar la cuenta.
@@ -166,7 +173,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 │   ├── excel.js                           # Vacío (reservado; los datos van por datos.js)
 │   └── app.js                             # Navegación, listas, desplegables, fichas, casillas y mapas
 └── img/
-    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (62)
+    ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (63)
     ├── favicon.svg, favicon-32.png        # Icono de la pestaña (rosa de los vientos)
     ├── cara-enfadada.png                  # Cara del aviso del contador (cara-enfadada.svg: versión antigua sin usar, fuera de git)
     ├── arboles/                           # Fotos de la guía de campo de árboles (25; haya.jpg sin usar, fuera de git)
@@ -217,7 +224,7 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
   - `bloques`: los textos de la ficha.
 - Las categorías sin configuración muestran solo nombres (ahora no queda ninguna: `#completadas` es INFORMACIÓN DE INTERÉS, con texto fijo en el HTML).
 - Iconos: `crearIcono(nombre, clase)` crea un `<img>` decorativo de `img/iconos/<nombre>.svg`. Los mapas de iconos guardan el nombre del archivo sin `.svg`: `ICONOS_TIPO` (Montes), `ICONOS_CATEGORIA_LUGAR` (Lugares), `ICONOS_ARBOL` (Monumentos, buscado por el comienzo del tipo de árbol) e `ICONOS_BICI` (Bicicleta).
-- Mapa: `busquedaMapa(...)`, `crearEnlaceMapa(busqueda)`, `COORDENADAS_MONUMENTOS` y `CORRECCIONES_MAPA` (ver "Enlace VER EN EL MAPA").
+- Mapa: `busquedaMapa(...)`, `urlMapa(busqueda)`, `crearEnlaceMapa(busqueda)`, `COORDENADAS_MONUMENTOS` y `CORRECCIONES_MAPA` (ver "Enlace VER EN EL MAPA").
 - Completadas: `CLAVES_COMPLETADAS` (clave de localStorage por categoría), `leerCompletadas(categoria)`, `marcarCompletada(...)` y `crearCasillaCompletada(...)`.
 - Contador: `contarCompletadas()`, `actualizarContador()` (se llama también desde `marcarCompletada`) y `prepararContador()` (muestra u oculta la cara al pulsar).
 - Reloj de Sanfermines: `estadoSanfermines(ahora)`, `actualizarRelojSanfermines()` e `iniciarRelojSanfermines()` (actualiza cada segundo).
@@ -225,6 +232,7 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 - Carrusel: `prepararCarrusel(galeria)` (crea los puntitos tras la galería y marca el activo según la foto más centrada) y `prepararCarruseles()`.
 - LA LISTA: `prepararMapaLista()` (muestra el botón de pantalla completa si el navegador lo permite).
 - Nombres: `NOMBRES_CORREGIDOS` y `textoExcursion(categoria, excursion)` (ver "Formato de los nombres de las excursiones").
+- Compartir: `URL_WEB`, `EMOJI_CATEGORIA`, `EMOJI_DATO`, `textoCompartir(...)`, `compartirExcursion(...)` y `crearBotonCompartir(...)` (ver "Botón COMPARTIR").
 - Cerrar y subir: `crearBotonCerrar(desplegable)`, `prepararCierresGuia()`, `DISTANCIA_FLECHA_SUBIR`, `actualizarBotonSubir()` y `prepararBotonSubir()`.
 - `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `prepararBuscador()`, `prepararCarruseles()`, `prepararMapaLista()`, `prepararCierresGuia()`, `prepararBotonSubir()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
 - `GRUPOS_NUEVOS`: grupos que no están en la hoja Resumen (de momento, "Viaje veraniego" en Lugares), con su color.
