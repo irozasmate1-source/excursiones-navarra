@@ -54,6 +54,7 @@
   --color-desplegable-mamiferos: #E4C9A2;
   --color-desplegable-aves: #D9D2E9;
   --color-desplegable-anfibios: #A8D8C0;
+  --color-desplegable-reptiles: #DDB96B;
   --color-advertencia-fondo: #fdecea;
   --foto-especie-ancho: 15rem;
 
@@ -1120,6 +1121,10 @@ body {
   --color-tipo: var(--color-desplegable-anfibios);
 }
 
+.desplegable--reptiles {
+  --color-tipo: var(--color-desplegable-reptiles);
+}
+
 /* Advertencia destacada al principio de un desplegable (anfibios) */
 .guia-especies--con-aviso {
   padding-bottom: 0;
@@ -1196,6 +1201,16 @@ body {
 .especie__descripcion {
   margin: 0;
   line-height: 1.6;
+}
+
+/* Aviso en rojo al final de la ficha de una especie peligrosa (víboras) */
+.especie__aviso {
+  margin: var(--espacio-s) 0 0;
+  padding: var(--espacio-s) var(--espacio-m);
+  border-left: 4px solid var(--color-rojo-aviso);
+  background-color: var(--color-advertencia-fondo);
+  line-height: 1.5;
+  color: var(--color-rojo-aviso);
 }
 
 @media (min-width: 768px) {

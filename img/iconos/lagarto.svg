@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+<!-- Lagarto visto desde arriba (desplegable de reptiles de la guía de campo) -->
+<path d="M24 30c0 5 2 8 6 10s7 3 9 6" fill="none" stroke="#5c7d2e" stroke-width="3.2" stroke-linecap="round"/>
+<path d="M19 17l-6-3-2-3M29 17l6-3 2-3M19 27l-6 3-2 4M29 27l6 3 1 4" fill="none" stroke="#5c7d2e" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M24 3c-3 0-5 3-5 6 0 2 1 3 1 4-1 2-2 5-2 9s1 7 2 9c1 1 2 2 4 2s3-1 4-2c1-2 2-5 2-9s-1-7-2-9c0-1 1-2 1-4 0-3-2-6-5-6z" fill="#7aa33a"/>
+<path d="M24 12c-1.5 0-2.5 3-2.5 9s1 9 2.5 9 2.5-3 2.5-9-1-9-2.5-9z" fill="#a9c75a"/>
+<circle cx="22" cy="21" r="1.1" fill="#4a6a22"/><circle cx="26" cy="24" r="1.1" fill="#4a6a22"/><circle cx="23" cy="27" r="1" fill="#4a6a22"/><circle cx="25.5" cy="17.5" r="1" fill="#4a6a22"/>
+<circle cx="21.6" cy="6.5" r="1.3" fill="#1c1410"/><circle cx="26.4" cy="6.5" r="1.3" fill="#1c1410"/>
+<path d="M10 11l-2-1M11 11l-1-3M38 11l2-1M37 11l1-3M11 34l-2 1M11 34l-1 3M36 34l2 0M36 34l0 3" stroke="#5c7d2e" stroke-width="1.4" stroke-linecap="round"/>
+</svg>

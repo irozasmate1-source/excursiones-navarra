@@ -603,6 +603,9 @@ function textoCompartir(categoria, excursion) {
   if (config.mapa) {
     lineas.push(`🗺️ Google Maps: ${urlMapa(config.mapa(excursion))}`);
   }
+  if (excursion.wikiloc) {
+    lineas.push(`🧭 Ruta en Wikiloc: ${excursion.wikiloc}`);
+  }
   return lineas.join('\n');
 }
 
