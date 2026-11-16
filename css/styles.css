@@ -1254,6 +1254,10 @@ body {
   color: var(--color-texto-suave);
 }
 
+.especie__detalle figcaption a {
+  color: inherit;
+}
+
 /* Aviso en rojo al final de la ficha de una especie peligrosa (víboras) */
 .especie__aviso {
   margin: var(--espacio-s) 0 0;
