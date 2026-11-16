@@ -344,6 +344,26 @@ body {
   animation: resaltar 2.5s ease-out;
 }
 
+/* Buscador de especies de la guía de campo */
+.buscador--guia {
+  margin-bottom: var(--espacio-m);
+}
+
+.resultado__cientifico {
+  display: block;
+  font-size: 0.8125rem;
+  font-style: italic;
+  color: var(--color-texto-suave);
+}
+
+.especie {
+  scroll-margin-top: var(--espacio-l);
+}
+
+.especie--resaltada {
+  animation: resaltar 2.5s ease-out;
+}
+
 @keyframes resaltar {
   0%, 40% { background-color: var(--color-resaltado); }
   100% { background-color: transparent; }

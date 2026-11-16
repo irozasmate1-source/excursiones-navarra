@@ -282,6 +282,13 @@
       <div class="info-guia">
         <h3 class="info-uso__titulo">GUÍA DE CAMPO BÁSICA</h3>
 
+        <div class="buscador buscador--guia" role="search">
+          <label class="buscador__etiqueta" for="buscador-especie">Buscar especie</label>
+          <input class="buscador__campo" type="search" id="buscador-especie" placeholder="Nombre común o científico…" autocomplete="off" aria-describedby="buscador-especie-aviso">
+          <p class="buscador__aviso" id="buscador-especie-aviso" aria-live="polite" hidden></p>
+          <ul class="buscador__resultados" id="buscador-especie-resultados" hidden></ul>
+        </div>
+
         <details class="desplegable desplegable--arboles">
           <summary class="desplegable__titulo"><img class="desplegable__icono" src="img/iconos/roble.svg" alt="">ÁRBOLES: LAS 64 ESPECIES MÁS RELEVANTES</summary>
           <ul class="guia-especies">

@@ -1174,6 +1174,108 @@ function prepararBuscador() {
   campo.addEventListener('input', () => mostrarResultados(campo.value));
 }
 
+/* ---------- Buscador de especies (guía de campo de INFORMACIÓN DE INTERÉS) ---------- */
+
+// Grupo de la guía (clase del desplegable) -> nombre de la etiqueta e icono
+const GRUPOS_GUIA = {
+  arboles: { nombre: 'Árboles', icono: 'roble' },
+  mamiferos: { nombre: 'Mamíferos', icono: 'huella' },
+  aves: { nombre: 'Aves', icono: 'pajaro' },
+  anfibios: { nombre: 'Anfibios', icono: 'rana' },
+  reptiles: { nombre: 'Reptiles', icono: 'lagarto' },
+  peces: { nombre: 'Peces', icono: 'pez' },
+};
+
+/**
+ * Lista de todas las fichas de la guía, con su nombre común, su nombre
+ * científico y su grupo. Las fichas están escritas en index.html.
+ */
+function leerEspeciesGuia() {
+  const especies = [];
+  Object.entries(GRUPOS_GUIA).forEach(([clave, grupo]) => {
+    document.querySelectorAll(`.desplegable--${clave} li.especie`).forEach((elemento) => {
+      especies.push({
+        grupo,
+        elemento,
+        nombre: elemento.querySelector('.especie__nombre').textContent.trim(),
+        cientifico: elemento.querySelector('.especie__cientifico').textContent.trim(),
+      });
+    });
+  });
+  return especies;
+}
+
+/**
+ * Especies cuyo nombre común o científico contiene todas las palabras buscadas.
+ */
+function buscarEspecies(especies, texto) {
+  const palabras = normalizar(texto).split(/\s+/).filter(Boolean);
+  if (palabras.length === 0) return [];
+  return especies.filter(({ nombre, cientifico }) => {
+    const nombres = normalizar(`${nombre} ${cientifico}`);
+    return palabras.every((palabra) => nombres.includes(palabra));
+  });
+}
+
+/**
+ * Abre el desplegable de la especie, baja hasta su ficha y la resalta.
+ * Se vuelve a bajar un par de veces porque, al cargar las fotos de las
+ * fichas de encima, la ficha puede moverse un poco.
+ */
+function irAEspecie({ elemento }) {
+  elemento.closest('details.desplegable').open = true;
+  const bajar = () => elemento.scrollIntoView({ block: 'start' });
+  bajar();
+  setTimeout(bajar, 400);
+  setTimeout(bajar, 1000);
+  elemento.classList.remove('especie--resaltada');
+  void elemento.offsetWidth; // reinicia la animación si se pulsa dos veces
+  elemento.classList.add('especie--resaltada');
+  setTimeout(() => elemento.classList.remove('especie--resaltada'), 2500);
+}
+
+function crearResultadoEspecie(especie) {
+  const elemento = crearElemento('li');
+  const boton = crearElemento('button', 'resultado');
+  boton.type = 'button';
+  boton.appendChild(crearIcono(especie.grupo.icono, 'resultado__icono'));
+  const nombres = crearElemento('span', 'resultado__nombre', especie.nombre);
+  nombres.appendChild(crearElemento('span', 'resultado__cientifico', especie.cientifico));
+  boton.append(nombres, crearElemento('span', 'resultado__categoria', especie.grupo.nombre));
+  boton.addEventListener('click', () => irAEspecie(especie));
+  elemento.appendChild(boton);
+  return elemento;
+}
+
+function mostrarResultadosEspecies(especies, texto) {
+  const lista = document.getElementById('buscador-especie-resultados');
+  const aviso = document.getElementById('buscador-especie-aviso');
+  const encontradas = buscarEspecies(especies, texto);
+
+  lista.replaceChildren(...encontradas.slice(0, MAXIMO_RESULTADOS).map(crearResultadoEspecie));
+  lista.hidden = encontradas.length === 0;
+
+  if (!texto.trim()) {
+    aviso.hidden = true;
+  } else if (encontradas.length === 0) {
+    aviso.textContent = 'No hay ninguna especie con ese nombre.';
+    aviso.hidden = false;
+  } else if (encontradas.length > MAXIMO_RESULTADOS) {
+    aviso.textContent = `Se muestran ${MAXIMO_RESULTADOS} de ${encontradas.length}. Escribe más para afinar.`;
+    aviso.hidden = false;
+  } else {
+    aviso.textContent = encontradas.length === 1 ? '1 especie encontrada.' : `${encontradas.length} especies encontradas.`;
+    aviso.hidden = false;
+  }
+}
+
+function prepararBuscadorEspecies() {
+  const campo = document.getElementById('buscador-especie');
+  if (!campo) return;
+  const especies = leerEspeciesGuia();
+  campo.addEventListener('input', () => mostrarResultadosEspecies(especies, campo.value));
+}
+
 /* ---------- Flecha flotante para volver arriba ---------- */
 
 // Cuánto hay que bajar (en píxeles) para que aparezca la flecha
@@ -1213,6 +1315,7 @@ function iniciarApp() {
   prepararCarruseles();
   prepararMapaLista();
   prepararCierresGuia();
+  prepararBuscadorEspecies();
   prepararBotonSubir();
   iniciarRelojSanfermines();
   mostrarPantalla(pantallaDesdeDireccion());
