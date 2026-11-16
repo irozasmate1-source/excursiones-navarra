@@ -56,9 +56,10 @@
   --color-desplegable-anfibios: #A8D8C0;
   --color-desplegable-reptiles: #DDB96B;
   --color-desplegable-peces: #8FC1D4;
-  --color-fondo-foto-entera: #ffffff; /* relleno a los lados de las fotos de árboles */
+  --alto-maximo-foto-arbol: 28rem; /* en el móvil, para que las fotos verticales no ocupen toda la pantalla */
   --color-advertencia-fondo: #fdecea;
   --foto-especie-ancho: 15rem;
+  --foto-detalle-ancho: 11rem;   /* fotos pequeñas de hoja y fruto (árboles) */
 
   /* Reloj de Sanfermines */
   --color-reloj-fondo: #1a1412;
@@ -1181,12 +1182,15 @@ body {
   border: 3px solid var(--color-texto);
 }
 
-/* Árboles: la foto se ve entera dentro del recuadro 4:3 (la mayoría son
-   verticales); el hueco de los lados se rellena de blanco */
+/* Árboles: la foto se ve entera, con su proporción y sin bordes blancos (muchas
+   son verticales). El marco negro se ajusta a cada foto, así que varían de tamaño */
 .desplegable--arboles .especie__foto img {
-  object-fit: contain;
-  object-position: center;
-  background-color: var(--color-fondo-foto-entera);
+  width: auto;
+  max-width: 100%;
+  max-height: var(--alto-maximo-foto-arbol);
+  aspect-ratio: auto;
+  object-fit: fill;
+  margin: 0 auto;
 }
 
 /* Peces: la foto se ve entera, con su proporción, sin recortar cabeza ni cola */
@@ -1223,6 +1227,33 @@ body {
   line-height: 1.6;
 }
 
+/* Fotos pequeñas de hoja y fruto debajo de la descripción (árboles) */
+.especie__detalles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-s);
+  margin-top: var(--espacio-s);
+}
+
+.especie__detalle {
+  flex: 0 1 var(--foto-detalle-ancho);
+  margin: 0;
+}
+
+.especie__detalle img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 2px solid var(--color-texto);
+}
+
+.especie__detalle figcaption {
+  margin-top: var(--espacio-xs);
+  font-size: 0.8125rem;
+  font-style: italic;
+  color: var(--color-texto-suave);
+}
+
 /* Aviso en rojo al final de la ficha de una especie peligrosa (víboras) */
 .especie__aviso {
   margin: var(--espacio-s) 0 0;
@@ -1237,6 +1268,11 @@ body {
   .especie {
     grid-template-columns: var(--foto-especie-ancho) 1fr;
     align-items: start;
+  }
+
+  /* Ficha todavía sin foto (carpe, olmo): el texto en su columna de siempre */
+  .especie--sin-foto .especie__texto {
+    grid-column: 2;
   }
 }
 
