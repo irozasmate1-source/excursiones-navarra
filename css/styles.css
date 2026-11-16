@@ -56,6 +56,7 @@
   --color-desplegable-anfibios: #A8D8C0;
   --color-desplegable-reptiles: #DDB96B;
   --color-desplegable-peces: #8FC1D4;
+  --color-fondo-foto-entera: #ffffff; /* relleno a los lados de las fotos de árboles */
   --color-advertencia-fondo: #fdecea;
   --foto-especie-ancho: 15rem;
 
@@ -1178,6 +1179,20 @@ body {
   object-fit: cover;
   object-position: center 25%; /* en fotos verticales, no cortar la cabeza */
   border: 3px solid var(--color-texto);
+}
+
+/* Árboles: la foto se ve entera dentro del recuadro 4:3 (la mayoría son
+   verticales); el hueco de los lados se rellena de blanco */
+.desplegable--arboles .especie__foto img {
+  object-fit: contain;
+  object-position: center;
+  background-color: var(--color-fondo-foto-entera);
+}
+
+/* Peces: la foto se ve entera, con su proporción, sin recortar cabeza ni cola */
+.desplegable--peces .especie__foto img {
+  aspect-ratio: auto;
+  object-fit: fill;
 }
 
 .especie__foto figcaption {
