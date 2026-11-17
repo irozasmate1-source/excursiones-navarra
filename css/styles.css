@@ -51,6 +51,20 @@
   --color-desplegable-tiempo: #FFE08A;
   --color-desplegable-reloj: #F4A3A3;
   --color-desplegable-arboles: #B6D7A8;
+  /* Un color por subcategoría de árboles, solo para distinguirlas a simple vista */
+  --color-arb-robles: #D2BC8E;
+  --color-arb-bosque: #A8D5A2;
+  --color-arb-coniferas: #8FC3A5;
+  --color-arb-arces: #F2B48C;
+  --color-arb-ribera: #A9D3E8;
+  --color-arb-caduca: #D8E6A0;
+  --color-arb-perenne: #A7D3C6;
+  --color-arb-frutales: #F5AFA6;
+  --color-arb-florales: #EBBBE3;
+  --color-arb-matorral: #D6CBEA;
+  --color-arb-setos: #EBCBA6;
+  --color-arb-monte: #F2DC86;
+  --color-arb-palmeras: #E6D7B0;
   --color-desplegable-mamiferos: #E4C9A2;
   --color-desplegable-aves: #D9D2E9;
   --color-desplegable-aves-claro: #ECE8F4;
@@ -1131,6 +1145,60 @@ body {
 .desplegable--arboles {
   --color-tipo: var(--color-desplegable-arboles);
 }
+
+/* Subcategorías de árboles: cada una con su color */
+.desplegable--arb-robles {
+  --color-tipo: var(--color-arb-robles);
+}
+
+.desplegable--arb-bosque {
+  --color-tipo: var(--color-arb-bosque);
+}
+
+.desplegable--arb-coniferas {
+  --color-tipo: var(--color-arb-coniferas);
+}
+
+.desplegable--arb-arces {
+  --color-tipo: var(--color-arb-arces);
+}
+
+.desplegable--arb-ribera {
+  --color-tipo: var(--color-arb-ribera);
+}
+
+.desplegable--arb-caduca {
+  --color-tipo: var(--color-arb-caduca);
+}
+
+.desplegable--arb-perenne {
+  --color-tipo: var(--color-arb-perenne);
+}
+
+.desplegable--arb-frutales {
+  --color-tipo: var(--color-arb-frutales);
+}
+
+.desplegable--arb-florales {
+  --color-tipo: var(--color-arb-florales);
+}
+
+.desplegable--arb-matorral {
+  --color-tipo: var(--color-arb-matorral);
+}
+
+.desplegable--arb-setos {
+  --color-tipo: var(--color-arb-setos);
+}
+
+.desplegable--arb-monte {
+  --color-tipo: var(--color-arb-monte);
+}
+
+.desplegable--arb-palmeras {
+  --color-tipo: var(--color-arb-palmeras);
+}
+
 
 .desplegable--mamiferos {
   --color-tipo: var(--color-desplegable-mamiferos);
