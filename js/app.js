@@ -1223,7 +1223,12 @@ function buscarEspecies(especies, texto) {
  * fichas de encima, la ficha puede moverse un poco.
  */
 function irAEspecie({ elemento }) {
-  elemento.closest('details.desplegable').open = true;
+  // Abre todos los desplegables que la contienen (en aves hay subcategorías)
+  let desplegable = elemento.closest('details.desplegable');
+  while (desplegable) {
+    desplegable.open = true;
+    desplegable = desplegable.parentElement.closest('details.desplegable');
+  }
   const bajar = () => elemento.scrollIntoView({ block: 'start' });
   bajar();
   setTimeout(bajar, 400);

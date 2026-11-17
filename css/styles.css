@@ -53,6 +53,8 @@
   --color-desplegable-arboles: #B6D7A8;
   --color-desplegable-mamiferos: #E4C9A2;
   --color-desplegable-aves: #D9D2E9;
+  --color-desplegable-aves-claro: #ECE8F4;
+  --alto-maximo-portada-subgrupo: 14rem;
   --color-desplegable-anfibios: #A8D8C0;
   --color-desplegable-reptiles: #DDB96B;
   --color-desplegable-peces: #8FC1D4;
@@ -1150,6 +1152,41 @@ body {
 
 .desplegable--peces {
   --color-tipo: var(--color-desplegable-peces);
+}
+
+/* Subcategorías dentro de un desplegable de la guía (aves: RAPACES y OTRAS AVES,
+   y dentro, ÁGUILAS Y AGUILUCHOS, BUITRES…). Títulos algo más pequeños y,
+   en el segundo nivel, de un tono más claro */
+.guia-subgrupos {
+  padding: var(--espacio-m);
+  background-color: var(--color-pergamino);
+}
+
+.guia-subgrupos .desplegable__titulo {
+  min-height: 2.75rem;
+  font-size: 1rem;
+}
+
+.guia-subgrupos--segundo .desplegable__titulo {
+  background-color: var(--color-desplegable-aves-claro);
+  font-size: 0.9375rem;
+}
+
+.subgrupo__portada {
+  margin: 0;
+  padding: var(--espacio-m) var(--espacio-m) 0;
+  text-align: center;
+}
+
+.subgrupo__portada img {
+  display: inline-block;
+  max-width: 100%;
+  max-height: var(--alto-maximo-portada-subgrupo);
+  border: 3px solid var(--color-texto);
+}
+
+.subgrupo__portada {
+  background-color: var(--color-pergamino);
 }
 
 /* Advertencia destacada al principio de un desplegable (anfibios) */
