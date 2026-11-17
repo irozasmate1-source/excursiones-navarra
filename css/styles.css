@@ -1049,10 +1049,8 @@ body {
   color: var(--color-tierra);
 }
 
-/* Desplegables de INFORMACIÓN DE INTERÉS, cada uno con su color */
-.info-desplegables {
-  margin-top: var(--espacio-l);
-}
+/* Desplegables de INFORMACIÓN DE INTERÉS, cada uno con su color
+   (sin margen propio: la separación con las líneas la da el hueco de la sección) */
 
 .desplegable--webs {
   --color-tipo: var(--color-desplegable-webs);
@@ -1254,6 +1252,17 @@ body {
 .desplegable--peces .especie__foto img {
   aspect-ratio: auto;
   object-fit: fill;
+}
+
+/* Fotos muy verticales que el recorte 4:3 dejaba sin cabeza (azor, milano negro):
+   se ven enteras, como las de los árboles */
+.especie__foto--entera img {
+  width: auto;
+  max-width: 100%;
+  max-height: var(--alto-maximo-foto-arbol);
+  aspect-ratio: auto;
+  object-fit: fill;
+  margin: 0 auto;
 }
 
 .especie__foto figcaption {
