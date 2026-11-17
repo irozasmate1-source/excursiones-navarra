@@ -388,10 +388,11 @@ body {
 }
 
 /* ---------- Botones de rutas ---------- */
+/* De dos en dos también en el móvil (pedido por el propietario) */
 .rutas,
 .accesos {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--espacio-m);
 }
 
@@ -406,10 +407,11 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 3.5rem;
-  padding: var(--espacio-m);
+  padding: var(--espacio-s);
   border-radius: var(--radio);
   font-family: var(--fuente-titulo);
-  font-size: 1.125rem;
+  font-size: 0.9375rem; /* en el móvil, más pequeño para que quepan dos por fila */
+  overflow-wrap: anywhere;
   font-weight: 700;
   text-align: center;
   text-decoration: none;
@@ -1686,6 +1688,12 @@ body {
   .accesos,
   .galeria {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .ruta,
+  .acceso-completadas {
+    padding: var(--espacio-m);
+    font-size: 1.125rem;
   }
 
   .ficha__contenido {
