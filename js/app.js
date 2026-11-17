@@ -1065,6 +1065,134 @@ function prepararMapaLista() {
   });
 }
 
+/* ---------- REGIONES, VALLES Y RÍOS: mapa de comarcas pulsable ---------- */
+
+// Las 12 comarcas del mapa, con la letra que las identifica en MAPA_COMARCAS
+const COMARCAS = {
+  a: { id: 'baztan-bidasoa', nombre: 'Baztan-Bidasoa' },
+  b: { id: 'larraun-leitzaldea', nombre: 'Larraun-Leitzaldea' },
+  c: { id: 'pamplona', nombre: 'Comarca de Pamplona' },
+  d: { id: 'sakana', nombre: 'Sakana' },
+  e: { id: 'pirineo', nombre: 'Pirineo' },
+  f: { id: 'prepirineo', nombre: 'Prepirineo' },
+  g: { id: 'tierra-estella', nombre: 'Tierra Estella' },
+  h: { id: 'valdizarbe-novenera', nombre: 'Valdizarbe-Novenera' },
+  i: { id: 'sanguesa', nombre: 'Comarca de Sangüesa' },
+  j: { id: 'zona-media', nombre: 'Zona Media' },
+  k: { id: 'ribera-alta', nombre: 'Ribera Alta' },
+  l: { id: 'ribera', nombre: 'Ribera' },
+};
+
+/*
+ * Qué comarca hay en cada punto del mapa (img/mapa-comarcas.webp, 1943 × 2000 px).
+ * La imagen se divide en cuadros de 5 × 5 px; cada fila (separadas por "|") dice
+ * qué letra de COMARCAS hay en cada cuadro ("." = fuera de Navarra), comprimida:
+ * "12a" son 12 cuadros seguidos de la comarca "a". Se calculó a partir de los colores del mapa.
+ */
+const MAPA_COMARCAS = {
+  ancho: 1943,
+  alto: 2000,
+  celda: 5,
+  filas: '389.|389.|182.2a205.|176.11a202.|174.18a197.|173.19a197.|170.22a197.|169.23a197.|164.28a15.11a171.|159.a2.29a14.13a171.|157.34a14.14a170.|157.34a15.17a166.|156.35a15.18a165.|155.37a14.19a164.|155.37a13.24a7.3a150.|155.37a13.27a3.5a149.|155.38a12.36a148.|155.38a11.38a147.|155.39a10.39a146.|155.46a2.41a145.|155.89a145.|154.2b88a145.|153.4b88a144.|150.8b87a144.|149.11b85a144.|149.12b84a144.|137.b.b7.15b83a144.|129.b7.3b3.19b82a145.|129.b6.4b2.20b82a145.|129.2b6.3b.21b83a144.|129.2b6.25b82a145.|129.3b2.28b82a145.|129.33b82a145.|129.33b82a145.|129.32b83a145.|129.31b84a145.|129.31b84a145.|128.31b85a145.|127.32b84a146.|127.32b82a148.|127.33b80a149.|127.34b79a149.|128.33b79a149.|128.33b79a149.|128.34b78a149.|128.33b79a149.|128.31b81a149.|128.26b85a150.|128.24b86a151.|129.19b90a151.|131.17b90a151.|131.13b94a151.|131.13b93a152.|130.14b93a152.|129.14b94a152.|128.15b93a153.|127.16b92a154.|127.16b92a31.2e121.|126.16b92a25.9e121.|125.17b90a24.11e122.|124.17b91a23.11e123.|123.17b90a25.10e124.|122.18b89a25.10e125.|120.20b87a26.10e126.|117.23b86a26.11e126.|116.24b85a27.10e127.|116.24b85a27.10e127.|115.25b85a28.8e128.|112.28b85a28.8e128.|110.32b84a27.8e128.|107.38b82a25.9e128.|107.40b3ab77a24.9e128.|106.45b77a25.10e126.|106.46b62a4c11a23.14e123.|106.56b4a2b11a4c31a5c11a22.16e121.|106.63b2c5a10c28a6c10a22.17e8.2e110.|106.62b20c26a6c11a21.17e6.6e108.|106.62b20c25a7c10a2e20.18e4.8e107.|105.62b22c20a11c9a7e15.33e105.|104.62b30ca22c6a15e11.34e104.|104.61b54c6a19e7.36e2.2e98.|104.61b54c28e4.41e97.|102.63b55c74e95.|102.63b56c75e93.|102.63b56c75e93.|102.63b57c74e5.2e86.|102.63b58c73e4.4e85.|103.62b57c75e2.10e80.|103.62b57c87e80.|103.61b58c87e80.|103.61b59c87e79.|104.60b59c90e76.|104.59b60c97e2.e66.|103.60b60c102e64.|103.60b60c103e63.|102.61b60c103e63.|101.63b59c104e62.|95.4d66b58c105e61.|90.9d66b58c107e59.|90.10d65b58c109e45.2e10.|89.16d60b59c108e42.7e8.|89.16d60b60c25ef83e11.4e22.11e7.|89.17d11b10d39b59c23e4f85e7.6e20.12e7.|88.22d5b15d37b58c22e6f86e4.12e7.e6.14e6.|88.44d35b58c19e9f130e6.|65.4d18.45d35b58c17e12f130e5.|64.6d16.46d36b57c17e13f130e4.|64.7d5.6d.49d12bd14b2c7b57c16e14f130e4.|64.8d3.58d10b6d9b4c6b56c16e16f129e4.|63.75d2b10d2b2c3b5c6b56c16e17f128e4.|60.91d12c5b56c15e23f123e4.|59.93d11c2b59c15e25f122e3.|59.94d70c16e26f113e3.5e3.|59.95d69c16e27f107e9.4e3.|59.95d68c18e27f105e17.|59.94d68c20e26f104e18.|59.94d68c20e27f102e19.|59.93d70c17e29f101e20.|59.95d70c14e31f98e22.|59.96d69c11e34f97e23.|56.99d69c10e35f97e23.|56.99d69c10e38f95e22.|57.87d2c9d70c8e41f93e22.|58.75d7c3d7c4d71c8e41f93e22.|58.72d90c3f3c7e41f93e22.|58.73d88c8f5e42f93e22.|58.74d87c55f92e23.|58.71d89c57f91e23.|58.70d90c59f3e3f81e25.|59.69d91c65f79e26.|59.68d92c65f78e27.|59.65d95c65f78e27.|59.65d95c67f75e28.|60.64d95c69f71e30.|60.65d95c69f69e31.|60.63d98c68f69e31.|59.63d98c69f69e31.|59.63d98c72f66e31.|58.64d97c74f65e31.|57.65d96c74f67e30.|56.67d95c74f67e30.|55.61dg7d94c74f67e30.|53.53d6g3d3g3dg3d92c75f67e30.|52.54d6g2d13g89c76f67e30.|52.52d24g89c75f67e30.|52.30dg18d27g7c8g73c76f67e30.|52.29d3g16d28g6c10g71c78f64e32.|52.28d4g16d44g70c80f64e31.|52.28d5g15d44g70c80f65e30.|51.g28d7g12d45g71c80f65e29.|50.4g26d8g11d45g72c79f65e29.|50.6g24d9g10d45g72c79f65e29.|51.8gd8g11d10g2dg5d47g72c82f61e30.|51.19g8d15g2d48g73c82f61e30.|51.92g72c82f61e31.|51.92g72c80f63e31.|52.90g73c79f63e32.|52.90g73c79f62e33.|52.88g75c78f56e4.2e34.|53.86g2h74c77f57e40.|53.86g4h70c71f65e40.|52.86g5h68c72f66e40.|49.g.87g6h66c73f66e40.|48.89g7h5c7h54c73f61e45.|42.94g25h50c72f60e46.|41.93g28h49c72f59e47.|41.93g30h45c67f7i58e48.|41.93g31h42c68f8i58e48.|40.94g37h36c67f10i56e49.|40.94g37h38c61f14i55e50.|41.93g38h38c60f14i55e50.|42.92g41h35c59f16i54e50.|42.92g44h31c61f17i2e2i45e53.|42.91g46h30c60f23i43e54.|42.91g50h25c61f25i37e58.|42.91g51h24c60f28i25e68.|42.86g2h2g53h23c60f29i24e68.|43.81gh2g59h10c2j6c63f31i22e69.|43.81g62h9c3j3c3j63f34i12e6i70.|42.82g61h9c9j55f2i7f52i70.|42.82g61h8c11j53f3i6f53i70.|43.81g57h12c16j48f4i3f56i69.|43.3g.77g56h12c18j47f63i69.|44.g3.77g56h10c20j46f63i69.|48.78g55h9c25j43f61i70.|48.78g55h7c29j40f62i70.|18.8g22.78g56h6c31j20f3i15f62i70.|17.11g20.78g56h3c36j18f3i14f63i70.|16.13g14.3g.80g56h2c36j3i14f5i9f67i70.|13.16g11.87g56h37j7i10f7i7f68i70.|12.18g8.90g55h37j8if2i6f7i6f44i4.20i71.|12.18g7.90g55h38j13i4f7i6f44i16.6i73.|12.18g6.91g54h38j24i8f43i95.|11.116g55h37j26i6f43i95.|10.118g53h38j27i3f45i95.|8.120g51h40j75i95.|8.121g50h40j75i95.|7.122g49h41j74i96.|2.2g2.124g47h42j74i96.|2.129g45h43j70i2.2i96.|3.129g43h43j70i101.|3.129g42h44j71i100.|3.16g2.112g41h44j73i98.|4.14g3.112g41h44j75i96.|4.14g6.110g40h44j74i97.|4.13g7.110g40h43j72i100.|4.2g3.8g7.110g40h42j72i101.|10.6g8.111g40h40j71i103.|11.5g9.109g41h40j70i104.|11.4g10.107g42h41j69i105.|11.4g10.106g42h41j69i106.|12.2g11.102g45h41j70i106.|25.101g45h41j71i106.|26.100g45h41j71i106.|26.100g45h41j71i106.|26.100g45h41j71i106.|26.100g45h41j57i3.12i105.|25.101g43h43j57i4.10i106.|24.102g43h43j56i7.4i110.|24.102g34h5j3h52j48i9.i111.|24.102g34h63j44i122.|24.101g35h64j43i122.|24.101g35h68j38i123.|24.101g34h69j38i123.|25.100g34h70j36i124.|25.101g32h71j36i124.|21.106g29h73j36i124.|20.108g27h74j35i125.|19.109g28h73j35i125.|19.110g28h72j36i124.|19.111g28h72j35i124.|19.117g23h71j35i124.|19.117g24h70j37i122.|19.116g25h70j38i121.|21.114g26h69j38i121.|21.113g27h70j37i121.|22.112g28h69j37i121.|23.111g28h69j37i121.|23.111g28h69j36i122.|25.3g2.104g29h68j36i122.|30.104g29h69j34i123.|30.3g.4g3.6g.87g24h2k2h69j34i123.|35.4g4.4g.87g17h11k71j32i123.|35.4g7.g3.86g13h15k71j30i124.|35.4g11.83gkg3k8h19k71j27i126.|50.82g8k5h21k70j24i129.|51.2g2.77g36k68j23i130.|58.73g37k68j22i131.|59.72g37k68j21i132.|59.72g38k67j20i133.|58.73g39k66j19i134.|59.72g40k65j19i134.|63.68g40k65j18i135.|65.66g41k64j17i136.|64.3g2.11g7.44g41k64j17i136.|71.6g10.44g41k63j18i136.|72.5g10.45g40k63j18i136.|86.47g40k63j17i136.|86.48g39k67j12i137.|85.50g39k67j11i137.|86.50g39k67j10i137.|87.48g40k69j8i137.|88.46g41k70j6i138.|90.44g42k70j5i138.|91.43g42k72j2i139.|91.43g42k74j139.|90.43g43k74j139.|92.41g44k74j.2j135.|93.40g44k78j134.|93.12g3.26g43k78j134.|92.12g5.g2.23g42k79j133.|91.10g13.22g39k80j134.|91.9g14.22g37k83j133.|91.9g15.g.20g37k81j134.|91.7g19.21g36k45j2l34j134.|93.3g22.19g38k44j3l32j135.|117.19g40k41j5l30j137.|118.16g41k41j7l27j139.|123.9g43k40j8l27j139.|124.4gkg45k39j11l24j140.|124.3g.47k38j13l22j141.|125.g2.46k38j12l23j142.|128.45k37j14l23j142.|128.45k37j15l21j143.|129.45k34j19l4j3l11j144.|130.45k32j29l9j144.|130.46k29j32l7j145.|129.47k26j37l5j145.|130.46k25j39l3j146.|132.45k23j41lj147.|133.44k22j42l148.|136.k.39k22j42l148.|138.40k2j2l17j43l147.|139.41k5l14j44l146.|139.41k8l10j45l146.|139.41k9l8j46l146.|139.41k10l7j45l147.|138.42k11l5j46l147.|138.44k10l2j48l147.|137.47k57l148.|138.5k.42k55l148.|140.2k3.42k54l148.|146.42k53l148.|147.k2.37k54l148.|150.37k53l149.|149.38k53l149.|149.37k53l150.|150.36k52l151.|153.32k53l151.|154.2k2.27k52l152.|159.25k53l152.|159.2k3.19k54l152.|171.11k55l152.|174.7k56l152.|174.7k56l152.|174.6k58l151.|174.6k59l150.|175.4k61l149.|179.62l148.|179.63l147.|177.65l147.|176.66l147.|176.66l147.|175.67l147.|175.67l147.|175.67l147.|176.66l147.|177.64l148.|178.64l147.|148.3l28.63l147.|147.6l8.7l9.65l147.|146.8l6.9l7.66l147.|145.10l3.12l5.66l148.|145.26l2.68l148.|146.95l148.|145.96l148.|145.96l148.|143.99l147.|142.101l146.|141.104l144.|140.106l143.|140.107l142.|139.109l141.|138.110l141.|137.111l141.|136.112l141.|135.113l141.|134.115l140.|133.117l139.|133.117l139.|132.118l139.|132.119l138.|131.129l129.|131.129l129.|131.129l129.|130.130l129.|131.130l128.|131.130l128.|131.130l128.|131.130l128.|131.130l128.|131.129l129.|131.128l130.|132.125l132.|132.124l133.|136.119l134.|136.118l135.|137.117l135.|138.115l136.|140.113l136.|141.111l137.|141.2l2.106l138.|146.105l138.|146.4l2.98l139.|154.4l4.87l140.|162.87l140.|163.85l141.|164.84l141.|165.83l141.|165.82l142.|166.81l142.|167.80l142.|168.13l.64l143.|170.10l3.l3.58l144.|172.8l9.55l145.|178.l12.53l145.|194.51l144.|195.50l144.|195.49l145.|196.46l147.|196.44l149.|197.43l149.|198.41l150.|199.40l150.|201.17l8.13l150.|203.15l9.11l151.|205.11l16.5l152.|211.4l174.|389.|389.',
+};
+
+let filasComarcas = null; // MAPA_COMARCAS.filas descomprimido (una cadena por fila)
+
+/** Descomprime una fila: "3a2b" → "aaabb". */
+function descomprimirFila(fila) {
+  return fila.replace(/(\d+)(\D)/g, (_, veces, letra) => letra.repeat(Number(veces)));
+}
+
+/** Devuelve la comarca (de COMARCAS) en el punto (x, y) de la imagen original, o null. */
+function comarcaEnPunto(x, y) {
+  if (!filasComarcas) filasComarcas = MAPA_COMARCAS.filas.split('|').map(descomprimirFila);
+  const fila = filasComarcas[Math.floor(y / MAPA_COMARCAS.celda)];
+  const letra = fila ? fila[Math.floor(x / MAPA_COMARCAS.celda)] : undefined;
+  return COMARCAS[letra] || null;
+}
+
+/** Comarca bajo el ratón o el dedo, pasando de la imagen en pantalla a la original. */
+function comarcaDelEvento(evento, imagen) {
+  const caja = imagen.getBoundingClientRect();
+  const x = (evento.clientX - caja.left) * MAPA_COMARCAS.ancho / caja.width;
+  const y = (evento.clientY - caja.top) * MAPA_COMARCAS.alto / caja.height;
+  return comarcaEnPunto(x, y);
+}
+
+/**
+ * Tramos horizontales de cuadros de una comarca: [fila, primera columna, nº de cuadros].
+ * Sirven para dibujar el resaltado; se calculan una vez por comarca.
+ */
+const tramosComarca = {};
+function tramosDeComarca(letra) {
+  if (tramosComarca[letra]) return tramosComarca[letra];
+  if (!filasComarcas) filasComarcas = MAPA_COMARCAS.filas.split('|').map(descomprimirFila);
+  const tramos = [];
+  filasComarcas.forEach((fila, numeroFila) => {
+    let inicio = fila.indexOf(letra);
+    while (inicio !== -1) {
+      let fin = inicio;
+      while (fila[fin] === letra) fin++;
+      tramos.push([numeroFila, inicio, fin - inicio]);
+      inicio = fila.indexOf(letra, fin);
+    }
+  });
+  tramosComarca[letra] = tramos;
+  return tramos;
+}
+
+/** Ilumina la comarca indicada (o ninguna, con null) en el lienzo que hay encima del mapa. */
+function resaltarComarca(lienzo, imagen, comarca) {
+  const anchoPantalla = imagen.clientWidth;
+  const altoPantalla = imagen.clientHeight;
+  const densidad = window.devicePixelRatio || 1;
+  lienzo.width = Math.round(anchoPantalla * densidad);
+  lienzo.height = Math.round(altoPantalla * densidad);
+  const contexto = lienzo.getContext('2d');
+  contexto.clearRect(0, 0, lienzo.width, lienzo.height);
+  if (!comarca) return;
+  const letra = Object.keys(COMARCAS).find((clave) => COMARCAS[clave] === comarca);
+  const escalaX = lienzo.width / MAPA_COMARCAS.ancho * MAPA_COMARCAS.celda;
+  const escalaY = lienzo.height / MAPA_COMARCAS.alto * MAPA_COMARCAS.celda;
+  contexto.fillStyle = COLOR_RESALTE_COMARCA;
+  tramosDeComarca(letra).forEach(([fila, columna, cuadros]) => {
+    // Se redondea hacia fuera para que no queden rayas entre cuadros
+    const x = Math.floor(columna * escalaX);
+    const y = Math.floor(fila * escalaY);
+    contexto.fillRect(x, y, Math.ceil((columna + cuadros) * escalaX) - x, Math.ceil((fila + 1) * escalaY) - y);
+  });
+}
+
+// Color con el que se ilumina la comarca bajo el ratón. Se pinta opaco y la transparencia
+// la pone el CSS (opacity del lienzo), para que no salgan rayas donde se tocan los cuadros.
+const COLOR_RESALTE_COMARCA = '#ffffff';
+
+function prepararMapaComarcas() {
+  const imagen = document.getElementById('mapa-comarcas');
+  const lienzo = document.getElementById('mapa-comarcas-resalte');
+  const rotulo = document.getElementById('mapa-comarcas-nombre');
+  if (!imagen) return;
+  const textoInicial = rotulo.textContent;
+  let comarcaActual = null;
+
+  const marcar = (comarca) => {
+    if (comarca === comarcaActual) return;
+    comarcaActual = comarca;
+    imagen.classList.toggle('mapa-comarcas__imagen--sobre-comarca', Boolean(comarca));
+    rotulo.textContent = comarca ? comarca.nombre : textoInicial;
+    resaltarComarca(lienzo, imagen, comarca);
+  };
+
+  imagen.addEventListener('click', (evento) => {
+    const comarca = comarcaDelEvento(evento, imagen);
+    if (comarca) location.hash = `#comarca-${comarca.id}`;
+  });
+
+  // Con ratón: al pasar por encima, la comarca se ilumina, aparece la mano y su nombre debajo
+  imagen.addEventListener('mousemove', (evento) => marcar(comarcaDelEvento(evento, imagen)));
+  imagen.addEventListener('mouseleave', () => marcar(null));
+}
+
 /* ---------- Buscador de excursiones por nombre (pantalla principal) ---------- */
 
 const NOMBRES_CATEGORIA = {
@@ -1319,6 +1447,7 @@ function iniciarApp() {
   prepararBuscador();
   prepararCarruseles();
   prepararMapaLista();
+  prepararMapaComarcas();
   prepararCierresGuia();
   prepararBuscadorEspecies();
   prepararBotonSubir();

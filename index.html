@@ -66,6 +66,8 @@
       <nav class="accesos" aria-label="Otras secciones">
         <a class="acceso-completadas" href="#completadas">INFORMACIÓN DE INTERÉS</a>
         <a class="acceso-completadas" href="#lista">LA LISTA</a>
+        <a class="acceso-completadas" href="#guias">GUÍAS DE CAMPO</a>
+        <a class="acceso-completadas" href="#regiones">REGIONES, VALLES Y RÍOS</a>
       </nav>
     </section>
 
@@ -276,6 +278,14 @@
         </details>
       </div>
 
+    </section>
+
+    <!-- ========== GUÍAS DE CAMPO (antes dentro de INFORMACIÓN DE INTERÉS) ========== -->
+    <section id="guias" class="pantalla" aria-labelledby="titulo-guias" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#inicio" aria-label="Volver a la pantalla principal">&larr;</a>
+        <h2 id="titulo-guias" class="pantalla__titulo">GUÍAS DE CAMPO</h2>
+      </div>
       <hr class="linea-titulo">
 
       <!-- Guía de campo básica -->
@@ -3536,6 +3546,120 @@
           </ul>
         </details>
       </div>
+    </section>
+
+    <!-- ========== REGIONES, VALLES Y RÍOS: mapa de comarcas ========== -->
+    <section id="regiones" class="pantalla" aria-labelledby="titulo-regiones" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#inicio" aria-label="Volver a la pantalla principal">&larr;</a>
+        <h2 id="titulo-regiones" class="pantalla__titulo">REGIONES, VALLES Y RÍOS</h2>
+      </div>
+      <hr class="linea-titulo">
+
+      <figure class="mapa-comarcas">
+        <span class="mapa-comarcas__marco">
+          <img class="mapa-comarcas__imagen" id="mapa-comarcas" src="img/mapa-comarcas.webp" alt="Mapa de Navarra dividido en sus 12 comarcas, cada una de un color" width="1943" height="2000" loading="lazy">
+          <canvas class="mapa-comarcas__resalte" id="mapa-comarcas-resalte" aria-hidden="true"></canvas>
+        </span>
+      </figure>
+      <p class="mapa-comarcas__nombre" id="mapa-comarcas-nombre" aria-live="polite">Pulsa una comarca del mapa.</p>
+    </section>
+
+    <!-- ========== Comarcas (una pantalla por comarca; el contenido lo irá añadiendo el propietario) ========== -->
+    <section id="comarca-baztan-bidasoa" class="pantalla" aria-labelledby="titulo-comarca-baztan-bidasoa" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-baztan-bidasoa" class="pantalla__titulo">BAZTAN-BIDASOA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-larraun-leitzaldea" class="pantalla" aria-labelledby="titulo-comarca-larraun-leitzaldea" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-larraun-leitzaldea" class="pantalla__titulo">LARRAUN-LEITZALDEA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-pamplona" class="pantalla" aria-labelledby="titulo-comarca-pamplona" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-pamplona" class="pantalla__titulo">COMARCA DE PAMPLONA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-sakana" class="pantalla" aria-labelledby="titulo-comarca-sakana" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-sakana" class="pantalla__titulo">SAKANA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-pirineo" class="pantalla" aria-labelledby="titulo-comarca-pirineo" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-pirineo" class="pantalla__titulo">PIRINEO</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-prepirineo" class="pantalla" aria-labelledby="titulo-comarca-prepirineo" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-prepirineo" class="pantalla__titulo">PREPIRINEO</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-tierra-estella" class="pantalla" aria-labelledby="titulo-comarca-tierra-estella" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-tierra-estella" class="pantalla__titulo">TIERRA ESTELLA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-valdizarbe-novenera" class="pantalla" aria-labelledby="titulo-comarca-valdizarbe-novenera" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-valdizarbe-novenera" class="pantalla__titulo">VALDIZARBE-NOVENERA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-sanguesa" class="pantalla" aria-labelledby="titulo-comarca-sanguesa" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-sanguesa" class="pantalla__titulo">COMARCA DE SANGÜESA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-zona-media" class="pantalla" aria-labelledby="titulo-comarca-zona-media" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-zona-media" class="pantalla__titulo">ZONA MEDIA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-ribera-alta" class="pantalla" aria-labelledby="titulo-comarca-ribera-alta" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-ribera-alta" class="pantalla__titulo">RIBERA ALTA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="comarca-ribera" class="pantalla" aria-labelledby="titulo-comarca-ribera" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver al mapa de comarcas">&larr;</a>
+        <h2 id="titulo-comarca-ribera" class="pantalla__titulo">RIBERA</h2>
+      </div>
+      <hr class="linea-titulo">
     </section>
 
     <!-- ========== LA LISTA: mapa de My Maps (Google) ========== -->
