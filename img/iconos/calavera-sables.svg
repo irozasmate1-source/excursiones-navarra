@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<!-- Calavera con dos sables curvos cruzados por debajo, como la bandera pirata de Calico Jack
+     (reto LA LEGÍTIMA CONQUISTA DE LA ISLA); dibujada para la web -->
+<defs>
+  <!-- Huecos de la calavera: ojos, nariz y dientes -->
+  <mask id="huecos-calavera">
+    <rect width="100" height="100" fill="#fff"/>
+    <ellipse cx="42.6" cy="33" rx="5.6" ry="6" fill="#000"/>
+    <ellipse cx="57.4" cy="33" rx="5.6" ry="6" fill="#000"/>
+    <path d="M50 40 L47.4 45.6 L52.6 45.6 Z" fill="#000"/>
+    <rect x="42" y="49.6" width="16" height="1.6" fill="#000"/>
+    <g stroke="#000" stroke-width="0.9">
+      <path d="M45.2 47.4 V54.6 M48.4 47.4 V55 M51.6 47.4 V55 M54.8 47.4 V54.6"/>
+    </g>
+  </mask>
+  <!-- Un sable: hoja curva con punta arriba a la derecha, guarda y empuñadura abajo a la izquierda -->
+  <g id="sable">
+    <path d="M25 74.5 Q62 71 92 33 Q67 79 26.5 82 Z"/>
+    <path d="M21.4 70.4 Q20 79 27.5 87.6" fill="none" stroke-width="4.4" stroke-linecap="round"/>
+    <path d="M24.6 78.4 L13.4 81.4" fill="none" stroke-width="5.2" stroke-linecap="round"/>
+    <circle cx="10.6" cy="82.2" r="3.9"/>
+  </g>
+</defs>
+<g fill="#1e1a17" stroke="#1e1a17">
+  <use href="#sable"/>
+  <use href="#sable" transform="translate(100 0) scale(-1 1)"/>
+</g>
+<g fill="#1e1a17" mask="url(#huecos-calavera)">
+  <circle cx="50" cy="30" r="17.5"/>
+  <rect x="40" y="38" width="20" height="18.5" rx="4.5"/>
+</g>
+</svg>

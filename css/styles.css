@@ -64,6 +64,12 @@
   --color-reto-boton: #34502f;              /* botones de cada reto: verde oscuro */
   --color-reto-boton-oscuro: #263d23;
   --color-reto-boton-borde: #1a2b18;
+  --color-reto-marron: #5a3a22;            /* botón de reto marrón oscuro */
+  --color-reto-marron-oscuro: #3d2614;
+  --color-reto-marron-borde: #24160b;
+  --color-reto-azul: #23395c;              /* botón de reto azul oscuro */
+  --color-reto-azul-oscuro: #172641;
+  --color-reto-azul-borde: #0c1628;
   --color-reto-flecha: #e9c063;
   --icono-reto: 4.75rem;
   --color-desplegable-arboles: #B6D7A8;
@@ -1135,13 +1141,33 @@ body.modo-retos {
 
 /* Botón de cada reto: grande, verde oscuro, letra de título; lleva a la pantalla del reto */
 .reto-boton {
+  --reto-fondo: var(--color-reto-boton);
+  --reto-fondo-oscuro: var(--color-reto-boton-oscuro);
+  --reto-borde: var(--color-reto-boton-borde);
+}
+
+/* Segundo color de reto: marrón oscuro */
+.reto-boton--marron {
+  --reto-fondo: var(--color-reto-marron);
+  --reto-fondo-oscuro: var(--color-reto-marron-oscuro);
+  --reto-borde: var(--color-reto-marron-borde);
+}
+
+/* Tercer color de reto: azul oscuro */
+.reto-boton--azul {
+  --reto-fondo: var(--color-reto-azul);
+  --reto-fondo-oscuro: var(--color-reto-azul-oscuro);
+  --reto-borde: var(--color-reto-azul-borde);
+}
+
+.reto-boton {
   display: flex;
   align-items: center;
   gap: var(--espacio-l);
   min-height: 7rem;
   padding: var(--espacio-m) var(--espacio-l) var(--espacio-m) var(--espacio-m);
-  background: linear-gradient(180deg, var(--color-reto-boton) 0%, var(--color-reto-boton-oscuro) 100%);
-  border: 3px solid var(--color-reto-boton-borde);
+  background: linear-gradient(180deg, var(--reto-fondo) 0%, var(--reto-fondo-oscuro) 100%);
+  border: 3px solid var(--reto-borde);
   border-radius: 0.75rem;
   box-shadow: 0 0 0 2px var(--color-retos-cobre), 0 0.5rem 1.5rem rgba(0, 0, 0, 0.55), 0 0 1.75rem rgba(255, 120, 40, 0.25);
   color: var(--color-retos-titulo);
@@ -1175,14 +1201,14 @@ body.modo-retos {
 }
 
 /* Icono del reto con un brillo blanco detrás, para que se vea sobre el fondo oscuro */
-.reto-boton__luna {
+.reto-boton__icono {
   position: relative;
   flex: 0 0 var(--icono-reto);
   width: var(--icono-reto);
   height: var(--icono-reto);
 }
 
-.reto-boton__luna::before {
+.reto-boton__icono::before {
   content: "";
   position: absolute;
   inset: -0.9rem;
@@ -1190,11 +1216,12 @@ body.modo-retos {
   background: radial-gradient(closest-side, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.9) 45%, rgba(255, 255, 255, 0.45) 72%, rgba(255, 255, 255, 0) 100%);
 }
 
-.reto-boton__luna img {
+.reto-boton__icono img {
   position: relative;
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: contain;   /* iconos apaisados, como el acueducto, sin deformar */
 }
 
 /* Emblema de RETOS EN EL VALLE (pantalla #retos) */
