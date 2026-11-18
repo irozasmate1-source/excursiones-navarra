@@ -53,6 +53,11 @@
   --color-desplegable-retos: #3A3330;       /* RETOS EN EL VALLE: oscuro, que imponga */
   --color-desplegable-retos-letra: #F5EBDD;
   --ancho-maximo-emblema-retos: 36rem;      /* emblema de la pantalla de retos */
+  --color-retos-fondo: #1c1512;             /* fondo oscuro de la pantalla de retos */
+  --color-retos-brasa: #2e140b;             /* abajo, rojizo de brasa */
+  --color-retos-titulo: #f3e3c3;
+  --color-retos-cobre: #b5642a;             /* rayas bajo el título */
+  --alto-fuego-retos: min(38vh, 21rem);     /* alto de la franja de fuego */
   --color-desplegable-arboles: #B6D7A8;
   --ancho-maximo-mapa-comarcas: 40rem; /* mapa de comarcas en REGIONES, VALLES Y RÍOS */
   --opacidad-resalte-comarca: 0.45;    /* cuánto se ilumina la comarca bajo el ratón */
@@ -1023,6 +1028,54 @@ body {
   line-height: 1.6;
   text-align: justify;
   hyphens: auto;
+}
+
+/* ---------- RETOS EN EL VALLE: fondo oscuro con fuego (clase .modo-retos en body, la pone app.js) ---------- */
+body.modo-retos {
+  background: linear-gradient(180deg, var(--color-retos-fondo) 0%, var(--color-retos-fondo) 60%, var(--color-retos-brasa) 100%) fixed;
+}
+
+/* El contenido, por encima del fuego */
+.modo-retos .contenido {
+  position: relative;
+  z-index: 1;
+}
+
+.modo-retos #retos {
+  padding-bottom: var(--alto-fuego-retos);
+}
+
+.modo-retos #retos .pantalla__titulo {
+  color: var(--color-retos-titulo);
+}
+
+.modo-retos #retos .linea-titulo {
+  border-top-color: var(--color-retos-cobre);
+}
+
+.modo-retos #retos .info-introduccion {
+  box-shadow: 0 0 1.5rem rgba(255, 120, 40, 0.35);
+}
+
+/* Brillo cálido muy suave detrás del emblema */
+.modo-retos .retos-emblema {
+  background: radial-gradient(closest-side, rgba(255, 150, 60, 0.22) 0%, rgba(255, 120, 40, 0.1) 60%, rgba(0, 0, 0, 0) 100%);
+}
+
+.retos-fuego {
+  display: none;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  width: 100%;
+  height: var(--alto-fuego-retos);
+  pointer-events: none;
+  filter: blur(1.4px);
+}
+
+.modo-retos .retos-fuego {
+  display: block;
 }
 
 /* Emblema de RETOS EN EL VALLE (pantalla #retos) */

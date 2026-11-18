@@ -17,6 +17,7 @@ function mostrarPantalla(idPantalla) {
     pantalla.hidden = pantalla.id !== idDestino;
   });
 
+  actualizarModoRetos(idDestino);
   window.scrollTo(0, 0);
 }
 
@@ -1494,7 +1495,157 @@ function prepararBotonSubir() {
 /**
  * Punto de entrada de la aplicación.
  */
+/* ---------- RETOS EN EL VALLE: fondo oscuro y fuego animado abajo ---------- */
+
+// El fuego se calcula en una rejilla pequeña (cada celda, unos 3 px) y el navegador la amplía suavizada.
+const FUEGO_PX_POR_CELDA = 4;
+const FUEGO_MAXIMO_CELDAS_ANCHO = 200;   // en pantallas anchas, celdas algo mayores para no ir lento
+const FUEGO_CELDAS_ALTO = 72;
+const FUEGO_RUIDO_POR_PX = 0.043;        // grosor de las llamas: el mismo en cualquier ancho de pantalla
+const FUEGO_PASOS_COLOR = [              // [calor, rojo, verde, azul, opacidad]: rojo oscuro -> naranja -> amarillo
+  [0, 70, 5, 0, 0], [0.2, 170, 25, 0, 140], [0.45, 235, 85, 5, 225],
+  [0.7, 255, 150, 20, 255], [0.9, 255, 205, 70, 255], [1, 255, 235, 150, 255],
+];
+
+const fuego = { lienzo: null, contexto: null, imagen: null, ancho: 0, alto: 0, escalaX: 0, inicio: 0, animacion: null, permutacion: null };
+
+/** Tabla de números al azar para el ruido (se crea una vez). */
+function crearPermutacion() {
+  const numeros = [...Array(256).keys()];
+  for (let i = numeros.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [numeros[i], numeros[j]] = [numeros[j], numeros[i]];
+  }
+  return Uint8Array.from({ length: 512 }, (_, i) => numeros[i & 255]);
+}
+
+/** Ruido suave en (x, y): valores entre 0 y 1 que cambian poco a poco. */
+function ruidoSuave(x, y) {
+  const p = fuego.permutacion;
+  const xi = Math.floor(x), yi = Math.floor(y);
+  const u = (x - xi) * (x - xi) * (3 - 2 * (x - xi));
+  const v = (y - yi) * (y - yi) * (3 - 2 * (y - yi));
+  const valor = (a, b) => p[(p[a & 255] + b) & 255] / 255;
+  const a = valor(xi, yi), b = valor(xi + 1, yi), c = valor(xi, yi + 1), d = valor(xi + 1, yi + 1);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+
+/** Ruido con varios niveles de detalle (da los bordes rotos de las llamas). */
+function ruidoCapas(x, y, capas = 4) {
+  let suma = 0, amplitud = 0.5, frecuencia = 1;
+  for (let capa = 0; capa < capas; capa++) {
+    suma += amplitud * ruidoSuave(x * frecuencia, y * frecuencia);
+    frecuencia *= 2;
+    amplitud *= 0.5;
+  }
+  return suma;
+}
+
+/** Color [r, g, b, opacidad] para un calor entre 0 y 1. */
+function colorFuego(calor) {
+  for (let k = 1; k < FUEGO_PASOS_COLOR.length; k++) {
+    const [c1, ...desde] = FUEGO_PASOS_COLOR[k - 1];
+    const [c2, ...hasta] = FUEGO_PASOS_COLOR[k];
+    if (calor <= c2) {
+      const f = (calor - c1) / (c2 - c1);
+      return desde.map((valor, i) => valor + (hasta[i] - valor) * f);
+    }
+  }
+  return FUEGO_PASOS_COLOR[FUEGO_PASOS_COLOR.length - 1].slice(1);
+}
+
+/** Altura de las llamas en cada columna: unas zonas arden más alto que otras y van cambiando. */
+function alturaZonaFuego(xRuido, segundos) {
+  return 0.55 + 0.6 * ruidoCapas(xRuido * 0.3 + 40, segundos * 0.3, 3);
+}
+
+/** Calor de una celda: ruido que sube y se ondula, más fuerte abajo. */
+function calorFuego(xRuido, altura, segundos, alturaZona) {
+  const ondulacion = ruidoCapas(xRuido * 0.5 + 13, altura * 1.6 - segundos * 0.8, 2) - 0.5;
+  const llama = ruidoCapas(xRuido + ondulacion * 2.2 + altura * 0.8, altura * 2.4 - segundos * 2.2);
+  const calor = (llama - 0.32) * 2.3 + (1 - altura / alturaZona) * 1.1 - 0.55;
+  return Math.max(0, Math.min(1, calor));
+}
+
+/** Ajusta la rejilla al tamaño del lienzo en pantalla. */
+function ajustarTamanoFuego() {
+  const anchoPantalla = fuego.lienzo.clientWidth || window.innerWidth;
+  fuego.ancho = Math.min(FUEGO_MAXIMO_CELDAS_ANCHO, Math.max(60, Math.round(anchoPantalla / FUEGO_PX_POR_CELDA)));
+  fuego.alto = FUEGO_CELDAS_ALTO;
+  fuego.escalaX = (anchoPantalla / fuego.ancho) * FUEGO_RUIDO_POR_PX;
+  fuego.lienzo.width = fuego.ancho;
+  fuego.lienzo.height = fuego.alto;
+  fuego.imagen = fuego.contexto.createImageData(fuego.ancho, fuego.alto);
+}
+
+/** Dibuja un fotograma del fuego. */
+function dibujarFuego(segundos) {
+  const datos = fuego.imagen.data;
+  const alturas = Array.from({ length: fuego.ancho }, (_, x) => alturaZonaFuego(x * fuego.escalaX, segundos));
+  for (let y = 0; y < fuego.alto; y++) {
+    const altura = 1 - y / (fuego.alto - 1);   // 0 abajo, 1 arriba
+    for (let x = 0; x < fuego.ancho; x++) {
+      const calor = calorFuego(x * fuego.escalaX, altura, segundos, alturas[x]);
+      const [r, g, b, opacidad] = colorFuego(calor);
+      const i = (y * fuego.ancho + x) * 4;
+      datos[i] = r;
+      datos[i + 1] = g;
+      datos[i + 2] = b;
+      datos[i + 3] = calor < 0.05 ? 0 : opacidad;
+    }
+  }
+  fuego.contexto.putImageData(fuego.imagen, 0, 0);
+}
+
+/** Bucle de la animación (unos 24 fotogramas por segundo: suficiente para el fuego y gasta menos). */
+function animarFuego(ahora) {
+  if (!fuego.ultimo || ahora - fuego.ultimo > 42) {
+    fuego.ultimo = ahora;
+    dibujarFuego((ahora - fuego.inicio) / 1000);
+  }
+  fuego.animacion = requestAnimationFrame(animarFuego);
+}
+
+function encenderFuego() {
+  if (!fuego.lienzo || fuego.animacion) return;
+  ajustarTamanoFuego();
+  const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (sinMovimiento) {
+    dibujarFuego(0);   // quien pide menos animaciones ve el fuego quieto
+    return;
+  }
+  fuego.inicio = performance.now();
+  fuego.animacion = requestAnimationFrame(animarFuego);
+}
+
+function apagarFuego() {
+  if (fuego.animacion) cancelAnimationFrame(fuego.animacion);
+  fuego.animacion = null;
+}
+
+/** Al entrar en #retos: fondo oscuro y fuego; al salir, todo como antes y la animación parada. */
+function actualizarModoRetos(idPantalla) {
+  const enRetos = idPantalla === 'retos';
+  document.body.classList.toggle('modo-retos', enRetos);
+  if (enRetos) encenderFuego();
+  else apagarFuego();
+}
+
+function prepararFuegoRetos() {
+  fuego.lienzo = document.getElementById('retos-fuego');
+  if (!fuego.lienzo) return;
+  fuego.contexto = fuego.lienzo.getContext('2d');
+  fuego.permutacion = crearPermutacion();
+  window.addEventListener('resize', () => {
+    if (document.body.classList.contains('modo-retos')) {
+      ajustarTamanoFuego();
+      if (!fuego.animacion) dibujarFuego(0);
+    }
+  });
+}
+
 function iniciarApp() {
+  prepararFuegoRetos();
   pintarCategorias();
   prepararContador();
   prepararBuscador();
