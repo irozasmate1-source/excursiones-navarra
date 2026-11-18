@@ -1007,7 +1007,8 @@ function pintarCategorias() {
  * fotos van en fila y los puntitos no se muestran.
  */
 function prepararCarrusel(galeria) {
-  const fotos = [...galeria.querySelectorAll('img')];
+  // cada foto es un <img> suelto o un <figure> con la foto y su rótulo
+  const fotos = [...galeria.children];
   if (fotos.length < 2) return;
 
   const puntos = crearElemento('div', 'galeria__puntos');
