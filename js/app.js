@@ -1624,11 +1624,16 @@ function apagarFuego() {
   fuego.animacion = null;
 }
 
-/** Al entrar en #retos: fondo oscuro y fuego; al salir, todo como antes y la animación parada. */
+/**
+ * En #retos y en la pantalla de cada reto (#reto-…): fondo oscuro.
+ * El fuego, solo en #retos. Al salir, todo como antes y la animación parada.
+ */
 function actualizarModoRetos(idPantalla) {
-  const enRetos = idPantalla === 'retos';
-  document.body.classList.toggle('modo-retos', enRetos);
-  if (enRetos) encenderFuego();
+  const oscuro = idPantalla === 'retos' || idPantalla.startsWith('reto-');
+  const conFuego = idPantalla === 'retos';
+  document.body.classList.toggle('modo-retos', oscuro);
+  document.body.classList.toggle('modo-retos--fuego', conFuego);
+  if (conFuego) encenderFuego();
   else apagarFuego();
 }
 
@@ -1638,7 +1643,7 @@ function prepararFuegoRetos() {
   fuego.contexto = fuego.lienzo.getContext('2d');
   fuego.permutacion = crearPermutacion();
   window.addEventListener('resize', () => {
-    if (document.body.classList.contains('modo-retos')) {
+    if (document.body.classList.contains('modo-retos--fuego')) {
       ajustarTamanoFuego();
       if (!fuego.animacion) dibujarFuego(0);
     }

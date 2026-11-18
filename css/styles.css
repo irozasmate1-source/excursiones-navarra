@@ -1082,7 +1082,8 @@ body {
   hyphens: auto;
 }
 
-/* ---------- RETOS EN EL VALLE: fondo oscuro con fuego (clase .modo-retos en body, la pone app.js) ---------- */
+/* ---------- RETOS EN EL VALLE: fondo oscuro en #retos y en cada reto (clase .modo-retos en body);
+   el fuego, solo en #retos (clase .modo-retos--fuego). Las pone app.js ---------- */
 body.modo-retos {
   background: linear-gradient(180deg, var(--color-retos-fondo) 0%, var(--color-retos-fondo) 60%, var(--color-retos-brasa) 100%) fixed;
 }
@@ -1106,11 +1107,11 @@ body.modo-retos {
   padding-bottom: var(--alto-fuego-retos);
 }
 
-.modo-retos #retos .pantalla__titulo {
+.modo-retos .pantalla__titulo {
   color: var(--color-retos-titulo);
 }
 
-.modo-retos #retos .linea-titulo {
+.modo-retos .linea-titulo {
   border-top-color: var(--color-retos-cobre);
 }
 
@@ -1135,7 +1136,7 @@ body.modo-retos {
   filter: blur(1.4px);
 }
 
-.modo-retos .retos-fuego {
+.modo-retos--fuego .retos-fuego {
   display: block;
 }
 
