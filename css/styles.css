@@ -1608,6 +1608,12 @@ body {
   color: var(--color-bosque);
 }
 
+/* Título del mapa de ríos en REGIONES, VALLES Y RÍOS */
+.regiones__titulo {
+  margin: 0;
+  text-align: center;
+}
+
 /* Mapa de municipios de cada comarca (pantallas #comarca-…) */
 .mapa-comarca {
   margin: 0;

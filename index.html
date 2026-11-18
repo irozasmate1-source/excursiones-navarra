@@ -3548,7 +3548,7 @@
       </div>
     </section>
 
-    <!-- ========== REGIONES, VALLES Y RÍOS: mapa de comarcas ========== -->
+    <!-- ========== REGIONES, VALLES Y RÍOS: mapas de comarcas y de ríos ========== -->
     <section id="regiones" class="pantalla" aria-labelledby="titulo-regiones" hidden>
       <div class="pantalla__barra">
         <a class="boton-volver" href="#inicio" aria-label="Volver a la pantalla principal">&larr;</a>
@@ -3563,6 +3563,17 @@
         </span>
       </figure>
       <p class="mapa-comarcas__nombre" id="mapa-comarcas-nombre" aria-live="polite">Pulsa una comarca del mapa.</p>
+
+      <hr class="linea-titulo">
+
+      <h3 class="info-uso__titulo regiones__titulo">CUENCAS DE LOS RÍOS</h3>
+      <figure class="mapa-comarcas">
+        <span class="mapa-comarcas__marco">
+          <img class="mapa-comarcas__imagen" id="mapa-rios" src="img/mapa-rios.png" alt="Mapa de Navarra con las cuencas de sus ríos, cada una de un color, y los ríos en azul" width="800" height="850" loading="lazy">
+          <canvas class="mapa-comarcas__resalte" id="mapa-rios-resalte" aria-hidden="true"></canvas>
+        </span>
+      </figure>
+      <p class="mapa-comarcas__nombre" id="mapa-rios-nombre" aria-live="polite">Pulsa la cuenca de un río.</p>
     </section>
 
     <!-- ========== Comarcas (una pantalla por comarca; el contenido lo irá añadiendo el propietario) ========== -->
@@ -3708,6 +3719,211 @@
       <figure class="mapa-comarca">
         <img class="mapa-comarca__imagen" src="img/comarcas/ribera.png" alt="Mapa de la Ribera con sus 19 municipios y la lista numerada de sus nombres" width="1937" height="1646" loading="lazy">
       </figure>
+    </section>
+
+    <!-- ========== Ríos (una pantalla por cuenca; el contenido lo irá añadiendo el propietario) ========== -->
+    <section id="rio-bidasoa" class="pantalla" aria-labelledby="titulo-rio-bidasoa" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-bidasoa" class="pantalla__titulo">RÍO BIDASOA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-urumea" class="pantalla" aria-labelledby="titulo-rio-urumea" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-urumea" class="pantalla__titulo">RÍO URUMEA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-leizaran" class="pantalla" aria-labelledby="titulo-rio-leizaran" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-leizaran" class="pantalla__titulo">RÍO LEIZARAN</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-araxes" class="pantalla" aria-labelledby="titulo-rio-araxes" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-araxes" class="pantalla__titulo">RÍO ARAXES</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-larraun" class="pantalla" aria-labelledby="titulo-rio-larraun" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-larraun" class="pantalla__titulo">RÍO LARRAUN</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-ulzama" class="pantalla" aria-labelledby="titulo-rio-ulzama" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-ulzama" class="pantalla__titulo">RÍO ULZAMA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-araquil" class="pantalla" aria-labelledby="titulo-rio-araquil" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-araquil" class="pantalla__titulo">RÍO ARAQUIL</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-erro" class="pantalla" aria-labelledby="titulo-rio-erro" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-erro" class="pantalla__titulo">RÍO ERRO</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-urrobi" class="pantalla" aria-labelledby="titulo-rio-urrobi" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-urrobi" class="pantalla__titulo">RÍO URROBI</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-irati" class="pantalla" aria-labelledby="titulo-rio-irati" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-irati" class="pantalla__titulo">RÍO IRATI</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-areta" class="pantalla" aria-labelledby="titulo-rio-areta" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-areta" class="pantalla__titulo">RÍO ARETA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-salazar" class="pantalla" aria-labelledby="titulo-rio-salazar" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-salazar" class="pantalla__titulo">RÍO SALAZAR</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-esca" class="pantalla" aria-labelledby="titulo-rio-esca" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-esca" class="pantalla__titulo">RÍO ESCA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-urederra" class="pantalla" aria-labelledby="titulo-rio-urederra" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-urederra" class="pantalla__titulo">RÍO UREDERRA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-ega" class="pantalla" aria-labelledby="titulo-rio-ega" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-ega" class="pantalla__titulo">RÍO EGA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-linares" class="pantalla" aria-labelledby="titulo-rio-linares" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-linares" class="pantalla__titulo">RÍO LINARES</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-odron" class="pantalla" aria-labelledby="titulo-rio-odron" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-odron" class="pantalla__titulo">RÍO ODRÓN</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-ebro" class="pantalla" aria-labelledby="titulo-rio-ebro" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-ebro" class="pantalla__titulo">RÍO EBRO</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-arga" class="pantalla" aria-labelledby="titulo-rio-arga" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-arga" class="pantalla__titulo">RÍO ARGA</h2>
+      </div>
+      <hr class="linea-titulo">
+
+      <figure class="mapa-comarca">
+        <img class="mapa-comarca__imagen" src="img/rios/arga.png" alt="Mapa de la cuenca del río Arga con sus afluentes y los pueblos por los que pasa" width="1587" height="1780" loading="lazy">
+      </figure>
+    </section>
+
+    <section id="rio-elorz" class="pantalla" aria-labelledby="titulo-rio-elorz" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-elorz" class="pantalla__titulo">RÍO ELORZ</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-zidacos" class="pantalla" aria-labelledby="titulo-rio-zidacos" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-zidacos" class="pantalla__titulo">RÍO ZIDACOS</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-aragon" class="pantalla" aria-labelledby="titulo-rio-aragon" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-aragon" class="pantalla__titulo">RÍO ARAGÓN</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-onsella" class="pantalla" aria-labelledby="titulo-rio-onsella" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-onsella" class="pantalla__titulo">RÍO ONSELLA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-alhama" class="pantalla" aria-labelledby="titulo-rio-alhama" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-alhama" class="pantalla__titulo">RÍO ALHAMA</h2>
+      </div>
+      <hr class="linea-titulo">
+    </section>
+
+    <section id="rio-queiles" class="pantalla" aria-labelledby="titulo-rio-queiles" hidden>
+      <div class="pantalla__barra">
+        <a class="boton-volver" href="#regiones" aria-label="Volver a los mapas de regiones y ríos">&larr;</a>
+        <h2 id="titulo-rio-queiles" class="pantalla__titulo">RÍO QUEILES</h2>
+      </div>
+      <hr class="linea-titulo">
     </section>
 
     <!-- ========== LA LISTA: mapa de My Maps (Google) ========== -->

@@ -30,7 +30,7 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 - **Icono de la pestaña (favicon)**: rosa de los vientos azul propia, `img/favicon.svg` y su versión PNG de 32 px `img/favicon-32.png` (para navegadores que no aceptan SVG). No se usó la imagen de Dreamstime que propuso el propietario porque tenía marca de agua.
 
 ### Pantallas de categoría
-- Navegación por `#hash` (`#lugares`, `#montes`, `#bicicleta`, `#monumentos`, `#completadas`, `#guias`, `#regiones` y las 12 `#comarca-…`, `#lista`). Funciona con doble clic y con el botón "atrás" del móvil.
+- Navegación por `#hash` (`#lugares`, `#montes`, `#bicicleta`, `#monumentos`, `#completadas`, `#guias`, `#regiones`, las 12 `#comarca-…` y las 25 `#rio-…`, `#lista`). Funciona con doble clic y con el botón "atrás" del móvil.
 - Las excursiones completadas ya no tienen sección propia: están en su categoría como una más (ver "Excursiones completadas").
 - Todas tienen una flecha (←) para volver a la pantalla principal.
 - Galería de imágenes con borde negro y proporción 4:3 encima de la lista. Excepción: en Monumentos, el cartel (`monumentos-1-mapa.png`) va completo, sin recortar, debajo de la lista.
@@ -146,6 +146,16 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
   - En el móvil el mapa se ve pequeño (unos 340 px de ancho): para leer los nombres hay que ampliar con los dedos.
 - Cómo se sabe qué comarca se pulsa: `MAPA_COMARCAS` en `app.js` divide la imagen en cuadros de 5 × 5 px y guarda qué comarca hay en cada uno (una letra de `COMARCAS`, comprimido por filas: "12a" = 12 cuadros de la comarca a). Se calculó a partir de los colores del mapa (el texto blanco y negro se asignó a la comarca de alrededor y se quitaron las manchas sueltas; los dos trocitos sueltos de la Comarca de Sangüesa, al este, no se pueden pulsar). Si se cambia la imagen por otra de distinto tamaño o dibujo, hay que recalcularlo. Funciona con doble clic (`file://`), porque no lee la imagen en el navegador.
 
+- **Mapa de ríos** (pedido por el propietario), debajo del de comarcas, tras una línea (`hr.linea-titulo`) y el título **CUENCAS DE LOS RÍOS** (`h3.info-uso__titulo.regiones__titulo`, centrado): `img/mapa-rios.png` (800 × 850, imagen del propietario sin pie), con el mismo funcionamiento que el de comarcas (mismas clases `mapa-comarcas…`, lienzo `#mapa-rios-resalte`, rótulo `#mapa-rios-nombre`, "Pulsa la cuenca de un río."). Al pulsar una cuenca se va a la pantalla de su río.
+  - **25 cuencas**: Bidasoa, Urumea, Leizaran, Araxes, Larraun, Ulzama, Araquil, Erro, Urrobi, Irati, Areta, Salazar, Esca, Urederra, Ega, Linares, Odrón, Ebro, Arga, Elorz, Zidacos, Aragón, Onsella, Alhama y Queiles (con los nombres que trae el mapa). El Ebro tiene varios trozos sueltos y todos llevan a su pantalla. Las zonas sin nombre del mapa (las grises y la marrón del extremo norte, cuencas que salen hacia Francia) no se pueden pulsar.
+  - Cada río tiene su pantalla `#rio-<id>` (`rio-arga`, `rio-aragon`, `rio-odron`…), con la flecha de volver a `#regiones`, el título **RÍO …** en mayúsculas y la línea. Debajo, el **mapa de la cuenca** (ver abajo); de momento solo lo tiene el Arga.
+  - **Mapas de cada cuenca** (pedidos por el propietario; mismas clases que los de las comarcas, `figure.mapa-comarca` > `img.mapa-comarca__imagen`): `img/rios/<id>.png`. Cada uno lleva el título (CUENCA DEL RÍO …), la cuenca en su color, el río principal en azul fuerte, los demás ríos más finos y los arroyos en azul claro, los nombres de los afluentes principales y de los pueblos, escala y norte. A la derecha, la leyenda con los **afluentes principales** (km que recorren dentro de la cuenca) y los **pueblos y ciudades junto al río** de norte a sur. Pie: «Ríos y pueblos: © colaboradores de OpenStreetMap (ODbL)…» (lo exige la licencia; no quitarlo).
+    - El contorno de la cuenca es el de `img/mapa-rios.png`, situado en coordenadas reales (la imagen ocupa el recuadro de Navarra: longitud −2,4999 a −0,7233, latitud 41,9099 a 43,3149). Ríos, arroyos y pueblos son de **OpenStreetMap** (API Overpass).
+    - Pueblos que salen: ciudades y villas de la cuenca siempre; pueblos a menos de 1,2 km del río principal; aldeas a menos de 0,5 km. Si no cabe el nombre en el mapa, sigue saliendo en la lista.
+    - Los ríos que en el mapa de ríos tienen cuenca propia (Ulzama, Elorz, Araquil y Larraun, en el caso del Arga) no salen como afluentes, aunque en la realidad lo sean.
+    - Se dibujan con scripts de la carpeta temporal (`comarcas-mapas/`: `cuencas.txt`, `cuencas-textos.txt`, `<id>-contorno.txt`, `<id>-osm.txt`, `<id>-aldeas.txt` y `dibujar-cuenca.ps1`; `insertar-rio.pl` los mete en su pantalla). Si se pierden, habría que repetir la descarga y el dibujo.
+  - `MAPA_RIOS` se calculó separando las zonas de color por las líneas de frontera (los ríos azules se taparon antes con el color de alrededor, para que no partieran las cuencas); el Areta tiene un color casi igual al del Irati y se separó por su borde.
+
 ### LA LISTA (`#lista`): mapa de My Maps
 - Sección con la flecha de volver, el título **LA LISTA** y la línea bajo el título (`hr.linea-titulo`).
 - Dentro, el mapa de **Google My Maps "La lista"** del propietario, insertado con un `<iframe>` (`https://www.google.com/maps/d/embed?mid=1V7lsMXTH8brW9LNynKAJOCVaSxGChEo&ehbc=2E312F`), a todo el ancho y con alto `--alto-mapa-lista` (70vh). Es interactivo: moverse, zoom y pinchar en los puntos para ver sus descripciones. `loading="lazy"`: solo carga al entrar en la sección.
@@ -241,7 +251,9 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
     ├── sorioneku.svg                      # Lema en signario celtibérico (INFORMACIÓN DE INTERÉS)
     ├── mapa-navarra.png, rosa-vientos.svg # Pantalla principal
     ├── mapa-comarcas.webp                 # Mapa de comarcas pulsable (REGIONES, VALLES Y RÍOS)
+    ├── mapa-rios.png                      # Mapa de cuencas de los ríos pulsable (REGIONES, VALLES Y RÍOS)
     ├── comarcas/                          # Mapa de municipios de cada comarca (12 PNG, uno por pantalla de comarca)
+    ├── rios/                              # Mapa de la cuenca de cada río (uno por pantalla de río)
     ├── montes-*.{webp,png}                # Galería de Montes/paseos (3)
     ├── lugares-*.{webp,png}               # Galería de Lugares y pueblos (3)
     ├── bicicleta-*.webp                   # Galería de Bicicleta (2)
@@ -291,11 +303,11 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 - Buscador de especies: `GRUPOS_GUIA` (clase del desplegable → nombre e icono), `leerEspeciesGuia()`, `buscarEspecies(...)`, `irAEspecie(...)`, `crearResultadoEspecie(...)`, `mostrarResultadosEspecies(...)` y `prepararBuscadorEspecies()` (usa `normalizar` y `MAXIMO_RESULTADOS` del buscador de excursiones).
 - Carrusel: `prepararCarrusel(galeria)` (crea los puntitos tras la galería y marca el activo según la foto más centrada) y `prepararCarruseles()`.
 - LA LISTA: `prepararMapaLista()` (muestra el botón de pantalla completa si el navegador lo permite).
-- Mapa de comarcas: `COMARCAS` (letra → id y nombre), `MAPA_COMARCAS` (qué comarca hay en cada cuadro de la imagen), `descomprimirFila`, `comarcaEnPunto`, `comarcaDelEvento`, `tramosDeComarca` y `resaltarComarca` (dibujan la comarca iluminada, `COLOR_RESALTE_COMARCA`) y `prepararMapaComarcas()` (pulsar → `#comarca-<id>`; con ratón, se ilumina, mano y nombre).
+- Mapas pulsables (comarcas y ríos): `COMARCAS` y `CUENCAS` (letra → id y nombre), `MAPA_COMARCAS` y `MAPA_RIOS` (qué zona hay en cada cuadro de cada imagen), `MAPAS_PULSABLES` (cada mapa con su imagen, lienzo, rótulo, zonas y prefijo de pantalla: `comarca-` o `rio-`), `descomprimirFila`, `filasDelMapa`, `zonaEnPunto`, `zonaDelEvento`, `tramosDeZona` y `resaltarZona` (dibujan la zona iluminada, `COLOR_RESALTE_COMARCA`), `prepararMapaPulsable(mapa)` (pulsar → `#<prefijo><id>`; con ratón, se ilumina, mano y nombre) y `prepararMapasPulsables()`.
 - Nombres: `NOMBRES_CORREGIDOS` y `textoExcursion(categoria, excursion)` (ver "Formato de los nombres de las excursiones").
 - Compartir: `URL_WEB`, `EMOJI_CATEGORIA`, `EMOJI_DATO`, `textoCompartir(...)`, `compartirExcursion(...)` y `crearBotonCompartir(...)` (ver "Botón COMPARTIR").
 - Cerrar y subir: `crearBotonCerrar(desplegable)`, `prepararCierresGuia()`, `DISTANCIA_FLECHA_SUBIR`, `actualizarBotonSubir()` y `prepararBotonSubir()`.
-- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `prepararBuscador()`, `prepararCarruseles()`, `prepararMapaLista()`, `prepararMapaComarcas()`, `prepararCierresGuia()`, `prepararBuscadorEspecies()`, `prepararBotonSubir()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
+- `iniciarApp()` llama, en orden, a `pintarCategorias()`, `prepararContador()`, `prepararBuscador()`, `prepararCarruseles()`, `prepararMapaLista()`, `prepararMapasPulsables()`, `prepararCierresGuia()`, `prepararBuscadorEspecies()`, `prepararBotonSubir()`, `iniciarRelojSanfermines()` y `mostrarPantalla(...)`.
 - `GRUPOS_NUEVOS`: grupos que no están en la hoja Resumen (de momento, "Viaje veraniego" en Lugares), con su color.
 - `FICHAS_CON_FOTO` y `crearContenidoFoto(...)`: fichas que solo muestran una foto con pie (Menorca).
 - Los desplegables y las fichas usan `<details>`/`<summary>`. Los textos se insertan con `textContent`, nunca con `innerHTML`.
