@@ -72,6 +72,9 @@
   --color-reto-azul-borde: #0c1628;
   --color-reto-flecha: #e9c063;
   --icono-reto: 4.75rem;
+  --color-reto-texto: #efe3cc;              /* texto de los apartados de cada reto */
+  --color-reto-texto-suave: #b9a88c;        /* pies de foto en los retos */
+  --ancho-maximo-mapa-reto: 30rem;         /* mapa del reto: no más que su tamaño real (485 px) */
   --color-desplegable-arboles: #B6D7A8;
   --ancho-maximo-mapa-comarcas: 40rem; /* mapa de comarcas en REGIONES, VALLES Y RÍOS */
   --opacidad-resalte-comarca: 0.45;    /* cuánto se ilumina la comarca bajo el ratón */
@@ -1223,6 +1226,73 @@ body.modo-retos {
   width: 100%;
   height: 100%;
   object-fit: contain;   /* iconos apaisados, como el acueducto, sin deformar */
+}
+
+/* Apartados dentro de la pantalla de cada reto: título secundario con una raya encima y otra debajo */
+.reto-apartado {
+  margin: 0;
+  padding: var(--espacio-s) 0;
+  border-top: 2px solid var(--color-retos-cobre);
+  border-bottom: 2px solid var(--color-retos-cobre);
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  color: var(--color-reto-flecha);
+}
+
+/* Texto de cada apartado del reto, en claro sobre el fondo oscuro */
+.reto-texto {
+  color: var(--color-reto-texto);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.reto-texto p {
+  margin: 0;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.reto-texto__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-m);
+  margin: 0;
+  padding-left: var(--espacio-l);
+}
+
+.reto-texto__lista li::marker {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  color: var(--color-reto-flecha);
+}
+
+/* Enlace y mapa dentro de la lista: debajo del texto del punto */
+.reto-texto__enlace,
+.reto-mapa {
+  margin-top: var(--espacio-s);
+}
+
+.reto-mapa {
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
+.reto-mapa img {
+  display: block;
+  width: 100%;
+  max-width: var(--ancho-maximo-mapa-reto);
+  height: auto;
+  border: 3px solid var(--color-retos-cobre);
+  border-radius: var(--radio);
+}
+
+.reto-mapa__pie {
+  margin-top: var(--espacio-xs, 0.25rem);
+  font-size: 0.8125rem;
+  color: var(--color-reto-texto-suave);
 }
 
 /* Emblema de RETOS EN EL VALLE (pantalla #retos) */
