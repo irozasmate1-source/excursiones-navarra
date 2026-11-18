@@ -58,6 +58,7 @@
   --color-retos-fondo: #1c1512;             /* fondo oscuro de la pantalla de retos */
   --color-retos-brasa: #2e140b;             /* abajo, rojizo de brasa */
   --color-retos-titulo: #f3e3c3;
+  --color-retos-cabecera: #140f0d;          /* cabecera de la web en retos, algo más oscura que el fondo */
   --color-retos-cobre: #b5642a;             /* rayas bajo el título */
   --alto-fuego-retos: min(38vh, 21rem);     /* alto de la franja de fuego */
   --color-reto-boton: #34502f;              /* botones de cada reto: verde oscuro */
@@ -147,6 +148,22 @@ body {
 }
 
 /* ---------- Cabecera ---------- */
+/* El título es un enlace a la pantalla principal, pero se ve igual que un título */
+.cabecera__enlace {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cabecera__enlace:hover {
+  opacity: 0.8;
+}
+
+.cabecera__enlace:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: 4px;
+  border-radius: var(--radio);
+}
+
 .cabecera {
   padding: var(--espacio-xl) var(--espacio-m) var(--espacio-l);
   background-color: var(--color-pergamino);
@@ -1062,6 +1079,15 @@ body {
 /* ---------- RETOS EN EL VALLE: fondo oscuro con fuego (clase .modo-retos en body, la pone app.js) ---------- */
 body.modo-retos {
   background: linear-gradient(180deg, var(--color-retos-fondo) 0%, var(--color-retos-fondo) 60%, var(--color-retos-brasa) 100%) fixed;
+}
+
+/* La cabecera de la web también se oscurece mientras se está en retos */
+.modo-retos .cabecera {
+  background-color: var(--color-retos-cabecera);
+}
+
+.modo-retos .cabecera__titulo {
+  color: var(--color-retos-titulo);
 }
 
 /* El contenido, por encima del fuego */
