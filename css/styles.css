@@ -1608,6 +1608,19 @@ body {
   color: var(--color-bosque);
 }
 
+/* Mapa de municipios de cada comarca (pantallas #comarca-…) */
+.mapa-comarca {
+  margin: 0;
+}
+
+.mapa-comarca__imagen {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-arena-borde);
+  border-radius: var(--radio);
+}
+
 
 /* ---------- Galería en el móvil: carrusel deslizable ---------- */
 /* Puntitos bajo el carrusel (solo se ven en el móvil; los crea app.js) */
