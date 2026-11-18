@@ -52,6 +52,7 @@
   --color-desplegable-reloj: #F4A3A3;
   --color-desplegable-retos: #3A3330;       /* RETOS EN EL VALLE: oscuro, que imponga */
   --color-desplegable-retos-letra: #F5EBDD;
+  --ancho-maximo-emblema-retos: 36rem;      /* emblema de la pantalla de retos */
   --color-desplegable-arboles: #B6D7A8;
   --ancho-maximo-mapa-comarcas: 40rem; /* mapa de comarcas en REGIONES, VALLES Y RÍOS */
   --opacidad-resalte-comarca: 0.45;    /* cuánto se ilumina la comarca bajo el ratón */
@@ -1022,6 +1023,19 @@ body {
   line-height: 1.6;
   text-align: justify;
   hyphens: auto;
+}
+
+/* Emblema de RETOS EN EL VALLE (pantalla #retos) */
+.retos-emblema {
+  margin: 0;
+  text-align: center;
+}
+
+.retos-emblema img {
+  display: inline-block;
+  width: 100%;
+  max-width: var(--ancho-maximo-emblema-retos);
+  height: auto;
 }
 
 /* Tres lemas centrados, uno debajo de otro */
