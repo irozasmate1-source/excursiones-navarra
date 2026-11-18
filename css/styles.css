@@ -50,6 +50,8 @@
   --color-desplegable-webs: #A9CFEA;
   --color-desplegable-tiempo: #FFE08A;
   --color-desplegable-reloj: #F4A3A3;
+  --color-desplegable-retos: #3A3330;       /* RETOS EN EL VALLE: oscuro, que imponga */
+  --color-desplegable-retos-letra: #F5EBDD;
   --color-desplegable-arboles: #B6D7A8;
   --ancho-maximo-mapa-comarcas: 40rem; /* mapa de comarcas en REGIONES, VALLES Y RÍOS */
   --opacidad-resalte-comarca: 0.45;    /* cuánto se ilumina la comarca bajo el ratón */
@@ -1080,6 +1082,33 @@ body {
 
 .desplegable--reloj {
   --color-tipo: var(--color-desplegable-reloj);
+}
+
+/* RETOS EN EL VALLE: parece un desplegable, pero es un enlace a su pantalla (#retos) */
+.desplegable--retos {
+  --color-tipo: var(--color-desplegable-retos);
+  --color-tipo-letra: var(--color-desplegable-retos-letra);
+  display: block;
+  text-decoration: none;
+}
+
+/* Flecha a la derecha en vez de la que gira: lleva a otra pantalla */
+.desplegable--retos .desplegable__titulo::before {
+  content: none;
+}
+
+.desplegable--retos .desplegable__titulo::after {
+  content: "→";
+  margin-left: auto;
+}
+
+.desplegable--retos .desplegable__titulo:hover {
+  filter: brightness(1.25);
+}
+
+.desplegable--retos:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: 2px;
 }
 
 /* Reloj de Sanfermines: cifras tipo reloj LED, como el de la calle Estafeta */
