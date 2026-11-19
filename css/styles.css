@@ -89,6 +89,10 @@
   --tamano-numero-requisito: 1.9rem;       /* cuadro del número del requisito (2,75rem en tablet y ordenador) */
   --alto-minimo-imagen-requisito: 7rem;
   --ancho-maximo-foto-premio: 20rem;       /* foto del premio del reto (369 px de ancho real) */
+  --ancho-foto-lado-reto: 40%;              /* fotos al lado del texto en los retos */
+  --ancho-maximo-foto-lado-reto: 18rem;
+  --ancho-maximo-foto-lado-vertical: 12rem;  /* fotos verticales al lado del texto */
+  --ancho-maximo-foto-ancha-reto: 46rem;    /* planos del acueducto (734 px reales) */
   --color-desplegable-arboles: #B6D7A8;
   --ancho-maximo-mapa-comarcas: 40rem; /* mapa de comarcas en REGIONES, VALLES Y RÍOS */
   --opacidad-resalte-comarca: 0.45;    /* cuánto se ilumina la comarca bajo el ratón */
@@ -1394,6 +1398,119 @@ body.modo-retos {
   color: var(--color-reto-flecha);
   border-bottom: 1px solid var(--color-retos-cobre);
   padding-bottom: var(--espacio-xs);
+}
+
+/* Bloque de texto con una foto al lado que el texto rodea (OSCURIDAD FLUVIAL) */
+.reto-bloque {
+  display: flow-root;
+}
+
+.reto-bloque p + p {
+  margin-top: var(--espacio-m);
+}
+
+.reto-foto-lado {
+  width: var(--ancho-foto-lado-reto);
+  max-width: var(--ancho-maximo-foto-lado-reto);
+  margin: 0.3rem 0 var(--espacio-s);
+}
+
+.reto-foto-lado--derecha {
+  float: right;
+  margin-left: var(--espacio-m);
+}
+
+.reto-foto-lado--izquierda {
+  float: left;
+  margin-right: var(--espacio-m);
+}
+
+/* Fotos verticales: más estrechas, para no dejar tanto hueco junto a un texto corto */
+.reto-foto-lado--vertical {
+  max-width: var(--ancho-maximo-foto-lado-vertical);
+}
+
+.reto-foto-lado img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 3px solid var(--color-retos-cobre);
+  border-radius: var(--radio);
+}
+
+.reto-foto-lado figcaption {
+  margin-top: var(--espacio-xs);
+  font-size: 0.8125rem;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--color-reto-texto-suave);
+}
+
+.reto-bloque + .reto-bloque {
+  margin-top: var(--espacio-m);
+}
+
+/* Dos fotos en una fila con la misma altura: cada una crece según su proporción
+   (ancho / alto); en el móvil, una debajo de otra */
+.reto-fotos-fila {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-m);
+  margin-top: var(--espacio-m);
+}
+
+.reto-fotos-fila__foto,
+.reto-foto-ancha {
+  margin: 0;
+}
+
+.reto-fotos-fila__foto img,
+.reto-foto-ancha img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 3px solid var(--color-retos-cobre);
+  border-radius: var(--radio);
+}
+
+.reto-fotos-fila__foto figcaption,
+.reto-foto-ancha figcaption {
+  margin-top: var(--espacio-xs);
+  font-size: 0.8125rem;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--color-reto-texto-suave);
+}
+
+@media (min-width: 768px) {
+  .reto-fotos-fila {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .reto-fotos-fila__foto--normal {
+    flex: 1.334 1 0;       /* 855 × 641 */
+  }
+
+  .reto-fotos-fila__foto--panoramica {
+    flex: 2.328 1 0;       /* 2000 × 859 */
+  }
+}
+
+/* Foto a todo el ancho debajo del texto (planos) */
+.reto-foto-ancha {
+  margin-top: var(--espacio-m);
+}
+
+.reto-foto-ancha img {
+  max-width: var(--ancho-maximo-foto-ancha-reto);
+}
+
+/* Raya cobre entre bloques de texto */
+.reto-separador {
+  margin: var(--espacio-l) 0;
+  border: 0;
+  border-top: 1px solid var(--color-retos-cobre);
 }
 
 /* Fotos de la ruta, seguidas y con un buen hueco entre ellas */
