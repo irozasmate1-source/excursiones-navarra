@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<!-- Isla con una bandera clavada en lo alto (reto TOMA DE TIERRAS Y AGUAS); dibujada para la web -->
+<g fill="#1e1a17" stroke="#1e1a17" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Mástil y bandera ondeando -->
+  <path d="M50 57 V13" fill="none" stroke-width="3.2"/>
+  <path d="M51.5 14 Q60 10 68 14.5 T84 15 L82 33 Q74 29 66.5 32 T51.5 31 Z" stroke-width="1.5"/>
+  <!-- Isla: un montículo con rocas en la orilla -->
+  <path d="M12 75 Q18 69 26 68 Q34 56 50 55 Q66 56 73 65 Q82 66 88 75 Z" stroke-width="1.5"/>
+  <!-- Olas -->
+  <path d="M8 82 q5 -4 10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0" fill="none" stroke-width="3"/>
+  <path d="M18 91 q5 -4 10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0" fill="none" stroke-width="3"/>
+</g>
+</svg>

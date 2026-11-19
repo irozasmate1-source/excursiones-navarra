@@ -58,7 +58,8 @@
   --color-retos-fondo: #1c1512;             /* fondo oscuro de la pantalla de retos */
   --color-retos-brasa: #2e140b;             /* abajo, rojizo de brasa */
   --color-retos-titulo: #f3e3c3;
-  --color-retos-cabecera: #140f0d;          /* cabecera de la web en retos, algo más oscura que el fondo */
+  --color-retos-cabecera: #140f0d;
+  --color-retos-recuadro: #2a1e18;          /* recuadro de presentación de los retos */          /* cabecera de la web en retos, algo más oscura que el fondo */
   --color-retos-cobre: #b5642a;             /* rayas bajo el título */
   --alto-fuego-retos: min(38vh, 21rem);     /* alto de la franja de fuego */
   --color-reto-boton: #34502f;              /* botones de cada reto: verde oscuro */
@@ -1118,8 +1119,12 @@ body.modo-retos {
   border-top-color: var(--color-retos-cobre);
 }
 
+/* Recuadro de presentación de los retos: oscuro, para que no destaque tanto sobre el fondo */
 .modo-retos #retos .info-introduccion {
-  box-shadow: 0 0 1.5rem rgba(255, 120, 40, 0.35);
+  background-color: var(--color-retos-recuadro);
+  border-color: var(--color-retos-cobre);
+  color: var(--color-reto-texto);
+  box-shadow: 0 0 1rem rgba(255, 120, 40, 0.15);
 }
 
 /* Brillo cálido muy suave detrás del emblema */
