@@ -269,6 +269,126 @@
           </ul>
         </details>
 
+        <!-- Simbología: señales para seguir las rutas (redibujadas en SVG para que se vean nítidas) -->
+        <details class="desplegable desplegable--senales">
+          <summary class="desplegable__titulo"><img class="desplegable__icono" src="img/iconos/ruta.svg" alt="">SIMBOLOGÍA: CÓMO SEGUIR LAS RUTAS</summary>
+          <div class="senales-rutas">
+            <!-- Dibujos de las señales: cada celda los reutiliza con <use>; el color lo da la columna (currentColor) -->
+            <svg class="senales-rutas__dibujos" aria-hidden="true" focusable="false">
+              <defs>
+                <g id="senal-continuidad">
+                  <rect x="8" y="15" width="44" height="12" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                  <rect x="8" y="33" width="44" height="12" fill="currentColor" stroke="#222" stroke-width="1.5"/>
+                </g>
+                <g id="senal-giro" fill="none" stroke-linejoin="miter">
+                  <path d="M16 56 V26 L37 5" stroke="#222" stroke-width="11"/>
+                  <path d="M16 55.2 V26 L37 5" stroke="#fff" stroke-width="8"/>
+                  <path d="M31 56 V31.8 L46.9 15.9" stroke="#222" stroke-width="11"/>
+                  <path d="M31 55.2 V31.8 L46.9 15.9" stroke="currentColor" stroke-width="8"/>
+                </g>
+                <g id="senal-error" fill="none">
+                  <path d="M11 49 L49 11" stroke="#222" stroke-width="11"/>
+                  <path d="M11.6 48.4 L48.4 11.6" stroke="#fff" stroke-width="8"/>
+                  <path d="M11 11 L49 49" stroke="#222" stroke-width="11"/>
+                  <path d="M11.6 11.6 L48.4 48.4" stroke="currentColor" stroke-width="8"/>
+                </g>
+                <g id="senal-brusco">
+                  <rect x="10" y="3" width="40" height="9" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                  <rect x="10" y="14" width="40" height="9" fill="currentColor" stroke="#222" stroke-width="1.5"/>
+                  <g fill="none" stroke-linejoin="miter">
+                    <path d="M15 58 V34 H56" stroke="#222" stroke-width="10.5"/>
+                    <path d="M15 57.3 V34 H55.3" stroke="#fff" stroke-width="7.5"/>
+                    <path d="M27 58 V46 H56" stroke="#222" stroke-width="10.5"/>
+                    <path d="M27 57.3 V46 H55.3" stroke="currentColor" stroke-width="7.5"/>
+                  </g>
+                </g>
+                <g id="senal-btt">
+                  <rect x="5" y="5" width="50" height="50" rx="3" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                  <path d="M30 9 L44 30 H16 Z" fill="currentColor"/>
+                  <circle cx="21" cy="42" r="6.5" fill="currentColor"/>
+                  <circle cx="39" cy="42" r="6.5" fill="currentColor"/>
+                </g>
+                <g id="senal-btt-giro">
+                  <rect x="5" y="5" width="50" height="50" rx="3" fill="#fff" stroke="#222" stroke-width="1.5"/>
+                  <circle cx="17" cy="21" r="6.5" fill="currentColor"/>
+                  <circle cx="17" cy="39" r="6.5" fill="currentColor"/>
+                  <path d="M29 16 L50 30 L29 44 Z" fill="currentColor"/>
+                </g>
+                <g id="senal-flecha">
+                  <path d="M30 5 L52 28 H39 V55 H21 V28 H8 Z" fill="currentColor" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
+                </g>
+                <g id="senal-aspa" fill="none">
+                  <path d="M10 50 L50 10 M10 10 L50 50" stroke="#222" stroke-width="13"/>
+                  <path d="M10.8 49.2 L49.2 10.8 M10.8 10.8 L49.2 49.2" stroke="currentColor" stroke-width="10"/>
+                </g>
+              </defs>
+            </svg>
+
+            <table class="senales-rutas__tabla">
+              <thead>
+                <tr>
+                  <td></td>
+                  <th scope="col"><span class="senales-rutas__sigla">G.R.</span> Gran Recorrido</th>
+                  <th scope="col"><span class="senales-rutas__sigla">P.R.</span> Pequeño Recorrido</th>
+                  <th scope="col"><span class="senales-rutas__sigla">S.L.</span> Sendero Local</th>
+                  <th scope="col"><span class="senales-rutas__sigla">BTT</span> Rutas en Bicicleta Todo Terreno</th>
+                  <th scope="col"><span class="senales-rutas__sigla">Camino</span> de Santiago</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Continuidad del sendero</th>
+                  <td class="senal--gr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Dos barras: blanca encima y roja debajo"><use href="#senal-continuidad"/></svg></td>
+                  <td class="senal--pr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Dos barras: blanca encima y amarilla debajo"><use href="#senal-continuidad"/></svg></td>
+                  <td class="senal--sl"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Dos barras: blanca encima y verde debajo"><use href="#senal-continuidad"/></svg></td>
+                  <td class="senal--btt"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Triángulo rojo hacia arriba sobre dos puntos rojos"><use href="#senal-btt"/></svg></td>
+                  <td class="senal--camino"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Flecha amarilla hacia arriba"><use href="#senal-flecha"/></svg></td>
+                </tr>
+                <tr>
+                  <th scope="row">Giro a la derecha</th>
+                  <td class="senal--gr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras blanca y roja que se tuercen hacia la derecha"><use href="#senal-giro"/></svg></td>
+                  <td class="senal--pr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras blanca y amarilla que se tuercen hacia la derecha"><use href="#senal-giro"/></svg></td>
+                  <td class="senal--sl"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras blanca y verde que se tuercen hacia la derecha"><use href="#senal-giro"/></svg></td>
+                  <td class="senal--btt"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Dos puntos rojos y triángulo rojo apuntando a la derecha"><use href="#senal-btt-giro"/></svg></td>
+                  <td class="senal--camino"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Flecha amarilla hacia la derecha"><use href="#senal-flecha" transform="rotate(90 30 30)"/></svg></td>
+                </tr>
+                <tr>
+                  <th scope="row">Giro a la izquierda</th>
+                  <td class="senal--gr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras roja y blanca que se tuercen hacia la izquierda"><use href="#senal-giro" transform="matrix(-1 0 0 1 60 0)"/></svg></td>
+                  <td class="senal--pr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras amarilla y blanca que se tuercen hacia la izquierda"><use href="#senal-giro" transform="matrix(-1 0 0 1 60 0)"/></svg></td>
+                  <td class="senal--sl"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras verde y blanca que se tuercen hacia la izquierda"><use href="#senal-giro" transform="matrix(-1 0 0 1 60 0)"/></svg></td>
+                  <td class="senal--btt"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Triángulo rojo apuntando a la izquierda y dos puntos rojos"><use href="#senal-btt-giro" transform="matrix(-1 0 0 1 60 0)"/></svg></td>
+                  <td class="senal--camino"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Flecha amarilla hacia la izquierda"><use href="#senal-flecha" transform="rotate(-90 30 30)"/></svg></td>
+                </tr>
+                <tr>
+                  <th scope="row">Dirección errónea</th>
+                  <td class="senal--gr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Aspa de una barra blanca y otra roja"><use href="#senal-error"/></svg></td>
+                  <td class="senal--pr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Aspa de una barra blanca y otra amarilla"><use href="#senal-error"/></svg></td>
+                  <td class="senal--sl"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Aspa de una barra blanca y otra verde"><use href="#senal-error"/></svg></td>
+                  <td class="senal--btt"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Triángulo y dos puntos rojos tachados con un aspa negra"><use href="#senal-btt"/><path d="M9 9 L51 51 M51 9 L9 51" stroke="#222" stroke-width="4.5" stroke-linecap="round"/></svg></td>
+                  <td class="senal--camino"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Aspa amarilla"><use href="#senal-aspa"/></svg></td>
+                </tr>
+                <tr>
+                  <th scope="row">Giro brusco a la derecha</th>
+                  <td class="senal--gr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras blanca y roja y, debajo, un giro en ángulo recto hacia la derecha"><use href="#senal-brusco"/></svg></td>
+                  <td class="senal--pr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras blanca y amarilla y, debajo, un giro en ángulo recto hacia la derecha"><use href="#senal-brusco"/></svg></td>
+                  <td class="senal--sl"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras blanca y verde y, debajo, un giro en ángulo recto hacia la derecha"><use href="#senal-brusco"/></svg></td>
+                  <td class="senal--vacia" aria-label="No tiene"></td>
+                  <td class="senal--vacia" aria-label="No tiene"></td>
+                </tr>
+                <tr>
+                  <th scope="row">Giro brusco a la izquierda</th>
+                  <td class="senal--gr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras blanca y roja y, debajo, un giro en ángulo recto hacia la izquierda"><use href="#senal-brusco" transform="matrix(-1 0 0 1 60 0)"/></svg></td>
+                  <td class="senal--pr"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras blanca y amarilla y, debajo, un giro en ángulo recto hacia la izquierda"><use href="#senal-brusco" transform="matrix(-1 0 0 1 60 0)"/></svg></td>
+                  <td class="senal--sl"><svg class="senal" viewBox="0 0 60 60" role="img" aria-label="Barras blanca y verde y, debajo, un giro en ángulo recto hacia la izquierda"><use href="#senal-brusco" transform="matrix(-1 0 0 1 60 0)"/></svg></td>
+                  <td class="senal--vacia" aria-label="No tiene"></td>
+                  <td class="senal--vacia" aria-label="No tiene"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
         <details class="desplegable desplegable--tiempo">
           <summary class="desplegable__titulo"><img class="desplegable__icono" src="img/iconos/tiempo.svg" alt="">TIEMPO: PREDICCIÓN 7 DÍAS</summary>
           <ul class="lista-enlaces">
@@ -392,12 +512,38 @@
           </li>
           <li>
             Mapa de la zona:
-            <figure class="reto-mapa">
-              <img src="img/reto-media-luna-mapa.jpg" alt="Vista aérea del Valle de Aranguren con los montes que lo rodean en forma de media luna" width="485" height="345" loading="lazy">
-              <figcaption class="reto-mapa__pie">Imagen: © Google</figcaption>
+            <div class="reto-mapas">
+              <figure class="reto-mapa">
+                <img src="img/reto-media-luna-mapa.jpg" alt="Vista aérea del Valle de Aranguren con los montes que lo rodean en forma de media luna" width="485" height="345" loading="lazy">
+                <figcaption class="reto-mapa__pie">Imagen: © Google</figcaption>
+              </figure>
+              <figure class="reto-mapa">
+                <img src="img/reto-media-luna-ruta-mapa.webp" alt="El mismo mapa con la ruta marcada: de Mutilva por los montes de Aranguren, Ilundáin y Góngora hasta volver por Labiano y Tajonar; 20,29 km medidos" width="564" height="493" loading="lazy">
+                <figcaption class="reto-mapa__pie">Ruta marcada sobre una imagen © Google</figcaption>
+              </figure>
+            </div>
+          </li>
+          <li>
+            <p class="reto-recuadro">SE SEGUIRÁ LA RUTA GR-220 (GRAN RECORRIDO), DE COLOR BLANCO Y ROJO.</p>
+            <figure class="reto-mapa reto-senales">
+              <img src="img/reto-media-luna-gr.png" alt="Señales de los senderos de gran recorrido: continuidad del sendero, cambio brusco de dirección, cambio de dirección, dirección equivocada, variante del sendero, jalón y flecha" width="735" height="320" loading="lazy">
             </figure>
           </li>
         </ol>
+
+        <!-- RUTA: fotos del recorrido en orden, del parking de salida al parking 2 (el texto de cada una, pendiente) -->
+        <h4 class="reto-subapartado">RUTA</h4>
+        <div class="reto-ruta">
+          <img src="img/reto-media-luna-ruta-1.webp" alt="Tramo 1 de la ruta: parking junto a la iglesia de San Vicente" width="900" height="684" loading="lazy">
+          <img src="img/reto-media-luna-ruta-2.webp" alt="Tramo 2: primer buzón, Malkaitz, y Donatsai" width="992" height="643" loading="lazy">
+          <img src="img/reto-media-luna-ruta-3.webp" alt="Tramo 3: segundo buzón, Tangorri, Aritzko y La Facería" width="818" height="672" loading="lazy">
+          <img src="img/reto-media-luna-ruta-4.webp" alt="Tramo 4: Elusmendi (cartel) y Bordaxar" width="710" height="637" loading="lazy">
+          <img src="img/reto-media-luna-ruta-5.webp" alt="Tramo 5: tercer buzón, Irulegi, con dos tramos de escaleras" width="865" height="746" loading="lazy">
+          <img src="img/reto-media-luna-ruta-6.webp" alt="Tramo 6: Arikita y Urramendi" width="820" height="750" loading="lazy">
+          <img src="img/reto-media-luna-ruta-7.webp" alt="Tramo 7: cuarto buzón, Bagadi, collado de Andrikain, desprendimiento y Bizkaia" width="998" height="520" loading="lazy">
+          <img src="img/reto-media-luna-ruta-8.webp" alt="Tramo 8: Fidelus Mendi y el refugio" width="764" height="752" loading="lazy">
+          <img src="img/reto-media-luna-ruta-9.webp" alt="Tramo 9: quinto buzón, Tajonar, colina de San Salvador y parking 2" width="888" height="512" loading="lazy">
+        </div>
       </div>
 
       <h3 class="reto-apartado">REQUISITOS PARA REALIZAR EL RETO</h3>

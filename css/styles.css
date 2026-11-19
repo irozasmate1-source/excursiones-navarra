@@ -50,6 +50,13 @@
   --color-desplegable-webs: #A9CFEA;
   --color-desplegable-tiempo: #FFE08A;
   --color-desplegable-reloj: #F4A3A3;
+  --color-desplegable-senales: #E3D9C6;     /* SIMBOLOGÍA: piedra clara */
+  --color-borde-senales: rgba(0, 0, 0, 0.15);
+  --tamano-senal: 2.75rem;                  /* cada señal de la tabla (4rem en tablet y ordenador) */
+  --color-senal-gr: #D7262B;
+  --color-senal-pr: #F2CB05;
+  --color-senal-sl: #2E9E3E;
+  --color-senal-camino: #F7C600;
   --color-desplegable-retos: #3A3330;       /* RETOS EN EL VALLE: oscuro, que imponga */
   --color-desplegable-retos-letra: #F5EBDD;
   --ancho-maximo-emblema-retos: 36rem;      /* emblema de la pantalla de retos */
@@ -76,6 +83,8 @@
   --color-reto-texto: #efe3cc;              /* texto de los apartados de cada reto */
   --color-reto-texto-suave: #b9a88c;        /* pies de foto en los retos */
   --ancho-maximo-mapa-reto: 30rem;         /* mapa del reto: no más que su tamaño real (485 px) */
+  --ancho-maximo-senales-reto: 36rem;      /* imagen de las señales de los GR */
+  --ancho-maximo-foto-ruta: 48rem;         /* fotos de cada tramo de la ruta del reto */
   --color-desplegable-arboles: #B6D7A8;
   --ancho-maximo-mapa-comarcas: 40rem; /* mapa de comarcas en REGIONES, VALLES Y RÍOS */
   --opacidad-resalte-comarca: 0.45;    /* cuánto se ilumina la comarca bajo el ratón */
@@ -1294,6 +1303,64 @@ body.modo-retos {
   border-radius: var(--radio);
 }
 
+/* Los dos mapas de la zona: uno al lado del otro si caben; en el móvil, uno debajo de otro */
+.reto-mapas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-m);
+  align-items: flex-start;
+}
+
+.reto-mapas .reto-mapa {
+  flex: 1 1 16rem;
+  max-width: var(--ancho-maximo-mapa-reto);
+}
+
+/* Señales de los senderos GR (fondo blanco de la imagen) */
+.reto-senales img {
+  max-width: var(--ancho-maximo-senales-reto);
+}
+
+/* Aviso en mayúsculas dentro de un recuadro */
+.reto-recuadro {
+  display: inline-block;
+  padding: var(--espacio-s) var(--espacio-m);
+  border: 2px solid var(--color-reto-flecha);
+  border-radius: var(--radio);
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-reto-flecha);
+  text-align: left;
+}
+
+/* Subtítulo dentro de un apartado (RUTA) */
+.reto-subapartado {
+  margin: var(--espacio-l) 0 var(--espacio-m);
+  font-family: var(--fuente-titulo);
+  font-size: 1.125rem;
+  letter-spacing: 0.06em;
+  color: var(--color-reto-flecha);
+  border-bottom: 1px solid var(--color-retos-cobre);
+  padding-bottom: var(--espacio-xs);
+}
+
+/* Fotos de la ruta, seguidas y con un buen hueco entre ellas */
+.reto-ruta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-xl);
+}
+
+.reto-ruta img {
+  display: block;
+  width: 100%;
+  max-width: var(--ancho-maximo-foto-ruta);
+  height: auto;
+  border: 3px solid var(--color-retos-cobre);
+  border-radius: var(--radio);
+}
+
 .reto-mapa__pie {
   margin-top: var(--espacio-xs, 0.25rem);
   font-size: 0.8125rem;
@@ -1367,6 +1434,106 @@ body.modo-retos {
 
 .desplegable--tiempo {
   --color-tipo: var(--color-desplegable-tiempo);
+}
+
+.desplegable--senales {
+  --color-tipo: var(--color-desplegable-senales);
+}
+
+/* Simbología: tabla de señales para seguir las rutas */
+.senales-rutas {
+  padding: var(--espacio-m) var(--espacio-s);
+  background-color: var(--color-pergamino);
+  overflow-x: auto;   /* por si una pantalla muy estrecha no la deja caber */
+}
+
+/* Bloque invisible que solo guarda los dibujos de las señales */
+.senales-rutas__dibujos {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.senales-rutas__tabla {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.senales-rutas__tabla th,
+.senales-rutas__tabla td {
+  padding: var(--espacio-xs);
+  border-bottom: 1px solid var(--color-borde-senales);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.senales-rutas__tabla thead th {
+  padding-left: 1px;
+  padding-right: 1px;
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  font-weight: 400;
+  vertical-align: bottom;
+  hyphens: auto;
+}
+
+/* La sigla en grande y el nombre completo debajo */
+.senales-rutas__sigla {
+  display: block;
+  margin-bottom: 0.125rem;
+  font-family: var(--fuente-titulo);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.senales-rutas__tabla tbody th {
+  width: 21%;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  font-weight: 700;
+  text-align: left;
+}
+
+.senales-rutas__tabla thead td {
+  width: 21%;
+}
+
+.senal {
+  display: block;
+  width: var(--tamano-senal);
+  height: var(--tamano-senal);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.senal--gr { color: var(--color-senal-gr); }
+.senal--pr { color: var(--color-senal-pr); }
+.senal--sl { color: var(--color-senal-sl); }
+.senal--btt { color: var(--color-senal-gr); }
+.senal--camino { color: var(--color-senal-camino); }
+
+@media (min-width: 768px) {
+  .senales-rutas {
+    padding: var(--espacio-l);
+  }
+
+  .senales-rutas__tabla thead th {
+    font-size: 0.875rem;
+  }
+
+  .senales-rutas__sigla {
+    font-size: 1.25rem;
+  }
+
+  .senales-rutas__tabla tbody th {
+    font-size: 1rem;
+  }
+
+  .senales-rutas {
+    --tamano-senal: 4rem;
+  }
 }
 
 .desplegable--reloj {
