@@ -1506,6 +1506,23 @@ body.modo-retos {
   max-width: var(--ancho-maximo-foto-ancha-reto);
 }
 
+/* Recuadro dorado (como el del GR-220) con el título RUTA y las fotos dentro */
+.reto-ruta-recuadro {
+  margin-top: var(--espacio-xl);
+  padding: var(--espacio-m);
+  border: 2px solid var(--color-reto-flecha);
+  border-radius: var(--radio);
+}
+
+.reto-ruta-recuadro__titulo {
+  margin: 0 0 var(--espacio-m);
+  font-family: var(--fuente-titulo);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-reto-flecha);
+}
+
 /* Raya cobre entre bloques de texto */
 .reto-separador {
   margin: var(--espacio-l) 0;
