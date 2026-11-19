@@ -487,6 +487,49 @@ body {
   box-shadow: 0 0.25rem 0 var(--color-corteza);
 }
 
+/* RETOS EN EL VALLE: en la pantalla principal, oscuro y ocupando una fila entera */
+.acceso-retos {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espacio-s);
+  min-height: 3.5rem;
+  padding: var(--espacio-s);
+  background-color: var(--color-desplegable-retos);
+  border: 2px solid var(--color-retos-cobre);
+  border-radius: var(--radio);
+  box-shadow: 0 0.25rem 0 var(--color-retos-fondo);
+  font-family: var(--fuente-titulo);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  color: var(--color-desplegable-retos-letra);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.acceso-retos__icono {
+  flex: 0 0 auto;
+  width: var(--icono-grupo);
+  height: var(--icono-grupo);
+}
+
+.acceso-retos:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.2);
+}
+
+.acceso-retos:active {
+  transform: translateY(0.25rem);
+  box-shadow: none;
+}
+
+.acceso-retos:focus-visible {
+  outline: 3px solid var(--color-tierra);
+  outline-offset: 3px;
+}
+
 .ruta:hover,
 .acceso-completadas:hover {
   transform: translateY(-2px);
@@ -1690,33 +1733,6 @@ body.modo-retos {
   --color-tipo: var(--color-desplegable-reloj);
 }
 
-/* RETOS EN EL VALLE: parece un desplegable, pero es un enlace a su pantalla (#retos) */
-.desplegable--retos {
-  --color-tipo: var(--color-desplegable-retos);
-  --color-tipo-letra: var(--color-desplegable-retos-letra);
-  display: block;
-  text-decoration: none;
-}
-
-/* Flecha a la derecha en vez de la que gira: lleva a otra pantalla */
-.desplegable--retos .desplegable__titulo::before {
-  content: none;
-}
-
-.desplegable--retos .desplegable__titulo::after {
-  content: "→";
-  margin-left: auto;
-}
-
-.desplegable--retos .desplegable__titulo:hover {
-  filter: brightness(1.25);
-}
-
-.desplegable--retos:focus-visible {
-  outline: 3px solid var(--color-tierra);
-  outline-offset: 2px;
-}
-
 /* Reloj de Sanfermines: cifras tipo reloj LED, como el de la calle Estafeta */
 .reloj-sanfermin {
   display: flex;
@@ -2346,7 +2362,8 @@ body.modo-retos {
   }
 
   .ruta,
-  .acceso-completadas {
+  .acceso-completadas,
+  .acceso-retos {
     padding: var(--espacio-m);
     font-size: 1.125rem;
   }
