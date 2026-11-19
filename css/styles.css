@@ -85,6 +85,10 @@
   --ancho-maximo-mapa-reto: 30rem;         /* mapa del reto: no más que su tamaño real (485 px) */
   --ancho-maximo-senales-reto: 36rem;      /* imagen de las señales de los GR */
   --ancho-maximo-foto-ruta: 48rem;         /* fotos de cada tramo de la ruta del reto */
+  --ancho-imagen-requisito: 34%;           /* imagen de cada requisito del reto (15rem en tablet y ordenador) */
+  --tamano-numero-requisito: 1.9rem;       /* cuadro del número del requisito (2,75rem en tablet y ordenador) */
+  --alto-minimo-imagen-requisito: 7rem;
+  --ancho-maximo-foto-premio: 20rem;       /* foto del premio del reto (369 px de ancho real) */
   --color-desplegable-arboles: #B6D7A8;
   --ancho-maximo-mapa-comarcas: 40rem; /* mapa de comarcas en REGIONES, VALLES Y RÍOS */
   --opacidad-resalte-comarca: 0.45;    /* cuánto se ilumina la comarca bajo el ratón */
@@ -1129,11 +1133,22 @@ body.modo-retos {
 }
 
 /* Recuadro de presentación de los retos: oscuro, para que no destaque tanto sobre el fondo */
-.modo-retos #retos .info-introduccion {
+.modo-retos #retos .info-introduccion,
+.modo-retos .reto-recuadro-texto {
   background-color: var(--color-retos-recuadro);
   border-color: var(--color-retos-cobre);
   color: var(--color-reto-texto);
   box-shadow: 0 0 1rem rgba(255, 120, 40, 0.15);
+}
+
+/* Recuadro oscuro con varios párrafos (requisitos para superar el reto) */
+.reto-recuadro-texto p + p {
+  margin-top: var(--espacio-m);
+}
+
+/* Premio del reto: recuadro dorado y, debajo, su foto */
+.reto-premio__foto img {
+  max-width: var(--ancho-maximo-foto-premio);
 }
 
 /* Brillo cálido muy suave detrás del emblema */
@@ -1303,26 +1318,14 @@ body.modo-retos {
   border-radius: var(--radio);
 }
 
-/* Los dos mapas de la zona: uno al lado del otro si caben; en el móvil, uno debajo de otro */
-.reto-mapas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espacio-m);
-  align-items: flex-start;
-}
-
-.reto-mapas .reto-mapa {
-  flex: 1 1 16rem;
-  max-width: var(--ancho-maximo-mapa-reto);
-}
-
 /* Señales de los senderos GR (fondo blanco de la imagen) */
 .reto-senales img {
   max-width: var(--ancho-maximo-senales-reto);
 }
 
 /* Aviso en mayúsculas dentro de un recuadro */
-.reto-recuadro {
+.reto-recuadro,
+.reto-texto p.reto-recuadro {
   display: inline-block;
   padding: var(--espacio-s) var(--espacio-m);
   border: 2px solid var(--color-reto-flecha);
@@ -1359,6 +1362,148 @@ body.modo-retos {
   height: auto;
   border: 3px solid var(--color-retos-cobre);
   border-radius: var(--radio);
+}
+
+/* Requisitos del reto: cada uno es una fila con número, título y texto a la izquierda
+   e imagen de apoyo a la derecha; en el móvil sigue en una fila, más apretada */
+.reto-requisitos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-m);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reto-requisito {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--ancho-imagen-requisito);
+  overflow: hidden;
+  background-color: var(--color-retos-recuadro);
+  border: 2px solid var(--color-retos-cobre);
+  border-radius: var(--radio);
+  color: var(--color-reto-texto);
+}
+
+/* Móvil: número y título en la misma línea; el texto debajo, a todo el ancho */
+.reto-requisito__cuerpo {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "numero titulo"
+    "texto texto";
+  align-items: center;
+  column-gap: var(--espacio-s);
+  row-gap: var(--espacio-s);
+  padding: var(--espacio-s);
+}
+
+.reto-requisito__numero {
+  grid-area: numero;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tamano-numero-requisito);
+  height: var(--tamano-numero-requisito);
+  background-color: var(--color-retos-fondo);
+  border: 2px solid var(--color-reto-flecha);
+  border-radius: 0.3rem;
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--color-reto-flecha);
+}
+
+.reto-requisito__titulo {
+  grid-area: titulo;
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  color: var(--color-reto-flecha);
+}
+
+.reto-requisito__texto {
+  grid-area: texto;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.reto-requisito__texto p,
+.reto-requisito__texto ul {
+  margin: 0;
+}
+
+.reto-requisito__texto ul {
+  padding-left: 1.1rem;
+}
+
+.reto-requisito__texto li + li {
+  margin-top: 0.2rem;
+}
+
+.reto-requisito__texto li::marker {
+  color: var(--color-reto-flecha);
+}
+
+/* Imagen de apoyo: ocupa toda la altura de la fila y se ve entera */
+.reto-requisito__imagen {
+  position: relative;
+  min-height: var(--alto-minimo-imagen-requisito);
+  margin: 0;
+  background-color: var(--color-retos-fondo);
+  border-left: 2px solid var(--color-retos-cobre);
+}
+
+.reto-requisito__imagen img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--espacio-xs);
+  object-fit: contain;
+}
+
+/* Las fotos de paisaje llenan su hueco (recortadas si hace falta) */
+.reto-requisito__imagen--foto img {
+  padding: 0;
+  object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .reto-requisito {
+    --ancho-imagen-requisito: 15rem;
+    --tamano-numero-requisito: 2.75rem;
+  }
+
+  /* Ordenador y tablet: número a la izquierda; título y texto a su derecha */
+  .reto-requisito__cuerpo {
+    grid-template-areas:
+      "numero titulo"
+      "numero texto";
+    align-items: start;
+    column-gap: var(--espacio-m);
+    padding: var(--espacio-m);
+  }
+
+  .reto-requisito__numero {
+    font-size: 1.5rem;
+  }
+
+  .reto-requisito__titulo {
+    font-size: 1.0625rem;
+  }
+
+  .reto-requisito__texto {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .reto-requisito__texto p {
+    text-align: justify;
+    hyphens: auto;
+  }
 }
 
 .reto-mapa__pie {
