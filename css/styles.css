@@ -89,6 +89,7 @@
   --tamano-numero-requisito: 1.9rem;       /* cuadro del número del requisito (2,75rem en tablet y ordenador) */
   --alto-minimo-imagen-requisito: 7rem;
   --ancho-maximo-foto-premio: 20rem;       /* foto del premio del reto (369 px de ancho real) */
+  --ancho-maximo-foto-premio-pequena: 11.5rem; /* premio de OSCURIDAD FLUVIAL (183 px reales) */
   --ancho-foto-lado-reto: 40%;              /* fotos al lado del texto en los retos */
   --ancho-maximo-foto-lado-reto: 18rem;
   --ancho-maximo-foto-lado-vertical: 12rem;  /* fotos verticales al lado del texto */
@@ -1199,8 +1200,12 @@ body.modo-retos {
 }
 
 /* Premio del reto: recuadro dorado y, debajo, su foto */
-.reto-premio__foto img {
+.reto-mapa.reto-premio__foto img {
   max-width: var(--ancho-maximo-foto-premio);
+}
+
+.reto-mapa.reto-premio__foto--pequena img {
+  max-width: var(--ancho-maximo-foto-premio-pequena);
 }
 
 /* Brillo cálido muy suave detrás del emblema */
