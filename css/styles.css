@@ -1146,6 +1146,11 @@ body.modo-retos {
   margin-top: var(--espacio-m);
 }
 
+/* Descripción de la ruta, entre el subtítulo RUTA y las fotos */
+.reto-ruta__descripcion {
+  margin-bottom: var(--espacio-xl);
+}
+
 /* Premio del reto: recuadro dorado y, debajo, su foto */
 .reto-premio__foto img {
   max-width: var(--ancho-maximo-foto-premio);
