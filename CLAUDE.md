@@ -234,8 +234,9 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Es **pública**: entra cualquiera que tenga el enlace. El propietario ha confirmado que no le importa que se vean sus notas.
 - Se queda publicada indefinidamente sin hacer nada. Solo deja de funcionar si se borra el repositorio, se pasa a privado o se desactiva Pages.
 
-### Emblema AD ASTRA (sin colocar todavía)
-- Diseñado a petición del propietario, que decidirá dónde ponerlo. Dos versiones en `img/`, 1600 × 1880, fondo transparente: `emblema-ad-astra.png` (blanco y negro) y `emblema-ad-astra-color.png` (la elegida, «perfecta» según el propietario).
+### Emblema AD ASTRA
+- **Colocado** al final de la pantalla `#retos`, debajo de los botones de los retos: la versión en color con mariposa y la de solo la rosa, una al lado de la otra también en el móvil (`div.retos-ad-astra` > `figure.retos-ad-astra__emblema`, ancho máximo `--ancho-maximo-emblema-ad-astra`, 16rem), cada una sobre un recuadro claro con brillo (`--color-fondo-emblema-ad-astra`), porque la rosa negra y el azul oscuro no se veían sobre el fondo oscuro. Las otras dos versiones (blanco y negro y con la Osa Mayor) no se usan.
+- Diseñado a petición del propietario. Dos versiones en `img/`, 1600 × 1880, fondo transparente: `emblema-ad-astra.png` (blanco y negro) y `emblema-ad-astra-color.png` (la elegida, «perfecta» según el propietario).
 - Composición: **mariposa Graellsia** (*Graellsia isabelae*, dibujada a partir de una foto del propietario) con las alas extendidas y las colas hacia abajo, algo abiertas para que se vea la punta sur; detrás, una **rosa de los vientos** algo mayor que respeta el trazado de la estrella de una imagen de referencia del propietario (puntas mitad negras y mitad blancas, círculo interior y anillo con 60 marcas); encima, **«AD ASTRA»** en arco centrado sobre la punta norte (Perpetua Titling MT negrita); debajo de la punta sur, la **Osa Mayor** con siete estrellas de cuatro puntas, sin líneas.
 - Colores de la versión en color: alas en verde musgo apagado con degradado (`#B3C98A` → `#6C8B4D`), contorno y venas marrón rojizo, borde delantero marrón oscuro, banda del borde marrón con línea amarilla, ocelos amarillo brillante (`#F7D74A`); rosa en negro y blanco con el interior transparente; «AD ASTRA» y estrellas en azul oscuro (`#1F3550`), las letras con borde negro. Sobre un fondo oscuro, la rosa negra y el azul apenas se verían.
 - **Prueba sin mariposa** (`img/emblema-ad-astra-osa.png`, 2400 × 3180, pedida «para probar»): la misma rosa y el mismo lema, sin mariposa, con la Osa Mayor grande debajo de la rosa, algo separada de la punta sur, sin disco. Se probó acercarla y centrarla a ojo, pero el propietario se quedó con esta. Estrellas de cuatro puntas curvadas, redibujadas para que se vean nítidas a ese tamaño.
@@ -272,7 +273,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
     ├── iconos/*.svg                       # Iconos de categorías, fichas y desplegables (70)
     ├── favicon.svg, favicon-32.png        # Icono de la pestaña (rosa de los vientos)
     ├── emblema-retos.png                  # Emblema de la pantalla de retos (mano de Irulegi y espadas de antenas)
-    ├── emblema-ad-astra.png, emblema-ad-astra-color.png, emblema-ad-astra-osa.png, emblema-ad-astra-rosa.png  # Emblema AD ASTRA (Graellsia y rosa de los vientos), aún sin colocar (y pruebas con la Osa Mayor y solo con la rosa)
+    ├── emblema-ad-astra.png, emblema-ad-astra-color.png, emblema-ad-astra-osa.png, emblema-ad-astra-rosa.png  # Emblema AD ASTRA (Graellsia y rosa de los vientos); en #retos, la de color y la de solo la rosa
     ├── portada-compartir.png              # Imagen de la vista previa al compartir el enlace (1200 × 630)
     ├── cara-enfadada.png                  # Cara del aviso del contador (cara-enfadada.svg: versión antigua sin usar, fuera de git)
     ├── arboles/                           # Fotos de la guía de campo de árboles y de sus hojas y frutos (haya.jpg y roble.jpg sin usar)
