@@ -59,10 +59,7 @@
   --color-senal-camino: #F7C600;
   --color-desplegable-retos: #3A3330;       /* RETOS EN EL VALLE: oscuro, que imponga */
   --color-desplegable-retos-letra: #F5EBDD;
-  --ancho-maximo-emblema-retos: 36rem;      /* emblema de la pantalla de retos */
-  --ancho-maximo-emblema-ad-astra: 16rem;   /* cada emblema AD ASTRA de la pantalla de retos */
-  --color-fondo-emblema-ad-astra: rgba(255, 244, 220, 0.88); /* fondo claro detrás de esos emblemas */
-  --color-pie-foto-fondo: rgba(0, 0, 0, 0.72);  /* franja del rótulo de las fotos de las galerías */
+  --ancho-maximo-emblema-retos: 36rem;      /* emblema de la pantalla de retos */  --color-pie-foto-fondo: rgba(0, 0, 0, 0.72);  /* franja del rótulo de las fotos de las galerías */
   --color-pie-foto-letra: #ffffff;
   --color-retos-fondo: #1c1512;             /* fondo oscuro de la pantalla de retos */
   --color-retos-brasa: #2e140b;             /* abajo, rojizo de brasa */
@@ -1711,31 +1708,6 @@ body.modo-retos {
   display: inline-block;
   width: 100%;
   max-width: var(--ancho-maximo-emblema-retos);
-  height: auto;
-}
-
-/* Emblemas AD ASTRA al final de la pantalla de retos, uno al lado del otro */
-.retos-ad-astra {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.retos-ad-astra__emblema {
-  flex: 0 1 var(--ancho-maximo-emblema-ad-astra);
-  margin: 0;
-  padding: 0.5rem;
-  /* Fondo claro con brillo: la rosa es negra y azul oscuro y no se vería sobre el fondo oscuro */
-  background: var(--color-fondo-emblema-ad-astra);
-  border-radius: 1rem;
-  box-shadow: 0 0 1.25rem 0.5rem var(--color-fondo-emblema-ad-astra);
-}
-
-.retos-ad-astra__emblema img {
-  display: block;
-  width: 100%;
   height: auto;
 }
 
