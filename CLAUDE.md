@@ -182,11 +182,11 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 
 ### LA LISTA (`#lista`): mapa de My Maps
 - Sección con la flecha de volver, el título **LA LISTA** y la línea bajo el título (`hr.linea-titulo`).
-- Dentro, el mapa de **Google My Maps "La lista"** del propietario, insertado con un `<iframe>` (`https://www.google.com/maps/d/embed?mid=1V7lsMXTH8brW9LNynKAJOCVaSxGChEo&ehbc=2E312F`), a todo el ancho y con alto `--alto-mapa-lista` (70vh). Es interactivo: moverse, zoom y pinchar en los puntos para ver sus descripciones. `loading="lazy"`: solo carga al entrar en la sección.
+- Dentro, el mapa de **Google My Maps "La lista"** del propietario, insertado con un `<iframe>` (`https://www.google.com/maps/d/embed?mid=1viLLNYiB9M8V56hk_x8bWmKWP_PhilA&ehbc=2E312F`), a todo el ancho y con alto `--alto-mapa-lista` (70vh). Es interactivo: moverse, zoom y pinchar en los puntos para ver sus descripciones. `loading="lazy"`: solo carga al entrar en la sección.
 - **No está vinculado a la web**: no sabe qué excursiones están marcadas y sus puntos no salen del Excel. Es el mapa **en directo**: lo que el propietario cambie en My Maps se ve en la web sin tocar nada (puede tardar unos minutos). Deja de verse si borra el mapa o deja de compartirlo como "cualquier persona con el enlace".
 - Debajo:
   - Botón **"⛶ Ver a pantalla completa"** (`prepararMapaLista()`, Fullscreen API sobre el contenedor `#mapa-lista`). Solo aparece si el navegador lo permite (en iPhone no).
-  - Recuadro `.enlace-web` **"Abrir LA LISTA en Google Maps"** (`https://www.google.com/maps/d/viewer?mid=1V7lsMXTH8brW9LNynKAJOCVaSxGChEo`), más cómodo en el móvil.
+  - Recuadro `.enlace-web` **"Abrir LA LISTA en Google Maps"** (`https://www.google.com/maps/d/viewer?mid=1viLLNYiB9M8V56hk_x8bWmKWP_PhilA`), más cómodo en el móvil.
   - Nota: "Pincha en cada punto del mapa para ver su descripción. Necesita conexión a internet."
 - Servicio externo (Google) aprobado expresamente por el propietario. My Maps muestra el nombre del mapa y el autor de la cuenta de Google; no se puede quitar desde la web.
 
