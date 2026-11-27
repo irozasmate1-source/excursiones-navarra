@@ -23,7 +23,7 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
   - Ignora mayúsculas y tildes ("andia" = "Andía"). Con varias palabras, cada resultado debe contenerlas todas.
   - Cada resultado muestra el icono, el nombre y una etiqueta con su categoría. Máximo 30 resultados ("Se muestran 30 de N. Escribe más para afinar."); sin coincidencias: "No hay ninguna excursión con ese nombre."
   - Al pulsar un resultado se va a su categoría, se abre su desplegable y su ficha, se baja hasta ella y se resalta en amarillo unos segundos.
-- Cuatro botones: **LUGARES Y PUEBLOS**, **MONTES/PASEOS**, **BICICLETA** y **MONUMENTOS NATURALES DE NAVARRA**.
+- Cuatro botones: **LUGARES Y PUEBLOS**, **MONTES Y MONTAÑAS** (antes MONTES/PASEOS; ver "Reforma de las excursiones"), **BICICLETA** y **MONUMENTOS NATURALES DE NAVARRA**.
 - **Todos los títulos de sección van en MAYÚSCULAS** (decisión del propietario): los botones de la pantalla principal, los títulos de cada pantalla y los desplegables de INFORMACIÓN DE INTERÉS (incluidos los de la guía de campo). Están escritos así en `index.html`. Los nombres de los grupos que vienen del Excel ("Pirineo navarro", "Ciudad"…) no se han cambiado.
 - Cuatro botones aparte, en marrón claro (`.acceso-completadas`), dentro de `nav.accesos`: **INFORMACIÓN DE INTERÉS** (enlaza a `#completadas`; el identificador se mantiene), **LA LISTA** (`#lista`), **GUÍAS DE CAMPO** (`#guias`) y **REGIONES, VALLES Y RÍOS** (`#regiones`).
 - Debajo, ocupando una fila entera él solo (pedido por el propietario; antes estaba al final de INFORMACIÓN DE INTERÉS), el botón **RETOS EN EL VALLE, SOLO PARA PROFESIONALES** (`a.acceso-retos`, dentro de `nav.accesos` con `grid-column: 1 / -1`): fondo oscuro `--color-desplegable-retos` (#3A3330), borde cobre, letra clara y una **calavera** a cada lado (`img/iconos/calavera.svg`, calavera con tibias cruzadas dibujada para la web, no un emoticono). Lleva a **`#retos`**.
@@ -35,7 +35,7 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 - Las excursiones completadas ya no tienen sección propia: están en su categoría como una más (ver "Excursiones completadas").
 - Todas tienen una flecha (←) para volver a la pantalla principal. En las pantallas más profundas (comarcas, ríos, retos…) la flecha vuelve a la anterior; para ir directamente a la principal, el **título de la cabecera** («EXCURSIONES POR NAVARRA Y COMPAÑÍA») es un enlace a `#inicio` (`a.cabecera__enlace`, se ve igual que un título; al pasar el ratón se aclara un poco). Se eligió eso, y no un botón con una casita junto a la flecha, para no ocupar más espacio (decisión del propietario).
 - Galería de imágenes con borde negro y proporción 4:3 encima de la lista. Excepción: en Monumentos, el cartel (`monumentos-1-mapa.png`) va completo, sin recortar, debajo de la lista.
-- **Rótulos integrados en las fotos** (pedidos por el propietario): en las 4 categorías cada foto va en un `figure.galeria__foto` con su nombre en un `figcaption.galeria__pie`, encima de la foto, abajo, en letra blanca de títulos sobre una franja oscura degradada (`--color-pie-foto-fondo`, `--color-pie-foto-letra`), dentro del marco negro. Orden y rótulos: **Lugares** «Ermita de Eunate» (`lugares-2-eunate.png`, que pasó a ser la primera), «Castillo de Javier» (`lugares-1-castillo-eclipse.png`) y «Plaza del Castillo»; **Montes** «Bardenas Reales», «Nacedero del Urederra» y «San Donato/Beriain» (`montes-3-ovejas.png`); **Bicicleta** «Sierra de Lokiz» y «Guerrero de Turbil». **Monumentos** «Encina de Eraul» (`monumentos-3-encina.webp`), «Encina de las Tres Patas» (`monumentos-2-arbol.png`; en la lista, del Excel, se llama «Encino de las Tres Patas»: se puso el rótulo tal como lo dio el propietario) y «Roble de Orkin» (`monumentos-4-arbol.png`). El propietario irá añadiendo más fotos y diciendo su orden y rótulo. El carrusel del móvil desliza los hijos de la galería (`img` o `figure`).
+- **Rótulos integrados en las fotos** (pedidos por el propietario): en las 4 categorías cada foto va en un `figure.galeria__foto` con su nombre en un `figcaption.galeria__pie`, encima de la foto, abajo, en letra blanca de títulos sobre una franja oscura degradada (`--color-pie-foto-fondo`, `--color-pie-foto-letra`), dentro del marco negro. Orden y rótulos: **Lugares** «Ermita de Eunate» (`lugares-2-eunate.png`, que pasó a ser la primera), «Castillo de Javier» (`lugares-1-castillo-eclipse.png`) y «Plaza del Castillo»; **Montes/paseos** tenía «Bardenas Reales» (`montes-1-bardenas.webp`), «Nacedero del Urederra» (`montes-2-nacedero.webp`) y «San Donato/Beriain» (`montes-3-ovejas.png`), pero **se quitaron** al crear MONTES Y MONTAÑAS (los archivos siguen en `img/` para asignarlos a su categoría cuando estén todas); **Bicicleta** «Sierra de Lokiz» y «Guerrero de Turbil». **Monumentos** «Encina de Eraul» (`monumentos-3-encina.webp`), «Encina de las Tres Patas» (`monumentos-2-arbol.png`; en la lista, del Excel, se llama «Encino de las Tres Patas»: se puso el rótulo tal como lo dio el propietario) y «Roble de Orkin» (`monumentos-4-arbol.png`). El propietario irá añadiendo más fotos y diciendo su orden y rótulo. El carrusel del móvil desliza los hijos de la galería (`img` o `figure`).
 - **En el móvil (< 768 px) la galería es un carrusel deslizable**: fotos en fila (cada una al 85 % del ancho, `--carrusel-ancho-foto`, asomando la siguiente), `scroll-snap` para que cada foto encaje centrada y barra de desplazamiento oculta. Ocupa unos 220 px de alto (antes ~750 px con las fotos apiladas). Debajo, **puntitos** (`.galeria__puntos`, uno por foto) que marcan la foto visible y llevan a ella al pulsarlos. En tablet y escritorio no cambia nada y los puntitos no se muestran.
   - Los puntitos los crea `app.js` (`prepararCarruseles()`); el deslizamiento es solo CSS (`@media (max-width: 767px)`).
   - En una pestaña oculta el navegador no anima el desplazamiento suave ni lanza el evento `scroll`; para probarlo hay que tener la página visible.
@@ -43,7 +43,7 @@ El proyecto avanza por fases. Solo se implementa lo que se pida en cada momento.
 
 | Categoría (web) | Hoja del Excel | Cómo se muestra |
 |---|---|---|
-| Montes/paseos | Rutas (120) + bloque 1 de "Completadas por categoría" (10) = 130 | 13 desplegables por **Tipo**, con el color del Excel y un icono. Dentro, rutas de dificultad 1 → 5 con etiqueta de dificultad. Cada ruta abre una **ficha** con coche desde Pamplona, distancia, desnivel, tipo de ruta, zona, ruta habitual, notas, fuente de los km, botón a Wikiloc si lo hay y recuadro **VER EN EL MAPA**. |
+| Montes y montañas (`#montes`) | Excel nuevo `LA LISTA 2.0 - Excursiones.xlsx`, hoja "Montes y montañas" (76), y coordenadas del `.kml` | Sin galería de fotos. 7 desplegables por **grupo** (filas de grupo del Excel), con color e icono. Dentro, en el orden del Excel. Cada monte abre una **ficha** con coche desde Pamplona, distancia de la ruta, desnivel positivo, altitud de la cima, **VER EN EL MAPA**, COMPARTIR, la **Información** y uno o dos botones de ruta (ver "Reforma de las excursiones"). |
 | Lugares y pueblos | Lugares a los que ir (113) + bloque 2 (21) = 134 | 16 desplegables por **Categoría**, con el color del Excel y un icono, más el grupo nuevo **Viaje veraniego** al final. Dentro, de más a menos popular, con etiqueta de popularidad (colores del Excel). Cada lugar abre una **ficha** con coche, zona, qué es, notas, datos de ruta, Wikiloc si lo hay y **VER EN EL MAPA**. Excepción: **Menorca** solo muestra una foto (ver "Ficha con foto"). |
 | Monumentos Naturales | Árboles singulares (48) + bloque 3 (1, ya incluido) = 48 | Sin desplegables generales. Lista ordenada por número (`MN Nº1 - Encina de Eraul`, el no oficial al final), con un icono según el tipo de árbol. Cada árbol abre una **ficha** con tipo, especie, municipio, coche, nombre en tu mapa (si difiere), notas y **VER EN EL MAPA**. **No se muestra la columna "Estado".** |
 | Bicicleta | Bici (11) + bloque 4 (0) = 11 | Sin desplegables generales. Cada excursión lleva un icono según su categoría y abre una **ficha** con coche, km en bici, tipo de recorrido, categoría, zona, qué es, notas, fuente de los km y **VER EN EL MAPA**. |
@@ -60,7 +60,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Si se añaden excursiones al Excel con nombres mal escritos, hay que añadirlas a `NOMBRES_CORREGIDOS`.
 
 ### Ayudas para moverse por listas largas
-- **Flecha de cerrar al final de los desplegables grandes**: un "▲ Cerrar" pequeño (`.desplegable__cerrar`, `crearBotonCerrar(desplegable)`) al final de los desplegables de grupo de Montes (13) y Lugares (17) y de los 6 de la guía de campo (`prepararCierresGuia()`). Cierra el desplegable y deja su título a la vista. No está en las fichas de cada excursión ni en Webs, Tiempo y el reloj (son cortos).
+- **Flecha de cerrar al final de los desplegables grandes**: un "▲ Cerrar" pequeño (`.desplegable__cerrar`, `crearBotonCerrar(desplegable)`) al final de los desplegables de grupo de Montes y montañas (7) y Lugares (17) y de los 6 de la guía de campo (`prepararCierresGuia()`). Cierra el desplegable y deja su título a la vista. No está en las fichas de cada excursión ni en Webs, Tiempo y el reloj (son cortos).
 - **Flecha flotante de subir**: botón redondo "▲" abajo a la derecha (`#boton-subir`, `.subir`). Aparece al bajar más de `DISTANCIA_FLECHA_SUBIR` (600 px) en cualquier sección menos la pantalla principal, y sube suavemente al principio. Funciones `actualizarBotonSubir()` y `prepararBotonSubir()`.
 
 ### INFORMACIÓN DE INTERÉS (`#completadas`)
@@ -210,13 +210,14 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - Búsqueda por defecto: **nombre + zona** (Montes, Lugares, Bicicleta) y **nombre + municipio + Navarra** (Monumentos).
 - Las excursiones que Google no encuentra bien tienen una corrección en `app.js`:
   - `COORDENADAS_MONUMENTOS` (por número de monumento): coordenadas oficiales del anexo del **Decreto Foral 87/2009** (BON nº 157, 23/12/2009), UTM huso 30 **ED50** convertidas a WGS84 (desplazamiento aproximado −110 m E, −208 m N). En los grupos de árboles, el punto medio. Se usan solo en los 25 monumentos que Google no sitúa bien por nombre; el resto se busca por nombre (así sale la ficha de Google con fotos).
-  - `CORRECCIONES_MAPA.montes` y `CORRECCIONES_MAPA.lugares` (por nombre exacto del Excel): una búsqueda mejor o coordenadas. Las coordenadas vienen del propietario (Palacio, Torre, Ojo de San Prudencio, Monte de la Cruz, Subir aqui en coche) o del punto de inicio de la ruta de Wikiloc (Txargain, Quinto Real, Lapiaz de Andía, Mirador de los Buitres de Ugarra, Saboreando Andosilla). "Balcón de Pilatos" de Montes es el de **Urbasa** (Mirador de Ubaba). "RUTAS VERDURAS" es la ruta del valle del Queiles (Paisajes Enogastronómicos), que sale del entorno de Murchante.
+  - **Montes y montañas** usa directamente las **coordenadas de su punto en el mapa de My Maps** (`coordenadas` en `datos.js`, sacadas del `.kml`), así que no necesita correcciones. `CORRECCIONES_MAPA.montes` (la de Montes/paseos) se quitó.
+  - `CORRECCIONES_MAPA.lugares` (por nombre exacto del Excel): una búsqueda mejor o coordenadas. Las coordenadas vienen del propietario (Subir aqui en coche) o del punto de inicio de la ruta de Wikiloc (Saboreando Andosilla). "RUTAS VERDURAS" es la ruta del valle del Queiles (Paisajes Enogastronómicos), que sale del entorno de Murchante.
 - Revisión hecha (nov. 2026): los 292 enlaces se comprobaron en Google Maps. Quedan aproximados, aceptados por el propietario: Peñas de Aya (parque natural), Hotel Continental de Panticosa (Gran Hotel del mismo balneario), Pueblo de Barandiain (museo Barandiaran, Ataun) y Carnavales de Ituren y Zubieta (Ituren).
 - Si se añaden excursiones nuevas al Excel, conviene comprobar su enlace del mapa.
 
 ### Botón COMPARTIR (en cada ficha)
 - Botón **COMPARTIR** debajo de VER EN EL MAPA: recuadro pequeño y fino (borde de 1 px, 44 px de alto, ancho según el texto) con el icono `compartir.svg` y la palabra COMPARTIR, sin descripción (`.ficha__compartir`; el propietario lo pidió así porque el recuadro grande se veía demasiado). Está en todas las fichas de las 4 categorías salvo las de solo foto (Menorca).
-- Envía un **texto** con emojis: nombre en negrita de WhatsApp (`*…*`), categoría y grupo, dificultad (💪) o popularidad (⭐) y los datos de la ficha con su emoji (`EMOJI_DATO`). No incluye las notas ni "Nombre en tu mapa". Al final, primero el enlace de la **página principal de la web** (`URL_WEB`, siempre la publicada, aunque se abra en local) y después el de **Google Maps** (el mismo de VER EN EL MAPA, `urlMapa(...)`) y, si la excursión lo tiene, el de la **ruta en Wikiloc** (🧭, `excursion.wikiloc`; ahora solo hay en Montes y Lugares). Sin Wikiloc, esa línea no se pone. El orden importa: WhatsApp hace la vista previa con el **primer enlace**, así que sale la imagen de portada de la web y no el trozo de mapa de Google. El propietario aceptó que el enlace lleve a la portada y no a la excursión.
+- Envía un **texto** con emojis: nombre en negrita de WhatsApp (`*…*`), categoría y grupo, popularidad (⭐, en Lugares) y los datos de la ficha con su emoji (`EMOJI_DATO`). No incluye las notas ni "Nombre en tu mapa". Al final, primero el enlace de la **página principal de la web** (`URL_WEB`, siempre la publicada, aunque se abra en local) y después el de **Google Maps** (el mismo de VER EN EL MAPA, `urlMapa(...)`) y, si la excursión lo tiene, el de la **ruta en Wikiloc** (🧭, `enlacesRuta(...)`: `excursion.wikiloc` en Lugares, `excursion.rutas` en Montes y montañas). Si un monte tiene dos rutas salen dos líneas, «🧭 Ruta 1 en Wikiloc: …» y «🧭 Ruta 2 en Wikiloc: …»; si el enlace no es de Wikiloc, «🧭 Ruta 2: …». Sin ruta, esa línea no se pone. En Montes y montañas sale también 🏔️ Altitud de la cima. El orden importa: WhatsApp hace la vista previa con el **primer enlace**, así que sale la imagen de portada de la web y no el trozo de mapa de Google. El propietario aceptó que el enlace lleve a la portada y no a la excursión.
 - Usa el menú de compartir del dispositivo (`navigator.share`: móvil, Chrome/Edge en Windows). Si no existe, copia el texto al portapapeles y avisa debajo; si tampoco puede, muestra el texto en un recuadro (`.ficha__compartir-texto`) para copiarlo a mano. Sin `alert()`.
 - Funciones: `textoCompartir(categoria, excursion)`, `lineaCategoria`, `lineaNivel`, `copiarTexto`, `compartirExcursion` y `crearBotonCompartir`. `crearFicha` recibe ahora también la categoría.
 - **Imagen de la vista previa**: la misma para todas las excursiones, `img/portada-compartir.png` (1200 × 630, el mapa de Navarra azul con la rosa de los vientos sobre el fondo arena de la web). La indican las etiquetas `og:*` y `twitter:card` del `<head>` de `index.html`, con direcciones completas de la web publicada. WhatsApp guarda la vista previa de cada enlace un tiempo, así que un cambio de imagen puede tardar en verse.
@@ -225,7 +226,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 ### Casilla de completada (todas las categorías)
 - Cada excursión de Montes, Lugares, Monumentos y Bicicleta tiene una casilla visible sin abrir la ficha. Al marcarla no ocurre nada más: no cambia de categoría ni se mueve. Solo sirve para llevar la cuenta.
 - Se guarda en localStorage, una clave por categoría, con un array de identificadores (el nombre del Excel; en Monumentos `MN-1`, `MN-2`…, o el nombre si no tiene número):
-  - `excursionesNavarra_montesCompletadas`, `excursionesNavarra_lugaresCompletadas`, `excursionesNavarra_bicicletaCompletadas`.
+  - `excursionesNavarra_montesMontanasCompletadas` (Montes y montañas; clave nueva para empezar sin ninguna marcada, a petición del propietario: la antigua `excursionesNavarra_montesCompletadas` era de Montes/paseos y ya no se usa), `excursionesNavarra_lugaresCompletadas`, `excursionesNavarra_bicicletaCompletadas`.
   - `excursionesNavarra_monumentosVisitados` (Monumentos conserva su clave antigua para no perder lo ya marcado).
 - **Valor inicial:** mientras no se haya marcado nada en una categoría, salen marcadas las que el Excel da como completadas (`completada: true`). En cuanto se toca una casilla, se guarda la lista completa de esa categoría y manda lo guardado.
 
@@ -243,8 +244,20 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 - **Prueba solo con la rosa** (`img/emblema-ad-astra-rosa.png`, 2400 × 2430): la misma, sin mariposa ni Osa Mayor; solo la rosa de los vientos y «AD ASTRA» en arco.
 - Se dibujó en SVG (`emblema-ad-astra.svg` y `emblema-ad-astra-color.svg`, en la carpeta temporal de la sesión, fuera del proyecto) y se pasó a PNG en el navegador.
 
+### Reforma de las excursiones (en curso)
+- **Plan del propietario** (nov. 2026): las excursiones de **MONTES/PASEOS** y **LUGARES Y PUEBLOS** se reorganizan en **4 categorías nuevas**, según su mapa de My Maps **LA LISTA 2.0** (el mismo de LA LISTA): **Montes y montañas**, **Senderismo y paseos**, **Curiosidades y patrimonio** y **Pueblos y ciudades**. **Bicicleta** y **Monumentos Naturales** se quedan como están (con sus fotos). Las subsecciones (desplegables) de cada categoría las da el Excel nuevo; las descripciones del `.kml` no se usan. Se mantienen la foto especial de Menorca (está en la capa Curiosidades y patrimonio), el buscador y COMPARTIR. Las casillas de las categorías nuevas empiezan sin marcar; el propietario marcará las completadas al acabar.
+- **Hecho: MONTES Y MONTAÑAS** sustituye a MONTES/PASEOS (mismo `#montes` y misma clave de categoría `montes` en el código). LUGARES Y PUEBLOS sigue igual hasta que se rehaga; mientras, puede haber excursiones repetidas o que falten entre categorías (aceptado por el propietario).
+  - Datos: 76 montes del Excel nuevo en 7 grupos: **Pirineo** (13), **Prepirineo** (10), **Norte y Aralar** (11), **Cuenca de Pamplona** (18), **Tierra Estella, Urbasa y Andía** (14), **Zona Media y Ribera** (4) y **País Vasco** (6). Columnas: Nombre, Distancia a Pamplona, Distancia ruta (km), Desnivel (m+), Altitud cima (m), Info y Wikiloc.
+  - Cada monte se empareja con su punto de la capa "Montes y montañas" del `.kml` por el nombre, sin tener en cuenta mayúsculas, tildes, paréntesis ni la altitud que lleva el nombre en el mapa ("Abodi. 1532m", "MIGOLETA (1.405)"…). En la web sale el **nombre del Excel**. Si un monte no tiene punto, el script se detiene con un aviso.
+  - Colores e iconos de los grupos (`GRUPOS_MONTES` en `app.js`): el Excel pinta todas las filas de grupo del mismo verde, así que se usan los del grupo equivalente de Montes/paseos: Pirineo `montana-nevada` #8FC98F, Prepirineo `buitre` #F4C7DE, Norte y Aralar `abetos` #A8D8C8, Cuenca de Pamplona `valle` #FFC48A, Tierra Estella, Urbasa y Andía `oveja` #D4E88A, Zona Media y Ribera `espiga` #FFE699, País Vasco `ola` #F8B4B4.
+  - **Rutas con dos opciones** (Adi, Keleta, Ori, Iparla, Saioa, Bagadi, Cabezón de Echauri, Ezkaba, Montejurra, Ojo de Iruaizeta, San Adrián, Moncayo, Aizkorri, Gorbeia, Peñas de Aya y Udalatx): los datos se muestran tal como vienen ("51 min o 47 min") y la ficha lleva dos botones, «Ruta 1: ver track en Wikiloc ↗» y «Ruta 2: …». El segundo enlace del **Ojo de Iruaizeta** es de la web del parque de Urbasa (sierraurbasa.es): el propietario pidió tratarlo como uno de Wikiloc; su botón dice «Ruta 2: ver la ruta ↗».
+  - **Montes con los mismos datos** (Gaztelu y Txurregi; Arnaba y Cima Otzamendi; Malkaitz y Tangorri): se hacen en una misma ruta; el propietario los separa en dos puntos y van como excursiones distintas con los mismos datos y enlace. «Peña» (el despoblado de Javier) se queda con ese nombre.
+  - **Info**: se muestra con sus párrafos y listas (`.ficha__texto--lineas`, `white-space: pre-line`). Las erratas se corrigen en `generar-datos.ps1` (`$CORRECCIONES_INFO`: monte, texto original y texto corregido; si el Excel cambia y una ya no se encuentra, el script avisa), no en el Excel. Además, el script quita espacios sobrantes y pone punto final a cada párrafo (no a las líneas de lista "- …").
+  - Cosas que **se quitaron** con Montes/paseos: la galería de fotos (archivos guardados en `img/`), la etiqueta de dificultad (`crearEtiquetaDificultad` y los estilos `.dificultad`), `ICONOS_TIPO`, `CORRECCIONES_MAPA.montes` y `tiposMontes`. Las entradas de Montes/paseos de `NOMBRES_CORREGIDOS` se dejaron (no molestan; "León Dormido (Pico)" se sigue usando).
+- **Pendiente**: Senderismo y paseos, Curiosidades y patrimonio y Pueblos y ciudades (cuando el propietario pase su Excel; en el `.kml` ya tienen 88, 75 y 58 puntos), quitar LUGARES Y PUEBLOS y repartir las fotos guardadas.
+
 ### Pendiente o no abordado todavía
-- Nada pendiente por ahora.
+- La reforma de las excursiones (ver el apartado anterior).
 
 ## Tecnologías
 
@@ -261,7 +274,11 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
 /
 ├── CLAUDE.md                              # Este documento
 ├── index.html                             # Página única con todas las pantallas
-├── La_Lista_rutas_por_dificultad_1.xlsx   # Base de datos de excursiones (NO MODIFICAR, fuera de git)
+├── generar-datos.ps1                      # Script que genera js/datos.js desde el Excel (ver "Flujo de datos del Excel")
+├── La_Lista_rutas_por_dificultad_1.xlsx   # Excel antiguo: Lugares, Monumentos y Bicicleta (NO MODIFICAR, fuera de git)
+├── actu excursiones/                      # Datos de la reforma (NO MODIFICAR, fuera de git)
+│   ├── LA LISTA 2.0 - Excursiones.xlsx    # Excel nuevo: de momento solo la hoja "Montes y montañas"
+│   └── LA LISTA 2.0.kml                   # Mapa de My Maps "LA LISTA 2.0" exportado (6 capas, 355 puntos)
 ├── css/
 │   └── styles.css                         # Estilos globales
 ├── js/
@@ -289,7 +306,7 @@ Todas las excursiones de las 4 categorías tienen **casilla de completada** (ver
     ├── mapa-rios.png                      # Mapa de cuencas de los ríos pulsable (REGIONES, VALLES Y RÍOS)
     ├── comarcas/                          # Mapa de municipios de cada comarca (12 PNG, uno por pantalla de comarca)
     ├── rios/                              # Mapa de la cuenca de cada río (25 PNG, uno por pantalla de río)
-    ├── montes-*.{webp,png}                # Galería de Montes/paseos (3)
+    ├── montes-*.{webp,png}                # Fotos de la antigua galería de Montes/paseos (3), guardadas sin usar
     ├── lugares-*.{webp,png}               # Galería de Lugares y pueblos (3)
     ├── bicicleta-*.webp                   # Galería de Bicicleta (2)
     └── monumentos-*.{png,webp}            # Cartel y tres fotos de la galería de Monumentos
@@ -302,34 +319,35 @@ Los archivos nuevos deben seguir esta estructura. Si hace falta otra carpeta o a
 ## Flujo de datos del Excel
 
 1. Se copia el Excel a una carpeta temporal y se lee esa copia (es un `.xlsx`, o sea, un zip de XML). **El original nunca se abre para escribir.** Se comprueba su huella MD5 antes y después.
-2. Un script de PowerShell genera `js/datos.js` con el objeto `EXCURSIONES`:
-   - `montes`, `lugares`, `monumentos`, `bicicleta`: las filas de su hoja y, a continuación, las del bloque correspondiente de **"Completadas por categoría"** (con `completada: true`), en el orden de la hoja. `app.js` se encarga de ordenar.
+2. El script `generar-datos.ps1` (en la raíz del proyecto) genera `js/datos.js` con el objeto `EXCURSIONES`:
+   - `montes`: del **Excel nuevo** y del **.kml** (ver "Reforma de las excursiones"). Cada monte: `nombre`, `grupo`, `coche`, `km`, `desnivel`, `altitud` (textos ya con su unidad: "8,96 km", "9,7 o 7,53 km", "795 m (2 subidas)"), `rutas` (lista de enlaces), `coordenadas` ("lat,lon") e `info` (con saltos de línea). `gruposMontes`: los nombres de los grupos en su orden, sin el número entre paréntesis.
+   - `lugares`, `monumentos`, `bicicleta`: las filas de su hoja y, a continuación, las del bloque correspondiente de **"Completadas por categoría"** (con `completada: true`), en el orden de la hoja. `app.js` se encarga de ordenar.
      - Esa hoja tiene varias tablas una debajo de otra; cada bloque se localiza por su título en la columna A ("1. Montes…", "2. Lugares…", "3. Monumentos…", "4. Bici…").
      - Diferencias de columnas: en los bloques, las notas de Lugares se llaman "Notas" (no "Tus notas del mapa") y el enlace de Wikiloc está en la celda "Fuente km". La fila "Ninguna completada todavía" (sin categoría) se ignora.
      - Monumentos: si el Nº MN ya está en "Árboles singulares", no se repite; se marca ese árbol como completado.
    - `completadas`: vacío (`[]`). La hoja antigua "Completadas" ya no se lee.
-   - `tiposMontes` y `categoriasLugares`: nombre y colores (fondo y letra) de cada grupo, leídos de las tablas de la hoja **Resumen**, en su orden.
+   - `categoriasLugares`: nombre y colores (fondo y letra) de cada grupo, leídos de las tablas de la hoja **Resumen**, en su orden.
    - `popularidades`: colores de cada nivel de popularidad, también de la hoja Resumen.
    - Los tiempos en coche se convierten de fracción de día a minutos. Los valores `-` o `—` pasan a `null` y no se muestran.
    - Los enlaces de Wikiloc se extraen de los hipervínculos de las celdas "Ver track".
    - Las tablas terminan en el primer salto de fila, porque debajo hay notas y totales.
 3. Si el Excel cambia, hay que **regenerar `datos.js`**. La web no se actualiza sola.
 
-> ⚠️ El script generador (`generar-datos.ps1`) está en la carpeta temporal de la sesión de Claude, **no en el proyecto**, y puede perderse. Si se pierde, hay que reescribirlo siguiendo este apartado. Guardarlo en el proyecto requiere aprobación, porque sería un archivo nuevo.
+> El script generador `generar-datos.ps1` está en la raíz del proyecto (guardado ahí a petición del propietario, nov. 2026). Hace él solo la copia temporal del Excel, la descompresión y la comprobación de la huella MD5. Se ejecuta desde la carpeta del proyecto con `powershell -NoProfile -ExecutionPolicy Bypass -File generar-datos.ps1` (opcional: `-Excel <ruta>` y `-Salida <ruta>`; por defecto, el Excel del proyecto y `js/datos.js`). Se comprobó que genera un `datos.js` idéntico al publicado. No forma parte de la web.
 
 ## Organización de `app.js`
 
 - `CONFIG_FICHAS`: configuración por categoría (`montes`, `lugares`, `monumentos`, `bicicleta`).
   - `campoGrupo` y `grupos`: solo si la categoría tiene desplegables generales.
   - `iconos` (por grupo) o `icono` (por excursión).
-  - `etiqueta`: la de dificultad o la de popularidad.
+  - `etiqueta`: la de popularidad (Lugares). Montes y montañas no lleva etiqueta.
   - `titulo`: texto del nombre, por ejemplo el formato MN.
   - `marcable`: si lleva casilla de completada (ahora, las 4 categorías).
   - `mapa`: texto de búsqueda (o coordenadas) para Google Maps.
   - `datos`: los recuadros de la ficha (`[icono, etiqueta, valor]`).
   - `bloques`: los textos de la ficha.
 - Las categorías sin configuración muestran solo nombres (ahora no queda ninguna: `#completadas` es INFORMACIÓN DE INTERÉS, con texto fijo en el HTML).
-- Iconos: `crearIcono(nombre, clase)` crea un `<img>` decorativo de `img/iconos/<nombre>.svg`. Los mapas de iconos guardan el nombre del archivo sin `.svg`: `ICONOS_TIPO` (Montes), `ICONOS_CATEGORIA_LUGAR` (Lugares), `ICONOS_ARBOL` (Monumentos, buscado por el comienzo del tipo de árbol) e `ICONOS_BICI` (Bicicleta).
+- Iconos: `crearIcono(nombre, clase)` crea un `<img>` decorativo de `img/iconos/<nombre>.svg`. Los mapas de iconos guardan el nombre del archivo sin `.svg`: `GRUPOS_MONTES` / `ICONOS_GRUPO_MONTES` (Montes y montañas), `ICONOS_CATEGORIA_LUGAR` (Lugares), `ICONOS_ARBOL` (Monumentos, buscado por el comienzo del tipo de árbol) e `ICONOS_BICI` (Bicicleta).
 - Mapa: `busquedaMapa(...)`, `urlMapa(busqueda)`, `crearEnlaceMapa(busqueda)`, `COORDENADAS_MONUMENTOS` y `CORRECCIONES_MAPA` (ver "Enlace VER EN EL MAPA").
 - Completadas: `CLAVES_COMPLETADAS` (clave de localStorage por categoría), `leerCompletadas(categoria)`, `marcarCompletada(...)` y `crearCasillaCompletada(...)`.
 - Contador: `contarCompletadas()`, `actualizarContador()` (se llama también desde `marcarCompletada`) y `prepararContador()` (muestra u oculta la cara al pulsar).

@@ -658,7 +658,7 @@ body {
   border-bottom: none;
 }
 
-/* ---------- Desplegables por nivel (Montes/paseos) ---------- */
+/* ---------- Desplegables por grupo (Montes y montañas, Lugares y pueblos) ---------- */
 .desplegable {
   border: 2px solid var(--color-bosque);
   border-radius: var(--radio);
@@ -754,8 +754,7 @@ body {
   outline-offset: -3px;
 }
 
-/* ---------- Etiquetas de dificultad (Montes) y popularidad (Lugares) ---------- */
-.dificultad,
+/* ---------- Etiqueta de popularidad (Lugares) ---------- */
 .popularidad {
   flex-shrink: 0;
   display: inline-block;
@@ -768,12 +767,6 @@ body {
   white-space: nowrap;
   color: var(--color-texto);
 }
-
-.dificultad--1 { background-color: #cfe8c4; }
-.dificultad--2 { background-color: #e3e6a3; }
-.dificultad--3 { background-color: #f2d48a; }
-.dificultad--4 { background-color: #c8763d; color: #ffffff; }
-.dificultad--5 { background-color: #8b2e1f; color: #ffffff; }
 
 /* Popularidad: color del Excel (lo pone app.js) */
 .popularidad {
@@ -935,6 +928,19 @@ body {
 
 .ficha__texto {
   line-height: 1.5;
+}
+
+/* Textos con saltos de línea (Info de Montes y montañas): se respetan los
+   párrafos y las listas "- ..." tal como vienen del Excel */
+.ficha__texto--lineas {
+  white-space: pre-line;
+}
+
+/* Enlaces de las rutas (Wikiloc u otra web): uno debajo de otro */
+.ficha__enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-s);
 }
 
 /* Enlace a Wikiloc */

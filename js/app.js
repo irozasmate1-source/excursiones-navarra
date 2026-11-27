@@ -47,7 +47,7 @@ function ordenarPor(lista, campo, descendente = false) {
  */
 function excursionesOrdenadas() {
   return {
-    montes: ordenarPor(EXCURSIONES.montes, 'dificultad'),               // dificultad 1 → 5
+    montes: EXCURSIONES.montes,                                         // orden del Excel nuevo
     lugares: ordenarPor(EXCURSIONES.lugares, 'popularidad', true),      // más popular primero
     monumentos: ordenarPor(EXCURSIONES.monumentos, 'numero'),           // MN-01 → MN-47
     bicicleta: EXCURSIONES.bicicleta,                                   // orden de la hoja
@@ -148,20 +148,6 @@ function formatearNumero(valor, unidad) {
 }
 
 /**
- * Etiqueta de dificultad: "3 · Moderada" (a partir del nivel del Excel).
- */
-function crearEtiquetaDificultad(excursion) {
-  const nombreNivel = (excursion.nivel || '').replace(/^\d+\s*-\s*/, '');
-  const etiqueta = crearElemento(
-    'span',
-    `dificultad dificultad--${excursion.dificultad}`,
-    nombreNivel ? `${excursion.dificultad} · ${nombreNivel}` : `${excursion.dificultad}`
-  );
-  etiqueta.title = `Dificultad: ${excursion.nivel}`;
-  return etiqueta;
-}
-
-/**
  * Etiqueta de popularidad: "5 · Muy conocido", con el color del Excel.
  */
 function crearEtiquetaPopularidad(excursion) {
@@ -194,24 +180,25 @@ function crearIcono(nombre, clase) {
 }
 
 /**
- * Icono de cada grupo (desplegable) según la categoría de la web.
- * El valor es el nombre del archivo en img/iconos/ (sin .svg).
+ * Grupos (desplegables) de Montes y montañas, con su icono y su color.
+ * Los nombres y el orden vienen del Excel nuevo (filas de grupo); el Excel no
+ * les da colores distintos, así que se usan los de los grupos equivalentes de
+ * la antigua sección Montes/paseos. El icono es el nombre del archivo en
+ * img/iconos/ (sin .svg).
  */
-const ICONOS_TIPO = {
-  'Cascada': 'cascada',
-  'Dolmen y megalitos': 'dolmen',
-  'Cueva': 'cueva',
-  'Pirineo navarro': 'montana-nevada',
-  'Pirineo aragonés y francés': 'montana-francia',
-  'Cuenca de Pamplona': 'valle',
-  'Norte de Navarra': 'abetos',
-  'Urbasa, Andía y Aralar': 'oveja',
-  'Tierra Estella y Codés': 'amanecer',
-  'Zona Media y Prepirineo': 'buitre',
-  'Ribera': 'espiga',
-  'País Vasco y costa': 'ola',
-  'Gran travesía': 'mochila',
+const GRUPOS_MONTES = {
+  'Pirineo': { icono: 'montana-nevada', fondo: '#8FC98F' },
+  'Prepirineo': { icono: 'buitre', fondo: '#F4C7DE' },
+  'Norte y Aralar': { icono: 'abetos', fondo: '#A8D8C8' },
+  'Cuenca de Pamplona': { icono: 'valle', fondo: '#FFC48A' },
+  'Tierra Estella, Urbasa y Andía': { icono: 'oveja', fondo: '#D4E88A' },
+  'Zona Media y Ribera': { icono: 'espiga', fondo: '#FFE699' },
+  'País Vasco': { icono: 'ola', fondo: '#F8B4B4' },
 };
+
+const ICONOS_GRUPO_MONTES = Object.fromEntries(
+  Object.entries(GRUPOS_MONTES).map(([nombre, grupo]) => [nombre, grupo.icono])
+);
 
 const ICONOS_CATEGORIA_LUGAR = {
   'Ciudad': 'ciudad',
@@ -290,9 +277,11 @@ const ICONOS_BICI = {
 
 /* ---------- Casillas de "completada" (se guardan en el navegador) ---------- */
 
-// Clave de localStorage de cada categoría (Monumentos conserva la que ya tenía)
+// Clave de localStorage de cada categoría (Monumentos conserva la que ya tenía).
+// Montes y montañas usa una clave nueva para empezar sin ninguna marcada
+// (la antigua, "montesCompletadas", era de la sección Montes/paseos).
 const CLAVES_COMPLETADAS = {
-  montes: 'montesCompletadas',
+  montes: 'montesMontanasCompletadas',
   lugares: 'lugaresCompletadas',
   monumentos: 'monumentosVisitados',
   bicicleta: 'bicicletaCompletadas',
@@ -462,22 +451,8 @@ const COORDENADAS_MONUMENTOS = {
  * de la ruta de Wikiloc.
  */
 const CORRECCIONES_MAPA = {
-  montes: {
-    'Odériz': 'Odériz, Navarra',
-    'Txargain': '42.861428,-1.878692',                         // inicio de la ruta (Wikiloc)
-    'QUINTO REAL': '43.035992,-1.471637',                      // inicio de la ruta (Wikiloc)
-    'Abodi. 1532m': 'Monte Abodi, Navarra',
-    'Mendaur': 'Monte Mendaur, Navarra',
-    'Moncayo': 'Pico del Moncayo',
-    'Lapiaz de Andía': '42.843666,-2.012328',                  // inicio en Arbeltz (Wikiloc)
-    'Nacedero río Ubagua': 'Riezu, Navarra',
-    'Mirador de los Buitres': '42.711894,-1.260414',           // inicio de la ruta (Wikiloc)
-    'Balcón de Pilatos': 'Mirador de Ubaba, Urbasa',             // es el de Urbasa (indicado por el propietario)
-    'Palacio': '42.739955,-1.367369',                          // indicado por el propietario
-    'Torre': '42.759915,-1.410472',                            // indicado por el propietario
-    'Ojo de San Prudencio': '42.706266,-2.136910',             // indicado por el propietario
-    'Monte de la Cruz / Mirador de buitres': '42.779161,-1.550252', // indicado por el propietario
-  },
+  // Montes y montañas no necesita correcciones: usa las coordenadas del punto
+  // de cada monte en el mapa de My Maps (vienen en datos.js)
   lugares: {
     'Tudela': 'Tudela, Navarra',
     'Ochagavía': 'Ochagavía, Navarra',
@@ -535,6 +510,7 @@ const EMOJI_DATO = {
   'Coche desde Pamplona': '🚗',
   'Distancia de la ruta': '📏',
   'Desnivel positivo': '⛰️',
+  'Altitud de la cima': '🏔️',
   'Tipo de ruta': '🔁',
   'Tipo de recorrido': '🔁',
   'Zona': '📍',
@@ -550,14 +526,14 @@ const DATOS_SIN_COMPARTIR = ['Nombre en tu mapa'];
 
 // Nombres completos de las categorías para el texto compartido
 const CATEGORIAS_COMPARTIR = {
-  montes: 'Montes/paseos',
+  montes: 'Montes y montañas',
   lugares: 'Lugares y pueblos',
   monumentos: 'Monumentos Naturales de Navarra',
   bicicleta: 'Bicicleta',
 };
 
 /**
- * Línea con la categoría y su grupo: "Montes/paseos · Pirineo navarro".
+ * Línea con la categoría y su grupo: "Montes y montañas · Pirineo".
  */
 function lineaCategoria(categoria, excursion) {
   const config = CONFIG_FICHAS[categoria];
@@ -566,12 +542,9 @@ function lineaCategoria(categoria, excursion) {
 }
 
 /**
- * Línea de dificultad (Montes) o popularidad (Lugares), si la tiene.
+ * Línea de popularidad (Lugares), si la tiene.
  */
 function lineaNivel(categoria, excursion) {
-  if (categoria === 'montes' && excursion.nivel) {
-    return `💪 Dificultad: ${excursion.nivel.replace(/\s*-\s*/, ' · ')}`;
-  }
   if (categoria === 'lugares' && excursion.nivelPopularidad) {
     return `⭐ Popularidad: ${excursion.nivelPopularidad.replace(/\s*-\s*/, ' · ')}`;
   }
@@ -604,10 +577,25 @@ function textoCompartir(categoria, excursion) {
   if (config.mapa) {
     lineas.push(`🗺️ Google Maps: ${urlMapa(config.mapa(excursion))}`);
   }
-  if (excursion.wikiloc) {
-    lineas.push(`🧭 Ruta en Wikiloc: ${excursion.wikiloc}`);
-  }
+  enlacesRuta(excursion).forEach(({ nombre, esWikiloc, url }) => {
+    lineas.push(`🧭 ${nombre}${esWikiloc ? ' en Wikiloc' : ''}: ${url}`);
+  });
   return lineas.join('\n');
+}
+
+/**
+ * Enlaces a las rutas de una excursión. Montes y montañas puede tener varias
+ * ("Ruta 1", "Ruta 2"); las demás categorías, como mucho una (Wikiloc).
+ * Algún enlace no es de Wikiloc (p. ej. la web del parque de Urbasa), pero
+ * también lleva a la ruta y se trata igual.
+ */
+function enlacesRuta(excursion) {
+  const urls = excursion.rutas || (excursion.wikiloc ? [excursion.wikiloc] : []);
+  return urls.map((url, indice) => ({
+    nombre: urls.length > 1 ? `Ruta ${indice + 1}` : 'Ruta',
+    esWikiloc: url.includes('wikiloc.com'),
+    url,
+  }));
 }
 
 /**
@@ -686,24 +674,28 @@ function crearBotonCompartir(categoria, excursion) {
  * al nombre, qué datos aparecen en la ficha y qué se busca en el mapa.
  */
 const CONFIG_FICHAS = {
+  // Montes y montañas: datos del Excel nuevo (ya vienen con sus unidades) y
+  // coordenadas del punto de cada monte en el mapa de My Maps
   montes: {
     titulo: (e) => textoExcursion('montes', e),
-    campoGrupo: 'tipo',
-    grupos: () => EXCURSIONES.tiposMontes,
-    iconos: ICONOS_TIPO,
-    etiqueta: crearEtiquetaDificultad,
-    mapa: (e) => CORRECCIONES_MAPA.montes[e.nombre] || busquedaMapa(e.nombre, e.zona),
+    campoGrupo: 'grupo',
+    grupos: () => EXCURSIONES.gruposMontes.map((nombre) => ({
+      nombre,
+      fondo: GRUPOS_MONTES[nombre]?.fondo || null,
+      letra: '#000000',
+    })),
+    iconos: ICONOS_GRUPO_MONTES,
+    mapa: (e) => e.coordenadas || busquedaMapa(e.nombre, 'Navarra'),
     marcable: true,
     datos: (e) => [
-      ['coche', 'Coche desde Pamplona', formatearMinutos(e.minutosCoche)],
-      ['bota', 'Distancia de la ruta', formatearNumero(e.km, 'km')],
-      ['desnivel', 'Desnivel positivo', formatearNumero(e.desnivel, 'm')],
-      ['ruta', 'Tipo de ruta', e.tipoRuta],
-      ['ubicacion', 'Zona', e.zona],
+      ['coche', 'Coche desde Pamplona', e.coche],
+      ['bota', 'Distancia de la ruta', e.km],
+      ['desnivel', 'Desnivel positivo', e.desnivel],
+      ['montana-nevada', 'Altitud de la cima', e.altitud],
     ],
+    // El tercer valor indica que el texto conserva sus saltos de línea
     bloques: (e) => [
-      ['Ruta habitual', e.rutaHabitual],
-      ['Notas', e.notas],
+      ['Información', e.info, true],
     ],
   },
   lugares: {
@@ -834,20 +826,30 @@ function crearFicha(config, excursion, categoria) {
   contenido.appendChild(crearBotonCompartir(categoria, excursion));
 
   // Bloques de texto
-  config.bloques(excursion).forEach(([titulo, texto]) => {
+  config.bloques(excursion).forEach(([titulo, texto, conSaltos]) => {
     if (!texto) return;
     const bloque = crearElemento('section', 'ficha__bloque');
-    bloque.append(crearElemento('h3', 'ficha__subtitulo', titulo), crearElemento('p', 'ficha__texto', texto));
+    const parrafo = crearElemento('p', conSaltos ? 'ficha__texto ficha__texto--lineas' : 'ficha__texto', texto);
+    bloque.append(crearElemento('h3', 'ficha__subtitulo', titulo), parrafo);
     contenido.appendChild(bloque);
   });
 
-  // Enlace a Wikiloc (si lo hay)
-  if (excursion.wikiloc) {
-    const enlace = crearElemento('a', 'ficha__enlace', 'Ver track en Wikiloc ↗');
-    enlace.href = excursion.wikiloc;
-    enlace.target = '_blank';
-    enlace.rel = 'noopener noreferrer';
-    contenido.appendChild(enlace);
+  // Enlaces a las rutas (Wikiloc u otra web), si los hay
+  const rutas = enlacesRuta(excursion);
+  if (rutas.length > 0) {
+    const enlaces = crearElemento('div', 'ficha__enlaces');
+    rutas.forEach(({ nombre, esWikiloc, url }) => {
+      const destino = esWikiloc ? 'ver track en Wikiloc' : 'ver la ruta';
+      const texto = rutas.length > 1
+        ? `${nombre}: ${destino} ↗`
+        : `${destino.charAt(0).toUpperCase()}${destino.slice(1)} ↗`;
+      const enlace = crearElemento('a', 'ficha__enlace', texto);
+      enlace.href = url;
+      enlace.target = '_blank';
+      enlace.rel = 'noopener noreferrer';
+      enlaces.appendChild(enlace);
+    });
+    contenido.appendChild(enlaces);
   }
 
   if (excursion.fuenteKm) {
@@ -1251,7 +1253,7 @@ function prepararMapasPulsables() {
 /* ---------- Buscador de excursiones por nombre (pantalla principal) ---------- */
 
 const NOMBRES_CATEGORIA = {
-  montes: 'Montes/paseos',
+  montes: 'Montes y montañas',
   lugares: 'Lugares y pueblos',
   monumentos: 'Monumentos',
   bicicleta: 'Bicicleta',
