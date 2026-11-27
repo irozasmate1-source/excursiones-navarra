@@ -37,6 +37,10 @@
   /* Recuadro "VER EN EL MAPA" */
   --color-mapa-fondo: #e4ecd2;
 
+  /* Recuadros de las rutas ("RUTA EN WIKILOC") */
+  --color-ruta-fondo: #f3dcc0;
+  --color-ruta-titulo: #9a4a1f;
+
   /* Foto antigua (ficha de Menorca) */
   --color-papel-viejo: #efe6d2;
   --color-papel-borde: #d6c9ab;
@@ -936,35 +940,68 @@ body {
   white-space: pre-line;
 }
 
-/* Enlaces de las rutas (Wikiloc u otra web): uno debajo de otro */
-.ficha__enlaces {
-  display: flex;
-  flex-wrap: wrap;
+/* Recuadros de las rutas (Wikiloc u otra web), entre VER EN EL MAPA y
+   COMPARTIR: mismo formato que el del mapa, en tonos tierra. Si hay dos rutas,
+   van una debajo de otra en el móvil y una al lado de otra en pantallas anchas */
+.ficha__rutas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: var(--espacio-s);
 }
 
-/* Enlace a Wikiloc */
-.ficha__enlace {
-  align-self: flex-start;
-  display: inline-flex;
+.ficha__ruta {
+  display: flex;
   align-items: center;
-  min-height: 2.75rem;
+  gap: var(--espacio-m);
+  min-height: 3.5rem;
   padding: var(--espacio-s) var(--espacio-m);
+  border: 2px solid var(--color-tierra);
   border-radius: var(--radio);
-  background-color: var(--color-bosque);
-  color: var(--color-pergamino);
-  font-family: var(--fuente-titulo);
-  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-pergamino), var(--color-ruta-fondo));
+  box-shadow: 0 2px 0 var(--color-corteza);
+  color: var(--color-texto);
   text-decoration: none;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
-.ficha__enlace:hover {
-  background-color: var(--color-musgo);
+.ficha__ruta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 var(--color-corteza);
+  border-color: var(--color-ruta-titulo);
 }
 
-.ficha__enlace:focus-visible {
-  outline: 3px solid var(--color-tierra);
+.ficha__ruta:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 var(--color-corteza);
+}
+
+.ficha__ruta:focus-visible {
+  outline: 3px solid var(--color-ruta-titulo);
   outline-offset: 2px;
+}
+
+.ficha__ruta-icono {
+  flex-shrink: 0;
+  width: var(--icono-mapa);
+  height: var(--icono-mapa);
+}
+
+.ficha__ruta-textos {
+  display: flex;
+  flex-direction: column;
+}
+
+.ficha__ruta-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-ruta-titulo);
+}
+
+.ficha__ruta-detalle {
+  font-size: 0.8125rem;
+  color: var(--color-texto-suave);
 }
 
 /* Ficha con solo una foto antigua (p. ej. Menorca) */

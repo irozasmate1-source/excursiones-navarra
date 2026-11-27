@@ -492,6 +492,38 @@ function crearEnlaceMapa(busqueda) {
   return enlace;
 }
 
+/**
+ * Recuadros de las rutas de una excursión, con el mismo estilo que
+ * "VER EN EL MAPA": "RUTA EN WIKILOC" o, si hay dos, "RUTA 1 EN WIKILOC" y
+ * "RUTA 2 EN WIKILOC". Si el enlace no es de Wikiloc, debajo se dice a qué web
+ * lleva. Devuelve null si la excursión no tiene rutas.
+ */
+function crearEnlacesRuta(excursion) {
+  const rutas = enlacesRuta(excursion);
+  if (rutas.length === 0) return null;
+
+  const zona = crearElemento('div', 'ficha__rutas');
+  rutas.forEach(({ nombre, esWikiloc, url }) => {
+    const enlace = crearElemento('a', 'ficha__ruta');
+    enlace.href = url;
+    enlace.target = '_blank';
+    enlace.rel = 'noopener noreferrer';
+
+    const titulo = esWikiloc ? `${nombre} en Wikiloc` : nombre;
+    const detalle = esWikiloc ? 'Abrir el track ↗' : `Abrir en ${new URL(url).hostname.replace(/^www\./, '')} ↗`;
+    enlace.setAttribute('aria-label', `${titulo} (se abre en otra pestaña)`);
+
+    const textos = crearElemento('span', 'ficha__ruta-textos');
+    textos.append(
+      crearElemento('span', 'ficha__ruta-titulo', titulo.toUpperCase()),
+      crearElemento('span', 'ficha__ruta-detalle', detalle)
+    );
+    enlace.append(crearIcono('ruta', 'ficha__ruta-icono'), textos);
+    zona.appendChild(enlace);
+  });
+  return zona;
+}
+
 /* ---------- Compartir una excursión ---------- */
 
 // Dirección de la web publicada (se comparte siempre esta, aunque se abra en local)
@@ -822,6 +854,12 @@ function crearFicha(config, excursion, categoria) {
     contenido.appendChild(crearEnlaceMapa(config.mapa(excursion)));
   }
 
+  // Recuadros de las rutas (Wikiloc u otra web), si las hay
+  const rutas = crearEnlacesRuta(excursion);
+  if (rutas) {
+    contenido.appendChild(rutas);
+  }
+
   // Recuadro para compartir la excursión (texto con sus datos y enlaces)
   contenido.appendChild(crearBotonCompartir(categoria, excursion));
 
@@ -833,24 +871,6 @@ function crearFicha(config, excursion, categoria) {
     bloque.append(crearElemento('h3', 'ficha__subtitulo', titulo), parrafo);
     contenido.appendChild(bloque);
   });
-
-  // Enlaces a las rutas (Wikiloc u otra web), si los hay
-  const rutas = enlacesRuta(excursion);
-  if (rutas.length > 0) {
-    const enlaces = crearElemento('div', 'ficha__enlaces');
-    rutas.forEach(({ nombre, esWikiloc, url }) => {
-      const destino = esWikiloc ? 'ver track en Wikiloc' : 'ver la ruta';
-      const texto = rutas.length > 1
-        ? `${nombre}: ${destino} ↗`
-        : `${destino.charAt(0).toUpperCase()}${destino.slice(1)} ↗`;
-      const enlace = crearElemento('a', 'ficha__enlace', texto);
-      enlace.href = url;
-      enlace.target = '_blank';
-      enlace.rel = 'noopener noreferrer';
-      enlaces.appendChild(enlace);
-    });
-    contenido.appendChild(enlaces);
-  }
 
   if (excursion.fuenteKm) {
     contenido.appendChild(crearElemento('p', 'ficha__fuente', `Fuente de los km: ${excursion.fuenteKm}`));
